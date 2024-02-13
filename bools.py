@@ -1,0 +1,2 @@
+FULLSCREEN = True
+KEYPAD = False
