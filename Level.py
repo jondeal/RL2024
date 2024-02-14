@@ -63,7 +63,6 @@ class Level:
         for template in actor_templates.actor_templates:
             if template['name'] == actor_type:
                 new_actor = Actor.Actor(template['name'], destination.position, destination.rect,
-                                        template['glyph'], 0, constants.FONT_SIZE,
-                                        template['glyph_color'], None,
+                                        template['glyph'], 0, constants.FONT_SIZE, template['glyph_color'],
                                         0, 0)
                 self.actors.append(new_actor)
