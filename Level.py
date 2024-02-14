@@ -18,7 +18,7 @@ class Level:
             if tile.is_blocked is not True:
                 open_tiles.append(tile)
             for actor in self.actors:
-                if (actor.x, actor.y) == (tile.x, tile.y):
+                if actor.position == tile.position:
                     open_tiles.remove(tile)
         random_open_tile = random.choice(open_tiles)
         return random_open_tile
@@ -34,14 +34,15 @@ class Level:
                 y_1 = y * constants.TILE_HEIGHT
                 tile_rect = pygame.Rect((x_1, y_1), (constants.TILE_WIDTH, constants.TILE_HEIGHT))
 
-                new_tile = Tile.Tile('floor', x, y, tile_rect,
+                new_tile = Tile.Tile('floor', (x, y), tile_rect,
                                      None, 0, constants.FONT_SIZE, None,
                                      None, None)
 
                 self.tiles.append(new_tile)
         # this makes border walls
         for tile in self.tiles:
-            if tile.x == 0 or tile.x == constants.X_RANGE - 1 or tile.y == 0 or tile.y == constants.Y_RANGE - 1:
+            if (tile.position[0] == 0 or tile.position[0] == constants.X_RANGE - 1
+                    or tile.position[1] == 0 or tile.position[1] == constants.Y_RANGE - 1):
                 tile.name = 'wall'
 
     def generate_terrain(self):
@@ -58,10 +59,10 @@ class Level:
                     )
                     tile.is_blocked = template['is_blocked']
 
-    def spawn_actor(self, actor_type, location):
+    def spawn_actor(self, actor_type, destination):
         for template in actor_templates.actor_templates:
             if template['name'] == actor_type:
-                new_actor = Actor.Actor(template['name'], location.x, location.y, location.rect,
+                new_actor = Actor.Actor(template['name'], destination.position, destination.rect,
                                         template['glyph'], 0, constants.FONT_SIZE,
                                         template['glyph_color'], None,
                                         0, 0)
