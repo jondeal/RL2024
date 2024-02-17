@@ -1,12 +1,16 @@
 import bools
 import pygame.freetype
+import os
 
 pygame.freetype.init()
 pygame.display.init()
 pygame.display.set_caption('RL2024')
 pygame.mouse.set_visible(False)
 
+
 screen_info = pygame.display.Info()
+os.environ['SDL_VIDEO_WINDOW_POS'] = "%d, %d" % (screen_info.current_w - screen_info.current_h, 0)
+
 
 X_RANGE = 10
 Y_RANGE = 10
@@ -30,7 +34,7 @@ else:
 if bools.FULLSCREEN:
     screen = pygame.display.set_mode((screen_info.current_w, screen_info.current_h), pygame.FULLSCREEN)
 else:
-    screen = pygame.display.set_mode((screen_info.current_w, screen_info.current_h))
+    screen = pygame.display.set_mode((screen_info.current_h, screen_info.current_h))
 
 # directions order: upper left, left, lower left, up, down, upper right, right, lower right
 # directions = [(-1, -1), (-1, 0), (-1, 1), (0, -1), (0, 1), (1, -1), (1, 0), (1, 1)]
