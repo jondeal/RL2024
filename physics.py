@@ -19,18 +19,21 @@ def resolve_physics(level):
             entity.position = position_to_check
             entity.rect = destination_tile.rect
             entity.impulse -= 1
-            entity.direction = (0, 0)
+            if entity.impulse == 0:
+                entity.direction = (0, 0)
+            else:
+                pass
 
     def handle_collision(initiating_entity, receiving_entity):
         if receiving_entity.name == 'wall':
-            # initiating_entity.impulse = 0  # if enabled, will keep entity from bouncing back from wall collision
+            print(f'{initiating_entity.name} hits {receiving_entity.name} with impulse {initiating_entity.impulse}')
+            initiating_entity.impulse -= 1  # if set to 0, will keep entity from bouncing back from wall collision
             initiating_entity.direction = (-initiating_entity.direction[0], -initiating_entity.direction[1])
-            print(f'{initiating_entity.name} hits {receiving_entity.name}')
 
         else:
             receiving_entity.impulse = initiating_entity.impulse
             receiving_entity.direction = initiating_entity.direction
-            print(f'{initiating_entity.name} hits {receiving_entity.name}')
+            print(f'{initiating_entity.name} hits {receiving_entity.name} with impulse {initiating_entity.impulse}')
 
             initiating_entity.impulse = 0
             initiating_entity.direction = (0, 0)
