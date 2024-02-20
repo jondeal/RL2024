@@ -10,5 +10,9 @@ actor_templates = [
     {'name': 'red slime',
      'glyph': 'o',
      'glyph_color': [255, 0, 0, 255]
+     },
+    {'name': 'blue slime',
+     'glyph': 'o',
+     'glyph_color': [0, 0, 255, 255]
      }
 ]
