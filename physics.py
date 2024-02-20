@@ -36,40 +36,119 @@ def resolve_physics(level):
                 initiating_entity.direction = (-initiating_entity.direction[0], -initiating_entity.direction[1])
             elif initiating_entity.direction == (0, 1):  # down
                 initiating_entity.direction = (-initiating_entity.direction[0], -initiating_entity.direction[1])
-            elif initiating_entity.direction == (1, -1):  # right and up
-                position_to_check = (initiating_entity.position[0], initiating_entity.position[1] + 1)
+            #  right and up
+            elif initiating_entity.direction == (1, -1):
+                positions_to_check = [
+                    (initiating_entity.position[0] + 1, initiating_entity.position[1]),  # tile to the right
+                    (initiating_entity.position[0], initiating_entity.position[1] - 1)  # tile up
+                ]
+                right_tile_blocked = None
+                up_tile_blocked = None
                 for tile in level.tiles:
-                    if tile.position == position_to_check:
-                        if not tile.is_blocked:
-                            initiating_entity.direction = (-initiating_entity.direction[0], -initiating_entity.direction[1])
+                    if tile.position == positions_to_check[0]:
+                        if tile.is_blocked:
+                            right_tile_blocked = True
                         else:
-                            initiating_entity.direction = (initiating_entity.direction[0], -initiating_entity.direction[1])
-            elif initiating_entity.direction == (-1, -1):  # left and up
-                position_to_check = (initiating_entity.position[0], initiating_entity.position[1] + 1)
+                            right_tile_blocked = False
+                    elif tile.position == positions_to_check[1]:
+                        if tile.is_blocked:
+                            up_tile_blocked = True
+                        else:
+                            up_tile_blocked = False
+                condition_bools = [right_tile_blocked, up_tile_blocked]
+                if condition_bools == [True, True]:
+                    initiating_entity.direction = (-initiating_entity.direction[0], -initiating_entity.direction[1])
+                elif condition_bools == [False, False]:
+                    initiating_entity.direction = (-initiating_entity.direction[0], -initiating_entity.direction[1])
+                elif condition_bools == [True, False]:
+                    initiating_entity.direction = (-initiating_entity.direction[0], initiating_entity.direction[1])
+                elif condition_bools == [False, True]:
+                    initiating_entity.direction = (initiating_entity.direction[0], -initiating_entity.direction[1])
+            # left and up
+            elif initiating_entity.direction == (-1, -1):
+                positions_to_check = [
+                    (initiating_entity.position[0] - 1, initiating_entity.position[1]),  # tile to the left
+                    (initiating_entity.position[0], initiating_entity.position[1] - 1)  # tile up
+                ]
+                left_tile_blocked = None
+                up_tile_blocked = None
                 for tile in level.tiles:
-                    if tile.position == position_to_check:
-                        if not tile.is_blocked:
-                            initiating_entity.direction = (-initiating_entity.direction[0], -initiating_entity.direction[1])
+                    if tile.position == positions_to_check[0]:
+                        if tile.is_blocked:
+                            left_tile_blocked = True
                         else:
-                            initiating_entity.direction = (initiating_entity.direction[0], -initiating_entity.direction[1])
-            elif initiating_entity.direction == (1, 1):  # right and down
-                position_to_check = (initiating_entity.position[0], initiating_entity.position[1] + 1)
+                            left_tile_blocked = False
+                    elif tile.position == positions_to_check[1]:
+                        if tile.is_blocked:
+                            up_tile_blocked = True
+                        else:
+                            up_tile_blocked = False
+                condition_bools = [left_tile_blocked, up_tile_blocked]
+                if condition_bools == [True, True]:
+                    initiating_entity.direction = (-initiating_entity.direction[0], -initiating_entity.direction[1])
+                elif condition_bools == [False, False]:
+                    initiating_entity.direction = (-initiating_entity.direction[0], -initiating_entity.direction[1])
+                elif condition_bools == [True, False]:
+                    initiating_entity.direction = (-initiating_entity.direction[0], initiating_entity.direction[1])
+                elif condition_bools == [False, True]:
+                    initiating_entity.direction = (initiating_entity.direction[0], -initiating_entity.direction[1])
+            # right and down
+            elif initiating_entity.direction == (1, 1):
+                positions_to_check = [
+                    (initiating_entity.position[0] + 1, initiating_entity.position[1]),  # tile to the right
+                    (initiating_entity.position[0], initiating_entity.position[1] + 1)  # tile down
+                ]
+                right_tile_blocked = None
+                down_tile_blocked = None
                 for tile in level.tiles:
-                    if tile.position == position_to_check:
-                        if not tile.is_blocked:
-                            initiating_entity.direction = (-initiating_entity.direction[0], -initiating_entity.direction[1])
+                    if tile.position == positions_to_check[0]:
+                        if tile.is_blocked:
+                            right_tile_blocked = True
                         else:
-                            initiating_entity.direction = (initiating_entity.direction[0], -initiating_entity.direction[1])
-            elif initiating_entity.direction == (-1, 1):  # left and down
-                position_to_check = (initiating_entity.position[0], initiating_entity.position[1] + 1)
+                            right_tile_blocked = False
+                    elif tile.position == positions_to_check[1]:
+                        if tile.is_blocked:
+                            down_tile_blocked = True
+                        else:
+                            down_tile_blocked = False
+                condition_bools = [right_tile_blocked, down_tile_blocked]
+                if condition_bools == [True, True]:
+                    initiating_entity.direction = (-initiating_entity.direction[0], -initiating_entity.direction[1])
+                elif condition_bools == [False, False]:
+                    initiating_entity.direction = (-initiating_entity.direction[0], -initiating_entity.direction[1])
+                elif condition_bools == [True, False]:
+                    initiating_entity.direction = (-initiating_entity.direction[0], initiating_entity.direction[1])
+                elif condition_bools == [False, True]:
+                    initiating_entity.direction = (initiating_entity.direction[0], -initiating_entity.direction[1])
+            # left and down
+            elif initiating_entity.direction == (-1, 1):
+                positions_to_check = [
+                    (initiating_entity.position[0] - 1, initiating_entity.position[1]),  # tile to the left
+                    (initiating_entity.position[0], initiating_entity.position[1] + 1)  # tile down
+                ]
+                left_tile_blocked = None
+                down_tile_blocked = None
                 for tile in level.tiles:
-                    if tile.position == position_to_check:
-                        if not tile.is_blocked:
-                            initiating_entity.direction = (-initiating_entity.direction[0], -initiating_entity.direction[1])
+                    if tile.position == positions_to_check[0]:
+                        if tile.is_blocked:
+                            left_tile_blocked = True
                         else:
-                            initiating_entity.direction = (-initiating_entity.direction[0], initiating_entity.direction[1])
-
-        else:
+                            left_tile_blocked = False
+                    elif tile.position == positions_to_check[1]:
+                        if tile.is_blocked:
+                            down_tile_blocked = True
+                        else:
+                            down_tile_blocked = False
+                condition_bools = [left_tile_blocked, down_tile_blocked]
+                if condition_bools == [True, True]:
+                    initiating_entity.direction = (-initiating_entity.direction[0], -initiating_entity.direction[1])
+                elif condition_bools == [False, False]:
+                    initiating_entity.direction = (-initiating_entity.direction[0], -initiating_entity.direction[1])
+                elif condition_bools == [True, False]:
+                    initiating_entity.direction = (-initiating_entity.direction[0], initiating_entity.direction[1])
+                elif condition_bools == [False, True]:
+                    initiating_entity.direction = (initiating_entity.direction[0], -initiating_entity.direction[1])
+        else:  # receiving_entity.name != 'wall'
             receiving_entity.impulse = initiating_entity.impulse
             receiving_entity.direction = initiating_entity.direction
             # print(f'{initiating_entity.name} hits {receiving_entity.name} with impulse {initiating_entity.impulse}')  # debug
