@@ -1,2 +1,2 @@
-FULLSCREEN = True
+FULLSCREEN = False
 KEYPAD = False
