@@ -23,7 +23,7 @@ class Level:
         random_open_tile = random.choice(open_tiles)
         return random_open_tile
 
-    def generate_tiles(self):
+    def generate_terrain(self):
         # generates a grid of floor tiles
         for i in range(constants.X_RANGE):
             x = i
@@ -44,8 +44,11 @@ class Level:
             if (tile.position[0] == 0 or tile.position[0] == constants.X_RANGE - 1
                     or tile.position[1] == 0 or tile.position[1] == constants.Y_RANGE - 1):
                 tile.name = 'wall'
+        # a test wall for collisions
+            if tile.position == (constants.X_RANGE / 2, constants.Y_RANGE / 2):
+                tile.name = 'wall'
 
-    def generate_terrain(self):
+    def define_terrain(self):
         for tile in self.tiles:
             for template in tile_templates.tile_templates:
                 if template['name'] == tile.name:
