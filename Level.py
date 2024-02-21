@@ -15,7 +15,7 @@ class Level:
     def get_random_open_tile(self):
         open_tiles = []
         for tile in self.tiles:
-            if tile.is_blocked is not True:
+            if tile.name != 'wall':
                 open_tiles.append(tile)
             for actor in self.actors:
                 if actor.position == tile.position:
@@ -44,9 +44,6 @@ class Level:
             if (tile.position[0] == 0 or tile.position[0] == constants.X_RANGE - 1
                     or tile.position[1] == 0 or tile.position[1] == constants.Y_RANGE - 1):
                 tile.name = 'wall'
-        # a test wall for collisions
-            if tile.position == (constants.X_RANGE / 2, constants.Y_RANGE / 2):
-                tile.name = 'wall'
 
     def define_terrain(self):
         for tile in self.tiles:
@@ -69,3 +66,14 @@ class Level:
                                         template['glyph'], 0, constants.FONT_SIZE, template['glyph_color'],
                                         0, 0)
                 self.actors.append(new_actor)
+
+    def spawn_terrain(self, terrain_name, limit):
+        terrain_count = 0
+
+        # turns random unblocked tiles into walls
+        while terrain_count < limit:
+            random_tile = self.get_random_open_tile()
+            for template in tile_templates.tile_templates:
+                if template['name'] == terrain_name:
+                    random_tile.name = template['name']
+            terrain_count += 1
