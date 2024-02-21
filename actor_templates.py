@@ -3,15 +3,15 @@ actor_templates = [
      'glyph': '@',
      'glyph_color': [255, 255, 255, 255]
      },
-    {'name': 'green slime',
+    {'name': 'green mœbus',
      'glyph': 'o',
      'glyph_color': [0, 255, 0, 255]
      },
-    {'name': 'red slime',
+    {'name': 'red mœbus',
      'glyph': 'o',
      'glyph_color': [255, 0, 0, 255]
      },
-    {'name': 'blue slime',
+    {'name': 'blue mœbus',
      'glyph': 'o',
      'glyph_color': [0, 0, 255, 255]
      }
