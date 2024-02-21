@@ -9,6 +9,7 @@ class Game:
 
     def generate_new_level(self):
         new_level = Level.Level([], [])
-        new_level.generate_tiles()
         new_level.generate_terrain()
+        new_level.spawn_terrain('wall', 5)
+        new_level.define_terrain()
         self.levels.append(new_level)
