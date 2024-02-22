@@ -26,7 +26,8 @@ def resolve_physics(level):
 
     def handle_collision(initiating_entity, receiving_entity):
         if receiving_entity.name == 'wall':
-            # initiating_entity.impulse -= 1  # if set <= 0, will keep entity from bouncing back from wall collision, if commented out impulse will not be affected
+            initiating_entity.impulse -= 1  
+            # if set <= 0, will keep entity from bouncing back from wall collision, if commented out impulse will not be affected
             # might need to adjust this in the future to avoid 'infinite bounce' between parallel walls
             if abs(initiating_entity.direction[0]) + abs(
                     initiating_entity.direction[1]) == 1:  # direction is non-diagonal
