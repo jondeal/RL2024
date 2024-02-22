@@ -13,6 +13,7 @@ game.current_level.spawn_actor('player', game.current_level.get_random_open_tile
 game.current_level.spawn_actor('green mœbus', game.current_level.get_random_open_tile())
 game.current_level.spawn_actor('red mœbus', game.current_level.get_random_open_tile())
 game.current_level.spawn_actor('blue mœbus', game.current_level.get_random_open_tile())
+game.current_level.spawn_actor('large green mœbus', game.current_level.get_random_open_tile())
 
 
 player = game.current_level.actors[0]
