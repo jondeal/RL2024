@@ -12,8 +12,8 @@ screen_info = pygame.display.Info()
 os.environ['SDL_VIDEO_WINDOW_POS'] = "%d, %d" % (screen_info.current_w - screen_info.current_h, 0)
 
 
-X_RANGE = 10
-Y_RANGE = 10
+X_RANGE = 20
+Y_RANGE = 20
 
 TILE_HEIGHT = screen_info.current_h // Y_RANGE
 TILE_WIDTH = TILE_HEIGHT
