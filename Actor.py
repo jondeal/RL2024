@@ -1,7 +1,7 @@
 class Actor:
     def __init__(self, name, position, rect,
                  glyph, glyph_rotation, glyph_size, glyph_color,
-                 direction, impulse, mass):
+                 direction, speed, mass):
         self.name = name
         self.position = position
         self.rect = rect
@@ -10,5 +10,5 @@ class Actor:
         self.glyph_size = glyph_size
         self.glyph_color = glyph_color
         self.direction = direction
-        self.impulse = impulse
+        self.speed = speed
         self.mass = mass
