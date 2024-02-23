@@ -32,9 +32,9 @@ while running:
             if event.key in constants.move_keys:
                 player.direction = constants.move_keys[event.key]
                 if event.mod == pygame.KMOD_LSHIFT:
-                    player.impulse = 3
+                    player.speed = 2
                 else:
-                    player.impulse = 1
+                    player.speed = 1
 
     physics.resolve_physics(game.current_level)
     render.render(game.current_level)
