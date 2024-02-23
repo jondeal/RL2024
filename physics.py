@@ -18,15 +18,15 @@ def resolve_physics(level):
         if collision is False:
             entity.position = position_to_check
             entity.rect = destination.rect
-            entity.impulse -= 1
-            if entity.impulse == 0:
+            entity.speed -= 1
+            if entity.speed == 0:
                 entity.direction = (0, 0)
             else:
                 pass
 
     def handle_collision(initiating_entity, receiving_entity):
         if receiving_entity.name == 'wall':
-            initiating_entity.impulse -= 1  # if set <= 0, will keep entity from bouncing back from wall collision, if commented out impulse will not be affected
+            # initiating_entity.speed -= 1  # if set <= 0, will keep entity from bouncing back from wall collision, if commented out impulse will not be affected
             if abs(initiating_entity.direction[0]) + abs(
                     initiating_entity.direction[1]) == 1:  # direction is non-diagonal
                 initiating_entity.direction = (-initiating_entity.direction[0], -initiating_entity.direction[1])
@@ -56,13 +56,18 @@ def resolve_physics(level):
                 elif condition_bools == [False, True]:
                     initiating_entity.direction = (initiating_entity.direction[0], -initiating_entity.direction[1])
         else:  # receiving_entity.name != 'wall'
-            receiving_entity.impulse = initiating_entity.impulse
+            initiating_entity_initial_momentum = initiating_entity.mass * initiating_entity.speed
+
+            receiving_entity.speed = initiating_entity_initial_momentum // receiving_entity.mass
             receiving_entity.direction = initiating_entity.direction
 
-            initiating_entity.impulse = 0
+            initiating_entity.speed = 0
             initiating_entity.direction = (0, 0)
-            move_check(receiving_entity)
+            if receiving_entity.speed > 0:
+                move_check(receiving_entity)
+            else:
+                pass
 
     for actor in level.actors:
-        if actor.impulse > 0:
+        if actor.speed > 0:
             move_check(actor)
