@@ -3,11 +3,8 @@ import pygame
 
 bg_surface = pygame.Surface((constants.TILE_WIDTH, constants.TILE_HEIGHT))
 
-ui_rect = pygame.Rect((constants.screen_info.current_h, 0), (constants.screen_info.current_w - constants.screen_info.current_h, constants.screen_info.current_h))
-constants.screen.fill(constants.SCREEN_COLOR, ui_rect)
 
-
-def render(level):
+def render_level(level):
 
     for tile in level.tiles:
         bg_surface.fill(tile.bg_color)
