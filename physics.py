@@ -1,8 +1,8 @@
 def resolve_physics(level):
 
-    def move_check(entity):
+    def collision_check(entity):
         position_to_check = (entity.position[0] + entity.direction[0], entity.position[1] + entity.direction[1])
-        destination = None
+        destination_tile = None
         collision = False
         for other_actor in level.actors:
             if other_actor.position == position_to_check:
@@ -14,10 +14,10 @@ def resolve_physics(level):
                     collision = True
                     handle_collision(entity, tile)
                 else:
-                    destination = tile
+                    destination_tile = tile
         if collision is False:
             entity.position = position_to_check
-            entity.rect = destination.rect
+            entity.rect = destination_tile.rect
             entity.speed -= 1
             if entity.speed == 0:
                 entity.direction = (0, 0)
@@ -64,10 +64,10 @@ def resolve_physics(level):
             initiating_entity.speed = 0
             initiating_entity.direction = (0, 0)
             if receiving_entity.speed > 0:
-                move_check(receiving_entity)
+                collision_check(receiving_entity)
             else:
                 pass
 
     for actor in level.actors:
         if actor.speed > 0:
-            move_check(actor)
+            collision_check(actor)
