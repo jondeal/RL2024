@@ -14,8 +14,8 @@ game.generate_new_level()
 game.current_level = game.levels[0]
 
 game.current_level.spawn_actor('player', game.current_level.get_random_open_tile())
-game.current_level.spawn_actor('small mœbus', game.current_level.get_random_open_tile())
-game.current_level.spawn_actor('large mœbus', game.current_level.get_random_open_tile())
+game.current_level.spawn_actor('small moebus', game.current_level.get_random_open_tile())
+game.current_level.spawn_actor('large moebus', game.current_level.get_random_open_tile())
 
 game.current_level.spawn_item('GenoScribe', game.current_level.get_random_open_tile())
 

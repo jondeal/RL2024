@@ -6,14 +6,14 @@ actor_templates = [
      'glo_count': 10,
      'can_pickup': True
      },
-    {'name': 'small mœbus',
+    {'name': 'small moebus',
      'glyph': 'o',
      'glyph_color': [0, 255, 0, 255],
      'mass': 1,
      'glo_count': 3,
      'can_pickup': False
      },
-    {'name': 'large mœbus',
+    {'name': 'large moebus',
      'glyph': 'O',
      'glyph_color': [0, 255, 0, 255],
      'mass': 2,
