@@ -1,2 +1,2 @@
-FULLSCREEN = True
-KEYPAD = False
+is_fullscreen = True
+has_keypad = False
