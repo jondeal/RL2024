@@ -17,6 +17,8 @@ game.current_level.spawn_actor('player', game.current_level.get_random_open_tile
 game.current_level.spawn_actor('small mœbus', game.current_level.get_random_open_tile())
 game.current_level.spawn_actor('large mœbus', game.current_level.get_random_open_tile())
 
+game.current_level.spawn_item('GenoScribe', game.current_level.get_random_open_tile())
+
 player = game.current_level.actors[0]
 
 
