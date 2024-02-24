@@ -3,7 +3,8 @@ class Actor:
                  glyph, glyph_rotation, glyph_size, glyph_color,
                  direction, speed, mass,
                  glo_count,
-                 inventory):
+                 inventory,
+                 can_pickup):
         self.name = name
         self.position = position
         self.rect = rect
@@ -16,3 +17,4 @@ class Actor:
         self.mass = mass
         self.glo_count = glo_count
         self.inventory = inventory
+        self.can_pickup = can_pickup

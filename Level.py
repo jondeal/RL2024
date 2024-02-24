@@ -70,7 +70,8 @@ class Level:
                                         template['glyph'], 0, constants.FONT_SIZE, template['glyph_color'],
                                         0, 0, template['mass'],
                                         template['glo_count'],
-                                        [])
+                                        [],
+                                        template['can_pickup'])
                 self.actors.append(new_actor)
 
     def spawn_terrain(self, terrain_name, limit):
