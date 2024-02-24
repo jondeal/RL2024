@@ -1,7 +1,8 @@
 import pygame
 import Game
 import constants
-import render
+import render_level
+import render_ui
 import physics
 
 pygame.init()
@@ -37,5 +38,6 @@ while running:
                     player.speed = 1
 
     physics.resolve_physics(game.current_level)
-    render.render(game.current_level)
+    render_level.render_level(game.current_level)
+    render_ui.render_ui()
     pygame.display.flip()
