@@ -2,7 +2,8 @@ class Actor:
     def __init__(self, name, position, rect,
                  glyph, glyph_rotation, glyph_size, glyph_color,
                  direction, speed, mass,
-                 glo_count):
+                 glo_count,
+                 inventory):
         self.name = name
         self.position = position
         self.rect = rect
@@ -14,3 +15,4 @@ class Actor:
         self.speed = speed
         self.mass = mass
         self.glo_count = glo_count
+        self.inventory = inventory
