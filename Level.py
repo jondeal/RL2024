@@ -64,7 +64,8 @@ class Level:
             if template['name'] == actor_type:
                 new_actor = Actor.Actor(template['name'], destination.position, destination.rect,
                                         template['glyph'], 0, constants.FONT_SIZE, template['glyph_color'],
-                                        0, 0, template['mass'])
+                                        0, 0, template['mass'],
+                                        template['glo_count'])
                 self.actors.append(new_actor)
 
     def spawn_terrain(self, terrain_name, limit):
