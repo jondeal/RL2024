@@ -13,8 +13,11 @@ def render_level(level):
         for actor in level.actors:
             if tile.position == actor.position:
                 tile.glyph_color = [tile.glyph_color[0], tile.glyph_color[1], tile.glyph_color[2], 0]
+        for item in level.items:
+            if tile.position == item.position:
+                tile.glyph_color = [tile.glyph_color[0], tile.glyph_color[1], tile.glyph_color[2], 0]
 
-    to_render = [level.tiles, level.actors]
+    to_render = [level.tiles, level.actors, level.items]
 
     for entity_list in to_render:
         for entity in entity_list:
