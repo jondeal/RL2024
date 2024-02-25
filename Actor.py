@@ -18,3 +18,6 @@ class Actor:
         self.glo_count = glo_count
         self.inventory = inventory
         self.can_pickup = can_pickup
+
+    def move(self):
+        self.speed = 1
