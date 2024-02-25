@@ -15,6 +15,7 @@ game.current_level = game.levels[0]
 
 game.current_level.spawn_actor('player', game.current_level.get_random_open_tile())
 game.current_level.spawn_actor('small moebus', game.current_level.get_random_open_tile())
+game.current_level.spawn_actor('small moebus', game.current_level.get_random_open_tile())
 game.current_level.spawn_actor('large moebus', game.current_level.get_random_open_tile())
 
 game.current_level.spawn_item('GenoScribe', game.current_level.get_random_open_tile())
@@ -34,10 +35,11 @@ while running:
                 running = False
             if event.key in constants.move_keys:
                 player.direction = constants.move_keys[event.key]
-                if event.mod == pygame.KMOD_LSHIFT:
-                    player.speed = 2
-                else:
-                    player.speed = 1
+                player.move()
+                # if event.mod == pygame.KMOD_LSHIFT:
+                #     player.speed = 2
+                # else:
+                #     player.speed = 1
 
     physics.resolve_physics(game.current_level)
     render_level.render_level(game.current_level)
