@@ -71,6 +71,7 @@ class Level:
                                         0, 0, template['mass'],
                                         template['glo_count'],
                                         [],
+                                        None,
                                         template['can_pickup'])
                 self.actors.append(new_actor)
 
