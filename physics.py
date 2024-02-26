@@ -28,13 +28,17 @@ def resolve_physics(level):
                 else:
                     destination_tile = tile
         if collision is False:
-            entity.position = position_to_check
-            entity.rect = destination_tile.rect
-            entity.speed -= 1
-            if entity.speed == 0:
-                entity.direction = (0, 0)
+            if entity.action == 'shove':
+                entity.speed = 0
+                entity.direction = 0
             else:
-                pass
+                entity.position = position_to_check
+                entity.rect = destination_tile.rect
+                entity.speed -= 1
+                if entity.speed == 0:
+                    entity.direction = (0, 0)
+                else:
+                    pass
 
     def handle_collision(initiating_entity, receiving_entity):
         if initiating_entity.action == 'push':
@@ -66,7 +70,6 @@ def resolve_physics(level):
                                     if tile.position == entity.position:
                                         entity.rect = tile.rect
                             open_tile_reached = True
-
         else:  # initiating_entity.action != 'push'
             if receiving_entity.name == 'wall':
                 # initiating_entity.speed -= 1  # if set <= 0, will keep entity from bouncing back from wall collision, if commented out impulse will not be affected
