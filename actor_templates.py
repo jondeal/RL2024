@@ -2,7 +2,7 @@ actor_templates = [
     {'name': 'player',
      'glyph': '@',
      'glyph_color': [255, 255, 255, 255],
-     'mass': 1,
+     'mass': 2,
      'glo_count': 10,
      'can_pickup': True
      },
