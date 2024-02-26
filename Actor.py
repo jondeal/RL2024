@@ -4,6 +4,7 @@ class Actor:
                  direction, speed, mass,
                  glo_count,
                  inventory,
+                 action,
                  can_pickup):
         self.name = name
         self.position = position
@@ -17,7 +18,9 @@ class Actor:
         self.mass = mass
         self.glo_count = glo_count
         self.inventory = inventory
+        self.action = action
         self.can_pickup = can_pickup
 
     def move(self):
         self.speed = 1
+        self.action = 'push'
