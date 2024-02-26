@@ -24,3 +24,7 @@ class Actor:
     def move(self):
         self.speed = 1
         self.action = 'push'
+
+    def shove(self):
+        self.speed = 1
+        self.action = 'shove'
