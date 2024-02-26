@@ -114,6 +114,6 @@ def resolve_physics(level):
                 else:
                     pass
 
-    for actor in level.actors:
-        if actor.speed > 0:
-            collision_check(actor)
+    for entity in level.actors + level.items:
+        if entity.speed > 0:
+            collision_check(entity)
