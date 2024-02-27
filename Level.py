@@ -24,6 +24,9 @@ class Level:
             for actor in self.actors:
                 if actor.position == tile.position:
                     open_tiles.remove(tile)
+            for item in self.items:
+                if item.position == tile.position:
+                    open_tiles.remove(tile)
         random_open_tile = random.choice(open_tiles)
         return random_open_tile
 
