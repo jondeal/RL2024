@@ -162,7 +162,50 @@ def resolve_physics(level):
                     elif isinstance(receiving_entity, Actor.Actor):
                         pass
             elif isinstance(initiating_entity, Item.Item):
-                if isinstance(receiving_entity, Item.Item):
+                if receiving_entity.name == 'wall':
+                    if abs(initiating_entity.direction[0]) + abs(
+                            initiating_entity.direction[1]) == 1:  # direction is non-diagonal
+                        initiating_entity.direction = (
+                            -initiating_entity.direction[0],
+                            -initiating_entity.direction[1]
+                        )
+                    else:
+                        positions_to_check = [
+                            (initiating_entity.position[0] + initiating_entity.direction[0],
+                             initiating_entity.position[1]),  # x-axis tile
+                            (initiating_entity.position[0],
+                             initiating_entity.position[1] + initiating_entity.direction[1])  # y-axis tile
+                        ]
+                        x_tile_blocked = None
+                        y_tile_blocked = None
+                        for tile in level.tiles:
+                            if tile.position == positions_to_check[0]:
+                                if tile.is_blocked:
+                                    x_tile_blocked = True
+                                else:
+                                    x_tile_blocked = False
+                            elif tile.position == positions_to_check[1]:
+                                if tile.is_blocked:
+                                    y_tile_blocked = True
+                                else:
+                                    y_tile_blocked = False
+                        condition_bools = [x_tile_blocked, y_tile_blocked]
+                        if condition_bools == [True, True] or condition_bools == [False, False]:
+                            initiating_entity.direction = (
+                                -initiating_entity.direction[0],
+                                -initiating_entity.direction[1]
+                            )
+                        elif condition_bools == [True, False]:
+                            initiating_entity.direction = (
+                                -initiating_entity.direction[0],
+                                initiating_entity.direction[1]
+                            )
+                        elif condition_bools == [False, True]:
+                            initiating_entity.direction = (
+                                initiating_entity.direction[0],
+                                -initiating_entity.direction[1]
+                            )
+                elif isinstance(receiving_entity, Item.Item):
                     initiating_entity_initial_momentum = initiating_entity.mass * initiating_entity.speed
 
                     receiving_entity.speed = initiating_entity_initial_momentum // receiving_entity.mass
