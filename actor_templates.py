@@ -7,14 +7,14 @@ actor_templates = [
      'can_pickup': True
      },
     {'name': 'small moebus',
-     'glyph': 'o',
+     'glyph': 'ꙩ',
      'glyph_color': [0, 255, 0, 255],
      'mass': 1,
      'glo_count': 3,
      'can_pickup': False
      },
     {'name': 'large moebus',
-     'glyph': 'O',
+     'glyph': 'Ꙩ',
      'glyph_color': [0, 255, 0, 255],
      'mass': 2,
      'glo_count': 6,
