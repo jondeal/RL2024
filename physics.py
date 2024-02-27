@@ -46,22 +46,19 @@ def resolve_physics(level):
                 if initiating_entity.action == 'shove':
                     if receiving_entity.name == 'wall':
                         make_still(initiating_entity)  # shove against wall fails
-                    else:
-                        if receiving_entity.mass > initiating_entity.mass:
-                            make_still(initiating_entity)  # shove against more massive entity fails
-                        else:  # shove succeeds
-                            initiating_entity_initial_momentum = initiating_entity.mass * initiating_entity.speed
+                    else:  # shove against entity succeeds
+                        initiating_entity_initial_momentum = initiating_entity.mass * initiating_entity.speed
 
-                            receiving_entity.speed = initiating_entity_initial_momentum // receiving_entity.mass
-                            receiving_entity.direction = initiating_entity.direction
+                        receiving_entity.speed = initiating_entity_initial_momentum // receiving_entity.mass
+                        receiving_entity.direction = initiating_entity.direction
 
-                            make_still(initiating_entity)
+                        make_still(initiating_entity)
 
-                            if receiving_entity.speed > 0:
-                                collision = collision_check(receiving_entity)
-                                handle_collision(collision)
-                            else:  # prevents receiving entity from moving if entity.speed = 0 after collision
-                                make_still(receiving_entity)
+                        if receiving_entity.speed > 0:
+                            collision = collision_check(receiving_entity)
+                            handle_collision(collision)
+                        else:  # prevents receiving entity from moving if entity.speed == 0 after collision
+                            make_still(receiving_entity)
                 elif initiating_entity.action == 'push':
                     if receiving_entity.name == 'wall':
                         make_still(initiating_entity)  # push against wall fails
@@ -86,6 +83,19 @@ def resolve_physics(level):
                                     for row_entity in entities_in_row:
                                         make_still(row_entity)
                                     make_still(initiating_entity)  # push against wall fails, row of entities doesn't move
+                                elif isinstance(collision_check_result[2], Item.Item):
+                                    entities_in_row.append(initiating_entity)
+                                    for row_entity in entities_in_row:
+                                        row_entity.position = (
+                                            row_entity.position[0] + row_entity.direction[0],
+                                            row_entity.position[1] + row_entity.direction[1]
+                                        )
+                                        for tile in level.tiles:
+                                            if tile.position == row_entity.position:
+                                                row_entity.rect = tile.rect
+                                        make_still(row_entity)
+
+                                    open_tile_reached = True
                                 elif isinstance(collision_check_result[2], Actor.Actor):
                                     total_mass += collision_check_result[2].mass
                                     entities_in_row.append(collision_check_result[2])
@@ -105,7 +115,7 @@ def resolve_physics(level):
                                         make_still(row_entity)
 
                                     open_tile_reached = True
-                else:  # if initiating_entity.action != 'shove' and != 'push'
+                else:  # if initiating_entity.action != 'shove' and != 'push', i.e. passive movement from collision
                     if receiving_entity.name == 'wall':
                         if abs(initiating_entity.direction[0]) + abs(
                                 initiating_entity.direction[1]) == 1:  # direction is non-diagonal
@@ -151,7 +161,20 @@ def resolve_physics(level):
                                 )
                     elif isinstance(receiving_entity, Actor.Actor):
                         pass
+            elif isinstance(initiating_entity, Item.Item):
+                if isinstance(receiving_entity, Item.Item):
+                    initiating_entity_initial_momentum = initiating_entity.mass * initiating_entity.speed
 
+                    receiving_entity.speed = initiating_entity_initial_momentum // receiving_entity.mass
+                    receiving_entity.direction = initiating_entity.direction
+
+                    make_still(initiating_entity)
+
+                    if receiving_entity.speed > 0:
+                        collision = collision_check(receiving_entity)
+                        handle_collision(collision)
+                    else:  # prevents receiving entity from moving if entity.speed = 0 after collision
+                        make_still(receiving_entity)
         else:  # if not had_collision
             if isinstance(initiating_entity, Actor.Actor):
                 if initiating_entity.action == 'shove':
