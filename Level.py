@@ -89,8 +89,7 @@ class Level:
     def spawn_item(self, item_name, destination):
         for template in item_templates.item_templates:
             if template['name'] == item_name:
-                glyph_rotation = random.randrange(8) * 45
                 new_item = Item.Item(template['name'], destination.position, destination.rect,
-                                     template['glyph'], glyph_rotation, constants.FONT_SIZE, template['glyph_color'],
+                                     template['glyph'], template['glyph_rotation'], constants.FONT_SIZE, template['glyph_color'],
                                      0, 0, template['mass'])
                 self.items.append(new_item)
