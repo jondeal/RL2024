@@ -3,6 +3,53 @@ import Item
 
 
 def resolve_physics(level):
+
+    def wall_rebound_direction(entity_to_rebound):
+        if abs(entity_to_rebound.direction[0]) + abs(
+                entity_to_rebound.direction[1]) == 1:  # direction is non-diagonal
+            entity_to_rebound.direction = (
+                -entity_to_rebound.direction[0],
+                -entity_to_rebound.direction[1]
+            )
+            return entity_to_rebound.direction
+        else:
+            positions_to_check = [
+                (entity_to_rebound.position[0] + entity_to_rebound.direction[0],
+                 entity_to_rebound.position[1]),  # x-axis tile
+                (entity_to_rebound.position[0],
+                 entity_to_rebound.position[1] + entity_to_rebound.direction[1])  # y-axis tile
+            ]
+            x_tile_blocked = None
+            y_tile_blocked = None
+            for tile in level.tiles:
+                if tile.position == positions_to_check[0]:
+                    if tile.is_blocked:
+                        x_tile_blocked = True
+                    else:
+                        x_tile_blocked = False
+                elif tile.position == positions_to_check[1]:
+                    if tile.is_blocked:
+                        y_tile_blocked = True
+                    else:
+                        y_tile_blocked = False
+            condition_bools = [x_tile_blocked, y_tile_blocked]
+            if condition_bools == [True, True] or condition_bools == [False, False]:
+                entity_to_rebound.direction = (
+                    -entity_to_rebound.direction[0],
+                    -entity_to_rebound.direction[1]
+                )
+            elif condition_bools == [True, False]:
+                entity_to_rebound.direction = (
+                    -entity_to_rebound.direction[0],
+                    entity_to_rebound.direction[1]
+                )
+            elif condition_bools == [False, True]:
+                entity_to_rebound.direction = (
+                    entity_to_rebound.direction[0],
+                    -entity_to_rebound.direction[1]
+                )
+            return entity_to_rebound.direction
+
     def make_still(entity_to_still):
         entity_to_still.speed = 0
         entity_to_still.direction = (0, 0)
@@ -117,94 +164,12 @@ def resolve_physics(level):
                                     open_tile_reached = True
                 else:  # if initiating_entity.action != 'shove' and != 'push', i.e. passive movement from collision
                     if receiving_entity.name == 'wall':
-                        if abs(initiating_entity.direction[0]) + abs(
-                                initiating_entity.direction[1]) == 1:  # direction is non-diagonal
-                            initiating_entity.direction = (
-                                -initiating_entity.direction[0],
-                                -initiating_entity.direction[1]
-                            )
-                        else:
-                            positions_to_check = [
-                                (initiating_entity.position[0] + initiating_entity.direction[0],
-                                 initiating_entity.position[1]),  # x-axis tile
-                                (initiating_entity.position[0],
-                                 initiating_entity.position[1] + initiating_entity.direction[1])  # y-axis tile
-                            ]
-                            x_tile_blocked = None
-                            y_tile_blocked = None
-                            for tile in level.tiles:
-                                if tile.position == positions_to_check[0]:
-                                    if tile.is_blocked:
-                                        x_tile_blocked = True
-                                    else:
-                                        x_tile_blocked = False
-                                elif tile.position == positions_to_check[1]:
-                                    if tile.is_blocked:
-                                        y_tile_blocked = True
-                                    else:
-                                        y_tile_blocked = False
-                            condition_bools = [x_tile_blocked, y_tile_blocked]
-                            if condition_bools == [True, True] or condition_bools == [False, False]:
-                                initiating_entity.direction = (
-                                    -initiating_entity.direction[0],
-                                    -initiating_entity.direction[1]
-                                )
-                            elif condition_bools == [True, False]:
-                                initiating_entity.direction = (
-                                    -initiating_entity.direction[0],
-                                    initiating_entity.direction[1]
-                                )
-                            elif condition_bools == [False, True]:
-                                initiating_entity.direction = (
-                                    initiating_entity.direction[0],
-                                    -initiating_entity.direction[1]
-                                )
+                        initiating_entity.direction = wall_rebound_direction(initiating_entity)
                     elif isinstance(receiving_entity, Actor.Actor):
                         pass
             elif isinstance(initiating_entity, Item.Item):
                 if receiving_entity.name == 'wall':
-                    if abs(initiating_entity.direction[0]) + abs(
-                            initiating_entity.direction[1]) == 1:  # direction is non-diagonal
-                        initiating_entity.direction = (
-                            -initiating_entity.direction[0],
-                            -initiating_entity.direction[1]
-                        )
-                    else:
-                        positions_to_check = [
-                            (initiating_entity.position[0] + initiating_entity.direction[0],
-                             initiating_entity.position[1]),  # x-axis tile
-                            (initiating_entity.position[0],
-                             initiating_entity.position[1] + initiating_entity.direction[1])  # y-axis tile
-                        ]
-                        x_tile_blocked = None
-                        y_tile_blocked = None
-                        for tile in level.tiles:
-                            if tile.position == positions_to_check[0]:
-                                if tile.is_blocked:
-                                    x_tile_blocked = True
-                                else:
-                                    x_tile_blocked = False
-                            elif tile.position == positions_to_check[1]:
-                                if tile.is_blocked:
-                                    y_tile_blocked = True
-                                else:
-                                    y_tile_blocked = False
-                        condition_bools = [x_tile_blocked, y_tile_blocked]
-                        if condition_bools == [True, True] or condition_bools == [False, False]:
-                            initiating_entity.direction = (
-                                -initiating_entity.direction[0],
-                                -initiating_entity.direction[1]
-                            )
-                        elif condition_bools == [True, False]:
-                            initiating_entity.direction = (
-                                -initiating_entity.direction[0],
-                                initiating_entity.direction[1]
-                            )
-                        elif condition_bools == [False, True]:
-                            initiating_entity.direction = (
-                                initiating_entity.direction[0],
-                                -initiating_entity.direction[1]
-                            )
+                    initiating_entity.direction = wall_rebound_direction(initiating_entity)
                 elif isinstance(receiving_entity, Item.Item):
                     initiating_entity_initial_momentum = initiating_entity.mass * initiating_entity.speed
 
