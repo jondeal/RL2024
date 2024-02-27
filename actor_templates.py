@@ -19,5 +19,11 @@ actor_templates = [
      'mass': 2,
      'glo_count': 6,
      'can_pickup': True
-     }
+     },
+    {'name': 'massive moebus',
+     'glyph': 'Ꙫ',
+     'glyph_color': [0, 255, 0, 255],
+     'mass': 3,
+     'glo_count': 9,
+     'can_pickup': True}
 ]
