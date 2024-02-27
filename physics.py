@@ -165,6 +165,8 @@ def resolve_physics(level):
                                         make_still(row_entity)
 
                                     open_tile_reached = True
+                            else:  # total_mass > initiating_entity.mass
+                                make_still(initiating_entity)
                 else:  # if initiating_entity.action != 'shove' and != 'push', i.e. passive movement from collision
                     if receiving_entity.name == 'wall':
                         initiating_entity.direction = wall_rebound_direction(initiating_entity)
@@ -173,7 +175,8 @@ def resolve_physics(level):
             elif isinstance(initiating_entity, Item.Item):
                 if receiving_entity.name == 'wall':
                     initiating_entity.direction = wall_rebound_direction(initiating_entity)
-                elif isinstance(receiving_entity, Item.Item):
+                else:
+                # elif isinstance(receiving_entity, Item.Item):
                     apply_force(initiating_entity, receiving_entity)
         else:  # if not had_collision
             if isinstance(initiating_entity, Actor.Actor):
@@ -194,5 +197,8 @@ def resolve_physics(level):
 
     for entity in level.actors + level.items:
         if entity.speed > 0:
+            entity.glyph_color = [255, 0, 0, 255]
             collision_result = collision_check(entity)
             handle_collision(collision_result)
+        else:
+            entity.glyph_color = [0, 0, 255, 255]
