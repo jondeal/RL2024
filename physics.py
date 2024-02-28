@@ -245,11 +245,11 @@ def resolve_physics(level):
 
     for entity in level.actors + level.items:
         if entity.speed > 0:
-            entity.glyph_color = [200, 0, 0, 255]  # DEBUG
+            # entity.glyph_color = [200, 0, 0, 255]  # DEBUG
             collision_result = collision_check(entity)
             handle_collision(collision_result)
-        else:  # DEBUG
-            entity.glyph_color = [0, 200, 200, 255]
+        # else:  # DEBUG
+        #     entity.glyph_color = [0, 200, 200, 255]
         # if entity.direction == (0, 0):  # DEBUG
         #     entity.glyph_size = constants.FONT_SIZE
         # else:
