@@ -42,7 +42,7 @@ class Level:
                 tile_rect = pygame.Rect((x_1, y_1), (constants.TILE_WIDTH, constants.TILE_HEIGHT))
 
                 new_tile = Tile.Tile('floor', (x, y), tile_rect,
-                                     None, 0, constants.FONT_SIZE, None,
+                                     None, None, constants.FONT_SIZE, None, 0,
                                      None, None)
 
                 self.tiles.append(new_tile)
@@ -58,6 +58,7 @@ class Level:
                 if template['name'] == tile.name:
                     tile.glyph = template['glyph']
                     tile.glyph_color = template['glyph_color']
+                    tile.glyph_size_modifier = template['glyph_size_modifier']
                     tile.bg_color = (
                         template['bg_base_rgba'][0] + random.randrange(template['bg_rgb_range'][0][0], template['bg_rgb_range'][0][1]),
                         template['bg_base_rgba'][1] + random.randrange(template['bg_rgb_range'][1][0], template['bg_rgb_range'][1][1]),
@@ -69,8 +70,10 @@ class Level:
     def spawn_actor(self, actor_type, destination):
         for template in actor_templates.actor_templates:
             if template['name'] == actor_type:
-                new_actor = Actor.Actor(template['name'], destination.position, destination.rect,
-                                        template['glyph'], 0, constants.FONT_SIZE, template['glyph_color'],
+                new_actor = Actor.Actor(template['name'],
+                                        destination.position, destination.rect,
+                                        template['glyph'], template['glyph_color'],
+                                        constants.FONT_SIZE, template['glyph_size_modifier'], 0,
                                         (0, 0), 0, template['mass'],
                                         template['glo_count'],
                                         [],
@@ -92,7 +95,9 @@ class Level:
     def spawn_item(self, item_name, destination):
         for template in item_templates.item_templates:
             if template['name'] == item_name:
-                new_item = Item.Item(template['name'], destination.position, destination.rect,
-                                     template['glyph'], template['glyph_rotation'], constants.FONT_SIZE, template['glyph_color'],
+                new_item = Item.Item(template['name'],
+                                     destination.position, destination.rect,
+                                     template['glyph'], template['glyph_color'],
+                                     constants.FONT_SIZE, template['glyph_size_modifier'], template['glyph_rotation'],
                                      (0, 0), 0, template['mass'])
                 self.items.append(new_item)
