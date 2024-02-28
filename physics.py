@@ -137,8 +137,8 @@ def resolve_physics(level):
             if isinstance(initiating_entity, Actor.Actor):
                 if initiating_entity.action == 'shove':
                     if receiving_entity.name == 'wall':
-                        make_still(initiating_entity)  # shove against wall fails
-                    else:  # shove against entity succeeds
+                        make_still(initiating_entity)  # shove against adjacent wall fails
+                    else:
                         gap_check = diagonal_wall_gap_check(initiating_entity)
                         if gap_check:
                             make_still(initiating_entity)
@@ -146,12 +146,12 @@ def resolve_physics(level):
                             apply_force(initiating_entity, receiving_entity)
                 elif initiating_entity.action == 'push':
                     if receiving_entity.name == 'wall':
-                        make_still(initiating_entity)  # push against wall fails
+                        make_still(initiating_entity)  # move/push against adjacent wall fails
                     elif isinstance(receiving_entity, Item.Item):
                         move_to_position(initiating_entity, receiving_entity)
                     elif isinstance(receiving_entity, Actor.Actor):
                         if receiving_entity.mass > initiating_entity.mass:
-                            make_still(initiating_entity)  # push against more massive entity fails
+                            make_still(initiating_entity)  # move/push against more massive entity fails
                         else:
                             open_tile_reached = False
                             total_mass = receiving_entity.mass
@@ -237,7 +237,11 @@ def resolve_physics(level):
                     else:
                         move_to_position(initiating_entity, receiving_entity)
             elif isinstance(initiating_entity, Item.Item):
-                move_to_position(initiating_entity, receiving_entity)
+                gap_check = diagonal_wall_gap_check(initiating_entity)
+                if gap_check:
+                    make_still(initiating_entity)
+                else:
+                    move_to_position(initiating_entity, receiving_entity)
 
     for entity in level.actors + level.items:
         if entity.speed > 0:
