@@ -16,9 +16,9 @@ def render_ui(player):
 
     for i in range(player.glo_count):
         constants.FONT.render_to(constants.screen, (glo_rect.right + (constants.TILE_WIDTH * i), glo_rect.top),
-                                 '*', 'cyan', None, size=constants.FONT_SIZE * 2, rotation=45)
+                                 '*', 'cyan', None, size=constants.FONT_SIZE * 1.5, rotation=45)
 
-    inventory, inventory_rect = constants.FONT.render('INVENTORY', [255, 255, 255, 255], None, size=constants.FONT_SIZE, rotation=0)
+    inventory, inventory_rect = constants.FONT.render('<INVENTORY>', [255, 255, 255, 255], None, size=constants.FONT_SIZE, rotation=0)
     inventory_rect.centerx = ui_rect.centerx
     inventory_rect.top = ui_rect.top + constants.TILE_HEIGHT * 3
     inventory_rect.bottom = ui_rect.top + constants.TILE_HEIGHT * 4
