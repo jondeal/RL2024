@@ -24,7 +24,7 @@ def render_level(level):
             if entity.glyph_size != constants.FONT_SIZE:
                 size = entity.glyph_size
             else:
-                size = constants.FONT_SIZE
+                size = constants.FONT_SIZE * entity.glyph_size_modifier
 
             glyph_image, glyph_rect = constants.FONT.render(entity.glyph, entity.glyph_color, None, size=size,
                                                             rotation=entity.glyph_rotation)
