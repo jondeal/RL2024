@@ -17,8 +17,11 @@ game.current_level.spawn_actor('player', game.current_level.get_random_open_tile
 game.current_level.spawn_actor('small moebus', game.current_level.get_random_open_tile())
 game.current_level.spawn_actor('small moebus', game.current_level.get_random_open_tile())
 game.current_level.spawn_actor('large moebus', game.current_level.get_random_open_tile())
+game.current_level.spawn_actor('massive moebus', game.current_level.get_random_open_tile())
 
 game.current_level.spawn_item('GenoScribe', game.current_level.get_random_open_tile())
+game.current_level.spawn_item('YeetStick', game.current_level.get_random_open_tile())
+game.current_level.spawn_item('GenoQuery', game.current_level.get_random_open_tile())
 
 player = game.current_level.actors[0]
 
@@ -38,6 +41,8 @@ while running:
                 player.move()
                 if event.mod == pygame.KMOD_LSHIFT:
                     player.shove()
+            if event.key == pygame.K_g:
+                player.pickup(game.current_level)
 
     physics.resolve_physics(game.current_level)
     render_level.render_level(game.current_level)
