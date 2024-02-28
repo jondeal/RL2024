@@ -139,7 +139,11 @@ def resolve_physics(level):
                     if receiving_entity.name == 'wall':
                         make_still(initiating_entity)  # shove against wall fails
                     else:  # shove against entity succeeds
-                        apply_force(initiating_entity, receiving_entity)
+                        gap_check = diagonal_wall_gap_check(initiating_entity)
+                        if gap_check:
+                            make_still(initiating_entity)
+                        else:
+                            apply_force(initiating_entity, receiving_entity)
                 elif initiating_entity.action == 'push':
                     if receiving_entity.name == 'wall':
                         make_still(initiating_entity)  # push against wall fails
