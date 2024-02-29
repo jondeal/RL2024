@@ -25,14 +25,6 @@ FONT = pygame.freetype.Font('/usr/share/fonts/truetype/julia/JuliaMono-Light.ttf
 
 SCREEN_COLOR = (0, 0, 35)
 
-if bools.has_keypad:
-    move_keys = {pygame.K_KP7: 'upper left', pygame.K_KP4: 'left', pygame.K_KP1: 'lower left',
-                 pygame.K_KP8: 'up', pygame.K_KP2: 'down', pygame.K_KP9: 'upper right', pygame.K_KP6: 'right',
-                 pygame.K_KP3: 'lower right'}
-else:
-    move_keys = {pygame.K_7: (-1, -1), pygame.K_u: (-1, 0), pygame.K_j: (-1, 1), pygame.K_8: (0, -1),
-                 pygame.K_k: (0, 1), pygame.K_9: (1, -1), pygame.K_o: (1, 0), pygame.K_l: (1, 1)}
-
 if bools.is_fullscreen:
     screen = pygame.display.set_mode((screen_info.current_w, screen_info.current_h), pygame.FULLSCREEN)
 else:
