@@ -24,7 +24,7 @@ def render_ui(player):
 
     if player.inventory:
         for item in player.inventory:
-            inventory_item, inventory_item_rect = constants.FONT.render(item.glyph + ' ' + item.name,
+            inventory_item, inventory_item_rect = constants.FONT.render(item.inventory_slot[1] + ': ' + item.glyph + ' ' + item.name,
                                                                         [255, 255, 0, 255], None,
                                                                         size=constants.FONT_SIZE * 0.75, rotation=0)
             constants.screen.blit(inventory_item, (ui_rect.left + constants.TILE_WIDTH,
