@@ -12,22 +12,21 @@ def render_ui(player):
 
     glo_rect = constants.FONT.render_to(constants.screen, (ui_rect.left + constants.TILE_WIDTH,
                                                            ui_rect.top + constants.TILE_HEIGHT),
-                                        'GLO: ', [255, 255, 255, 255], None, size=constants.FONT_SIZE, rotation=0)
+                                        '﹝GLO﹞', [255, 255, 255, 255], None, size=constants.FONT_SIZE, rotation=0)
 
-    for i in range(player.glo_count):
-        constants.FONT.render_to(constants.screen, (glo_rect.right + (constants.TILE_WIDTH * i), glo_rect.top),
-                                 '*', 'cyan', None, size=constants.FONT_SIZE * 1.5, rotation=45)
+    constants.FONT.render_to(constants.screen, (glo_rect.right, glo_rect.top),
+                             ' ✻' + str(player.glo_count), 'cyan', None, size=constants.FONT_SIZE * 1.25, rotation=0)
 
-    inventory, inventory_rect = constants.FONT.render('<INVENTORY>', [255, 255, 255, 255], None, size=constants.FONT_SIZE, rotation=0)
-    inventory_rect.centerx = ui_rect.centerx
-    inventory_rect.top = ui_rect.top + constants.TILE_HEIGHT * 3
-    inventory_rect.bottom = ui_rect.top + constants.TILE_HEIGHT * 4
-    constants.screen.blit(inventory, inventory_rect)
+    inventory_rect = constants.FONT.render_to(constants.screen,
+                                              (glo_rect.left, glo_rect.bottom + constants.TILE_HEIGHT),
+                                              '﹝INVENTORY﹞', [255, 255, 255, 255], None,
+                                              size=constants.FONT_SIZE, rotation=0)
 
     if player.inventory:
         for item in player.inventory:
-            inventory_item, inventory_item_rect = constants.FONT.render(item.glyph + ' : ' + item.name,
+            inventory_item, inventory_item_rect = constants.FONT.render(item.glyph + ' ' + item.name,
                                                                         [255, 255, 0, 255], None,
-                                                                        size=constants.FONT_SIZE, rotation=0)
-            constants.screen.blit(inventory_item, (ui_rect.left + constants.TILE_WIDTH, inventory_rect.bottom + constants.TILE_HEIGHT +
+                                                                        size=constants.FONT_SIZE * 0.75, rotation=0)
+            constants.screen.blit(inventory_item, (ui_rect.left + constants.TILE_WIDTH,
+                                                   inventory_rect.bottom + constants.TILE_HEIGHT // 2 +
                                                    constants.TILE_HEIGHT * player.inventory.index(item)))
