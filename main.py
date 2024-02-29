@@ -1,6 +1,6 @@
 import pygame
 import Game
-import constants
+import controls
 import render_level
 import render_ui
 import physics
@@ -34,14 +34,14 @@ while running:
     clock.tick(FPS)
     for event in pygame.event.get():
         if event.type == pygame.KEYUP:
-            if event.key == pygame.K_q and event.mod == pygame.KMOD_LSHIFT:
+            if event.key == controls.keybinds['quit'] and event.mod == controls.keybinds['mod key']:
                 running = False
-            if event.key in constants.move_keys:
-                player.direction = constants.move_keys[event.key]
+            if event.key in controls.move_keys:
+                player.direction = controls.move_keys[event.key][1]
                 player.move()
-                if event.mod == pygame.KMOD_LSHIFT:
+                if event.mod == controls.keybinds['mod key']:
                     player.shove()
-            if event.key == pygame.K_g:
+            if event.key == controls.keybinds['pickup']:
                 player.pickup(game.current_level)
 
     physics.resolve_physics(game.current_level)
