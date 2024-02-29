@@ -30,8 +30,13 @@ class Actor:
         self.speed = 1
         self.action = 'shove'
 
-    def pickup(self, current_level):
+    def pickup(self, game, current_level):
         for item in current_level.items:
             if item.position == self.position:
+                if self.name == 'player':
+                    item.inventory_slot = game.inventory_slots[0]
+                    game.inventory_slots.remove(item.inventory_slot)
                 self.inventory.append(item)
                 current_level.items.remove(item)
+
+    # def drop(self, item_to_drop, current_level):
