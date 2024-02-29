@@ -99,5 +99,6 @@ class Level:
                                      destination.position, destination.rect,
                                      template['glyph'], template['glyph_color'],
                                      constants.FONT_SIZE, template['glyph_size_modifier'], template['glyph_rotation'],
-                                     (0, 0), 0, template['mass'])
+                                     (0, 0), 0, template['mass'],
+                                     None)
                 self.items.append(new_item)
