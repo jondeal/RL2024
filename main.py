@@ -7,7 +7,7 @@ import physics
 
 pygame.init()
 
-game = Game.Game([], None)
+game = Game.Game([], None, 'choosing action')
 
 game.generate_new_level()
 
@@ -42,7 +42,9 @@ while running:
                 if event.mod == controls.keybinds['mod key']:
                     player.shove()
             if event.key == controls.keybinds['pickup']:
-                player.pickup(game.current_level)
+                player.pickup(game, game.current_level)
+            if event.key == controls.keybinds['drop']:
+                player.drop()
 
     physics.resolve_physics(game.current_level)
     render_level.render_level(game.current_level)
