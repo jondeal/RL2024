@@ -3,7 +3,8 @@ import bools
 
 keybinds = {'quit': pygame.K_q,
             'mod key': pygame.KMOD_LSHIFT,
-            'pickup': pygame.K_g}
+            'pickup': pygame.K_g,
+            'drop': pygame.K_d}
 
 if bools.has_keypad:
     move_keys = {
