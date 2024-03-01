@@ -36,16 +36,20 @@ while running:
         if event.type == pygame.KEYUP:
             if event.key == controls.keybinds['quit'] and event.mod == controls.keybinds['mod key']:
                 running = False
-            if event.key in controls.move_keys:
-                player.direction = controls.move_keys[event.key][1]
-                player.move()
-                if event.mod == controls.keybinds['mod key']:
-                    player.shove()
-            if event.key == controls.keybinds['pickup']:
-                player.pickup(game, game.current_level)
-            if event.key == controls.keybinds['drop']:
-                player.drop()
-
+            if game.state == 'choosing action':
+                if event.key in controls.move_keys:
+                    player.direction = controls.move_keys[event.key][1]
+                    player.move()
+                    if event.mod == controls.keybinds['mod key']:
+                        player.shove()
+                if event.key == controls.keybinds['pickup']:
+                    player.pickup(game, game.current_level)
+                if event.key == controls.keybinds['drop']:
+                    game.state = 'dropping item'
+            elif game.state == 'dropping item':
+                for item in player.inventory:
+                    if event.key == item.inventory_slot[0]:
+                        player.drop(game, game.current_level, item)
     physics.resolve_physics(game.current_level)
     render_level.render_level(game.current_level)
     render_ui.render_ui(player)
