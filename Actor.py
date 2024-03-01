@@ -37,6 +37,17 @@ class Actor:
                     item.inventory_slot = game.inventory_slots[0]
                     game.inventory_slots.remove(item.inventory_slot)
                 self.inventory.append(item)
+                item.position = None
                 current_level.items.remove(item)
 
-    # def drop(self, item_to_drop, current_level):
+    def drop(self, game, current_level, item_to_drop):
+        item_to_drop.position = self.position
+        item_to_drop.rect = self.rect
+        self.inventory.remove(item_to_drop)
+        current_level.items.append(item_to_drop)
+        if self.name == 'player':
+            game.inventory_slots.append(item_to_drop.inventory_slot)
+            game.inventory_slots.sort()
+            item_to_drop.inventory_slot = None
+            game.state = 'choosing action'
+
