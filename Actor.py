@@ -33,12 +33,13 @@ class Actor:
     def pickup(self, game, current_level):
         for item in current_level.items:
             if item.position == self.position:
-                if self.name == 'player':
-                    item.inventory_slot = game.inventory_slots[0]
-                    game.inventory_slots.remove(item.inventory_slot)
-                self.inventory.append(item)
-                item.position = None
-                current_level.items.remove(item)
+                if item.name != 'GenoQuery':
+                    if self.name == 'player':
+                        item.inventory_slot = game.inventory_slots[0]
+                        game.inventory_slots.remove(item.inventory_slot)
+                    self.inventory.append(item)
+                    item.position = None
+                    current_level.items.remove(item)
 
     def drop(self, game, current_level, item_to_drop):
         item_to_drop.position = self.position
