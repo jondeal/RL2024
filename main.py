@@ -45,7 +45,8 @@ while running:
                 if event.key == controls.keybinds['pickup']:
                     player.pickup(game, game.current_level)
                 if event.key == controls.keybinds['drop']:
-                    game.state = 'dropping item'
+                    if player.inventory:
+                        game.state = 'dropping item'
             elif game.state == 'dropping item':
                 for item in player.inventory:
                     if event.key == item.inventory_slot[0]:
