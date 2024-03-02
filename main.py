@@ -52,6 +52,6 @@ while running:
                     if event.key == item.inventory_slot[0]:
                         player.drop(game, game.current_level, item)
     physics.resolve_physics(game.current_level)
-    render_level.render_level(game.current_level)
     render_ui.render_ui(player)
+    render_level.render_level(game.current_level)
     pygame.display.flip()
