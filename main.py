@@ -1,9 +1,11 @@
 import pygame
 import Game
+import constants
 import controls
 import render_level
 import render_ui
 import physics
+import Message
 
 pygame.init()
 
@@ -38,19 +40,27 @@ while running:
                 running = False
             if game.state == 'choosing action':
                 if event.key in controls.move_keys:
+                    render_ui.prompt_to_render = None
                     player.direction = controls.move_keys[event.key][1]
                     player.move()
                     if event.mod == controls.keybinds['mod key']:
                         player.shove()
                 if event.key == controls.keybinds['pickup']:
+                    render_ui.prompt_to_render = None
                     player.pickup(game, game.current_level)
                 if event.key == controls.keybinds['drop']:
                     if player.inventory:
+                        render_ui.prompt_to_render = Message.Message(constants.PROMPT_RECT,
+                                                                     'Drop what?', [255, 255, 255, 255])
                         game.state = 'dropping item'
+                    else:
+                        render_ui.prompt_to_render = Message.Message(constants.PROMPT_RECT,
+                                                                     'You have nothing to drop.', [255, 255, 255, 255])
             elif game.state == 'dropping item':
                 for item in player.inventory:
                     if event.key == item.inventory_slot[0]:
                         player.drop(game, game.current_level, item)
+                        render_ui.prompt_to_render = None
     physics.resolve_physics(game.current_level)
     render_ui.render_ui(player)
     render_level.render_level(game.current_level)
