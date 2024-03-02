@@ -1,6 +1,8 @@
 import pygame
 import constants
 
+prompt_to_render = None
+
 
 def render_ui(player):
     constants.screen.fill(constants.SCREEN_COLOR)
@@ -25,3 +27,8 @@ def render_ui(player):
             constants.screen.blit(inventory_item, (constants.UI_RECT.left + constants.TILE_WIDTH,
                                                    inventory_rect.bottom + constants.TILE_HEIGHT // 2 +
                                                    constants.TILE_HEIGHT * player.inventory.index(item)))
+
+    if prompt_to_render is not None:
+        constants.FONT.render_to(constants.screen, prompt_to_render.position,
+                                 prompt_to_render.text, prompt_to_render.color, None,
+                                 size=constants.FONT_SIZE, rotation=0)
