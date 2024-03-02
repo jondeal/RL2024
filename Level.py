@@ -36,10 +36,7 @@ class Level:
             x = i
             for i_2 in range(constants.Y_RANGE):
                 y = i_2
-                # assigns rect vertices to each tile during creation
-                # x_1 = x * constants.TILE_WIDTH
-                # y_1 = y * constants.TILE_HEIGHT
-                # tile_rect = pygame.Rect((x_1, y_1), (constants.TILE_WIDTH, constants.TILE_HEIGHT))
+
                 tile_rect = pygame.Rect(constants.LEVEL_RECT.left + x * constants.TILE_WIDTH,
                                         constants.LEVEL_RECT.top + y * constants.TILE_HEIGHT,
                                         constants.TILE_WIDTH,
