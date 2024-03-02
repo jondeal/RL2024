@@ -1,20 +1,15 @@
 import pygame
 import constants
 
-ui_rect = pygame.Rect(
-    (constants.screen_info.current_h, 0),
-    (constants.screen_info.current_w - constants.screen_info.current_h, constants.screen_info.current_h)
-)
-
 
 def render_ui(player):
-    constants.screen.fill(constants.SCREEN_COLOR, ui_rect)
+    constants.screen.fill(constants.SCREEN_COLOR)
 
-    glo_rect = constants.FONT.render_to(constants.screen, (ui_rect.left + constants.TILE_WIDTH,
-                                                           ui_rect.top + constants.TILE_HEIGHT),
+    glo_rect = constants.FONT.render_to(constants.screen, (constants.UI_RECT.left + constants.TILE_WIDTH,
+                                                           constants.UI_RECT.top),
                                         '﹝GLO﹞', [255, 255, 255, 255], None, size=constants.FONT_SIZE, rotation=0)
 
-    constants.FONT.render_to(constants.screen, (glo_rect.right, glo_rect.top),
+    constants.FONT.render_to(constants.screen, (glo_rect.right, constants.UI_RECT.top),
                              ' ✻' + str(player.glo_count), 'cyan', None, size=constants.FONT_SIZE * 1.25, rotation=0)
 
     inventory_rect = constants.FONT.render_to(constants.screen,
@@ -27,6 +22,6 @@ def render_ui(player):
             inventory_item, inventory_item_rect = constants.FONT.render(item.inventory_slot[1] + ': ' + item.glyph + ' ' + item.name,
                                                                         [255, 255, 0, 255], None,
                                                                         size=constants.FONT_SIZE * 0.75, rotation=0)
-            constants.screen.blit(inventory_item, (ui_rect.left + constants.TILE_WIDTH,
+            constants.screen.blit(inventory_item, (constants.UI_RECT.left + constants.TILE_WIDTH,
                                                    inventory_rect.bottom + constants.TILE_HEIGHT // 2 +
                                                    constants.TILE_HEIGHT * player.inventory.index(item)))
