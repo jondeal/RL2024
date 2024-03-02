@@ -4,6 +4,7 @@ class Actor:
                  direction, speed, mass,
                  glo_count,
                  inventory,
+                 genome,
                  action,
                  can_pickup):
         self.name = name
@@ -19,6 +20,7 @@ class Actor:
         self.mass = mass
         self.glo_count = glo_count
         self.inventory = inventory
+        self.genome = genome
         self.action = action
         self.can_pickup = can_pickup
 
