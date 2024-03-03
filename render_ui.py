@@ -47,13 +47,18 @@ def render_ui(player):
             ui_elements_to_render.append((inventory_item_glyph_surface, inventory_item_glyph_rect))
 
     if prompt_to_render is not None:
+        prompt_to_render_rect = constants.FONT.get_rect(prompt_to_render.text, rotation=0, size=constants.FONT_SIZE)
+        if prompt_to_render_rect.width > constants.PROMPT_RECT.width:
+            prompt_to_render_font_size = (constants.PROMPT_RECT.width // len(prompt_to_render.text)) // 0.6
+        else:
+            prompt_to_render_font_size = constants.FONT_SIZE
         prompt_surface, prompt_surface_rect = constants.FONT.render(prompt_to_render.text,
                                                                     prompt_to_render.color,
                                                                     None,
-                                                                    size=constants.FONT_SIZE,
+                                                                    size=prompt_to_render_font_size,
                                                                     rotation=0)
-        prompt_surface_rect = (constants.LEVEL_RECT.centerx - prompt_surface_rect.width // 2,
-                               constants.LEVEL_RECT.bottom)
+        prompt_surface_rect = (constants.PROMPT_RECT.centerx - prompt_surface_rect.width // 2,
+                               constants.PROMPT_RECT.centery - prompt_surface_rect.height // 2)
         ui_elements_to_render.append((prompt_surface, prompt_surface_rect))
 
     for ui_element in ui_elements_to_render:
