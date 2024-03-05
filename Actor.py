@@ -5,7 +5,7 @@ class Actor:
                  glo_count,
                  inventory,
                  genome,
-                 action,
+                 action_item,
                  can_pickup):
         self.name = name
         self.position = position
@@ -21,7 +21,7 @@ class Actor:
         self.glo_count = glo_count
         self.inventory = inventory
         self.genome = genome
-        self.action = action
+        self.action = action_item
         self.can_pickup = can_pickup
 
     def move(self):
@@ -52,5 +52,14 @@ class Actor:
             game.inventory_slots.append(item_to_drop.inventory_slot)
             game.inventory_slots.sort()
             item_to_drop.inventory_slot = None
-            game.state = 'choosing action'
+            game.previous_state = game.current_state
+            game.current_state = 'choosing action'
+
+    def apply(self, game, item_to_apply, direction_to_apply):
+        for actor in game.current_level.actors:
+            if actor.position == (self.position[0] + direction_to_apply[0], self.position[1] + direction_to_apply[1]):
+                if item_to_apply.name == 'GenoScribe':
+                    if actor.genome:
+                        for gene in actor.genome:
+                            print(gene)
 
