@@ -1,13 +1,16 @@
 import random
 import pygame
 
-import Item
 import constants
+
 import Tile
 import Actor
+import Item
+
+import tile_templates
 import actor_templates
 import item_templates
-import tile_templates
+import gene_templates
 
 
 class Level:
@@ -82,6 +85,11 @@ class Level:
                                         None,
                                         template['can_pickup'])
                 self.actors.append(new_actor)
+
+    def give_gene(self, actor, gene_to_give):
+        for template in gene_templates.gene_templates:
+            if template['name'] == gene_to_give:
+                actor.genome.append(gene_to_give)
 
     def spawn_terrain(self, terrain_name, limit):
         terrain_count = 0
