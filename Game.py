@@ -11,11 +11,12 @@ class Game:
                        (pygame.K_u, 'u'), (pygame.K_v, 'v'), (pygame.K_w, 'w'), (pygame.K_x, 'x'), (pygame.K_y, 'y'),
                        (pygame.K_z, 'z')]
 
-    def __init__(self, levels, current_level, state):
+    def __init__(self, levels, current_level, previous_state, current_state):
         self.levels = levels
         self.current_level = current_level
         self.inventory_slots = Game.inventory_slots
-        self.state = state
+        self.previous_state = previous_state
+        self.current_state = current_state
 
     def generate_new_level(self):
         new_level = Level.Level([], [], [])
