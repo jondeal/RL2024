@@ -1,4 +1,5 @@
 import pygame
+
 import constants
 
 prompt_to_render = None
@@ -29,9 +30,69 @@ def render_ui(player):
                                                                       rotation=0)
     inventory_surface_rect.topleft = glo_surface_rect.bottomleft
 
+    genoscribe_window_top_surface, genoscribe_window_top_surface_rect = constants.FONT.render('╭──╮           ╭──╮',
+                                                                                              [255, 255, 255, 255],
+                                                                                              None,
+                                                                                              size=constants.FONT_SIZE,
+                                                                                              rotation=0)
+
+    genoscribe_window_top_surface_rect = pygame.Rect(constants.UI_RECT.left, constants.UI_RECT.bottom - constants.TILE_HEIGHT * 8,
+                                                     constants.TILE_WIDTH * 19, constants.TILE_HEIGHT)
+
+    genoscribe_window_middle_1_surface, genoscribe_window_middle_1_surface_rect = constants.FONT.render('├──┴─────┬─────┴──┤',
+                                                                                                         [255, 255, 255, 255],
+                                                                                                         None,
+                                                                                                         size=constants.FONT_SIZE,
+                                                                                                         rotation=0)
+
+    genoscribe_window_middle_1_surface_rect = pygame.Rect(constants.UI_RECT.left, genoscribe_window_top_surface_rect.bottom - 10,
+                                                          constants.TILE_WIDTH * 19, constants.TILE_HEIGHT)
+
+    genoscribe_window_middle_2_surface, genoscribe_window_middle_2_surface_rect = constants.FONT.render('│        │        │',
+                                                                                                        [255, 255, 255, 255],
+                                                                                                        None,
+                                                                                                        size=constants.FONT_SIZE,
+                                                                                                        rotation=0)
+
+    genoscribe_window_middle_2_surface_rect = pygame.Rect(constants.UI_RECT.left, genoscribe_window_middle_1_surface_rect.bottom,
+                                                          constants.TILE_WIDTH * 19, constants.TILE_HEIGHT)
+
+    genoscribe_window_middle_3_surface, genoscribe_window_middle_3_surface_rect = constants.FONT.render('│        │        │',
+                                                                                                        [255, 255, 255, 255],
+                                                                                                        None,
+                                                                                                        size=constants.FONT_SIZE,
+                                                                                                        rotation=0)
+
+    genoscribe_window_middle_3_surface_rect = pygame.Rect(constants.UI_RECT.left, genoscribe_window_middle_2_surface_rect.bottom,
+                                                          constants.TILE_WIDTH * 19, constants.TILE_HEIGHT)
+
+    genoscribe_window_middle_4_surface, genoscribe_window_middle_4_surface_rect = constants.FONT.render('│        │        │',
+                                                                                                        [255, 255, 255, 255],
+                                                                                                        None,
+                                                                                                        size=constants.FONT_SIZE,
+                                                                                                        rotation=0)
+
+    genoscribe_window_middle_4_surface_rect = pygame.Rect(constants.UI_RECT.left,
+                                                          genoscribe_window_middle_3_surface_rect.bottom,
+                                                          constants.TILE_WIDTH * 19, constants.TILE_HEIGHT)
+
+    genoscribe_window_bottom_surface, genoscribe_window_bottom_surface_rect = constants.FONT.render('╰────────┴────────╯',
+                                                                                                    [255, 255, 255, 255],
+                                                                                                    None,
+                                                                                                    size=constants.FONT_SIZE,
+                                                                                                    rotation=0)
+
+    genoscribe_window_bottom_surface_rect = (constants.UI_RECT.left, genoscribe_window_middle_4_surface_rect.bottom)
+
     ui_elements_to_render = [(glo_surface, glo_surface_rect),
                              (glo_count_surface, glo_count_surface_rect),
-                             (inventory_surface, inventory_surface_rect)]
+                             (inventory_surface, inventory_surface_rect),
+                             (genoscribe_window_top_surface, genoscribe_window_top_surface_rect),
+                             (genoscribe_window_middle_1_surface, genoscribe_window_middle_1_surface_rect),
+                             (genoscribe_window_middle_2_surface, genoscribe_window_middle_2_surface_rect),
+                             (genoscribe_window_middle_3_surface, genoscribe_window_middle_3_surface_rect),
+                             (genoscribe_window_middle_4_surface, genoscribe_window_middle_4_surface_rect),
+                             (genoscribe_window_bottom_surface, genoscribe_window_bottom_surface_rect)]
 
     if player.inventory:
         for item in player.inventory:
