@@ -6,6 +6,7 @@ import constants
 import Tile
 import Actor
 import Item
+import Gene
 
 import tile_templates
 import actor_templates
@@ -89,7 +90,9 @@ class Level:
     def give_gene(self, actor, gene_to_give):
         for template in gene_templates.gene_templates:
             if template['name'] == gene_to_give:
-                actor.genome.append(gene_to_give)
+                new_gene = Gene.Gene(template['name'],
+                                     template['ability'])
+                actor.genome.append(new_gene)
 
     def spawn_terrain(self, terrain_name, limit):
         terrain_count = 0
