@@ -30,6 +30,7 @@ TILE_WIDTH = TILE_HEIGHT
 LEVEL_RECT = pygame.Rect(0, 0, X_RANGE * TILE_WIDTH, Y_RANGE * TILE_HEIGHT)
 UI_RECT = pygame.Rect(screen_info.current_h, 0, screen_info.current_w - screen_info.current_h, screen_info.current_h)
 PROMPT_RECT = pygame.Rect(0, LEVEL_RECT.height, LEVEL_RECT.width, screen_info.current_h - LEVEL_RECT.height)
+GENOSCRIBE_WINDOW_RECT = pygame.Rect(UI_RECT.left, UI_RECT.bottom - TILE_HEIGHT * 8, TILE_WIDTH * 11, TILE_HEIGHT * 6 - 10)
 
 FONT_SIZE = TILE_WIDTH
 # FONT = pygame.freetype.SysFont('juliamono', FONT_SIZE)
