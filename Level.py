@@ -113,5 +113,6 @@ class Level:
                                      template['glyph'], template['glyph_color'],
                                      constants.FONT_SIZE, template['glyph_size_modifier'], template['glyph_rotation'],
                                      (0, 0), 0, template['mass'],
-                                     None, template['inventory'])
+                                     template['inventory'],
+                                     False)
                 self.items.append(new_item)
