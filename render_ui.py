@@ -164,10 +164,14 @@ def render_ui(player):
 
     if player.inventory:
         for item in player.inventory:
+            if item.is_selected:
+                bg_color = [100, 100, 100, 255]
+            else:
+                bg_color = None
             inventory_item_glyph_surface, inventory_item_glyph_rect = constants.FONT.render(
-                item.inventory_slot[1] + ': ' + item.glyph + ' ' + item.name,
+                item.glyph + ' ' + item.name,
                 [255, 255, 0, 255],
-                None,
+                bg_color,
                 size=constants.FONT_SIZE * 0.75,
                 rotation=0)
             inventory_item_glyph_rect = (inventory_surface_rect.left,
