@@ -1,3 +1,6 @@
+import render_ui
+
+
 class Actor:
     def __init__(self, name, position, rect,
                  glyph, glyph_color, glyph_size, glyph_size_modifier, glyph_rotation,
@@ -60,6 +63,6 @@ class Actor:
             if actor.position == (self.position[0] + direction_to_apply[0], self.position[1] + direction_to_apply[1]):
                 if item_to_apply.name == 'GenoScribe':
                     if actor.genome:
-                        for gene in actor.genome:
-                            print(gene)
+                        render_ui.prompt_to_render = None
+                        render_ui.genome_to_render = (actor, actor.genome)
 
