@@ -39,9 +39,6 @@ class Actor:
         for item in current_level.items:
             if item.position == self.position:
                 if item.name != 'GenoQuery':
-                    if self.name == 'player':
-                        item.inventory_slot = game.inventory_slots[0]
-                        game.inventory_slots.remove(item.inventory_slot)
                     self.inventory.append(item)
                     item.position = None
                     current_level.items.remove(item)
@@ -52,9 +49,6 @@ class Actor:
         self.inventory.remove(item_to_drop)
         current_level.items.append(item_to_drop)
         if self.name == 'player':
-            game.inventory_slots.append(item_to_drop.inventory_slot)
-            game.inventory_slots.sort()
-            item_to_drop.inventory_slot = None
             game.previous_state = game.current_state
             game.current_state = 'choosing action'
 
