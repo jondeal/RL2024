@@ -3,6 +3,7 @@ import pygame
 import constants
 
 prompt_to_render = None
+genome_to_render = None
 
 
 def render_ui(player):
@@ -124,3 +125,42 @@ def render_ui(player):
 
     for ui_element in ui_elements_to_render:
         constants.screen.blit(ui_element[0], ui_element[1])
+
+    if genome_to_render is not None:
+        render_genes(genome_to_render[0], genome_to_render[1])
+
+
+def render_genes(actor, actor_genome):
+    genoscribe_glyph_surface, genoscribe_glyph_rect = constants.FONT.render('⚨',
+                                                                            [255, 255, 0, 255],
+                                                                            None,
+                                                                            size=constants.FONT_SIZE * 2,
+                                                                            rotation=0)
+    genoscribe_glyph_rect.center = (constants.GENOSCRIBE_WINDOW_RECT.left + constants.GENOSCRIBE_WINDOW_RECT.width // 19 +
+                                    genoscribe_glyph_rect.width // 2,
+                                    constants.GENOSCRIBE_WINDOW_RECT.top + constants.GENOSCRIBE_WINDOW_RECT.height // 6 - 5)
+
+    constants.screen.blit(genoscribe_glyph_surface, genoscribe_glyph_rect)
+
+    genome_actor_surface, genome_actor_surface_rect = constants.FONT.render(actor.glyph,
+                                                                            actor.glyph_color,
+                                                                            None,
+                                                                            size=constants.FONT_SIZE * 2,
+                                                                            rotation=0)
+
+    genome_actor_surface_rect.center = (constants.GENOSCRIBE_WINDOW_RECT.right - constants.GENOSCRIBE_WINDOW_RECT.width // 19 -
+                                        genome_actor_surface_rect.width // 2.5,
+                                        constants.GENOSCRIBE_WINDOW_RECT.top + constants.GENOSCRIBE_WINDOW_RECT.height // 6 - 5)
+
+    constants.screen.blit(genome_actor_surface, genome_actor_surface_rect)
+    for gene in actor_genome:
+        gene_surface, gene_rect = constants.FONT.render('§' + gene.name,
+                                                        [255, 255, 255, 255],
+                                                        None,
+                                                        size=constants.FONT_SIZE * 0.6,
+                                                        rotation=0)
+
+        gene_rect = (constants.GENOSCRIBE_WINDOW_RECT.centerx,
+                     constants.GENOSCRIBE_WINDOW_RECT.top + actor_genome.index(gene) * constants.TILE_HEIGHT + constants.TILE_HEIGHT * 2)
+
+        constants.screen.blit(gene_surface, gene_rect)
