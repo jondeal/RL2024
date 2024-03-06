@@ -22,7 +22,7 @@ game.current_level.spawn_actor('small moebus', game.current_level.get_random_ope
 # game.current_level.spawn_actor('massive moebus', game.current_level.get_random_open_tile())
 
 game.current_level.spawn_item('GenoScribe', game.current_level.get_random_open_tile())
-# game.current_level.spawn_item('YeetStick', game.current_level.get_random_open_tile())
+game.current_level.spawn_item('YeetStick', game.current_level.get_random_open_tile())
 # game.current_level.spawn_item('GenoQuery', game.current_level.get_random_open_tile())
 
 game.current_level.give_gene(game.current_level.actors[1], 'mobility')
@@ -54,7 +54,8 @@ while running:
                 if event.key == controls.keybinds['drop']:
                     if player.inventory:
                         render_ui.prompt_to_render = Message.Message(constants.PROMPT_RECT,
-                                                                     'Drop what?', [255, 255, 255, 255])
+                                                                     'Select item to drop.', [255, 255, 255, 255])
+                        player.inventory[0].is_selected = True
                         game.previous_state = game.current_state
                         game.current_state = 'dropping item'
                     else:
@@ -70,10 +71,32 @@ while running:
                         render_ui.prompt_to_render = Message.Message(constants.PROMPT_RECT,
                                                                      'You have nothing to apply.', [255, 255, 255, 255])
             elif game.current_state == 'dropping item':
+                direction_keys_list = list(controls.direction_keys.keys())
+                selected_item_index = 0
                 for item in player.inventory:
-                    if event.key == item.inventory_slot[0]:
-                        player.drop(game, game.current_level, item)
-                        render_ui.prompt_to_render = None
+                    if item.is_selected is True:
+                        selected_item_index = player.inventory.index(item)
+                if event.key == direction_keys_list[1]:  # up
+                    if selected_item_index == 0:
+                        selected_item_index = player.inventory.index(player.inventory[-1])
+                    else:
+                        selected_item_index -= 1
+                elif event.key == direction_keys_list[7]:  # down
+                    if selected_item_index == player.inventory.index(player.inventory[-1]):
+                        selected_item_index = player.inventory.index(player.inventory[0])
+                    else:
+                        selected_item_index += 1
+                elif event.key == controls.keybinds['confirm']:
+                    for item in player.inventory:
+                        item.is_selected = False
+                    player.drop(game, game.current_level, player.inventory[selected_item_index])
+                    selected_item_index = None
+                    render_ui.prompt_to_render = None
+                for item in player.inventory:
+                    if player.inventory.index(item) == selected_item_index:
+                        item.is_selected = True
+                    else:
+                        item.is_selected = False
             elif game.current_state == 'applying item':
                 for item in player.inventory:
                     if event.key == item.inventory_slot[0]:
