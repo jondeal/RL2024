@@ -231,7 +231,8 @@ def render_genes(actor, actor_genome):
                                                         size=constants.FONT_SIZE * 0.6,
                                                         rotation=0)
 
-        gene_rect = (constants.GENOSCRIBE_WINDOW_RECT.centerx,
-                     constants.GENOSCRIBE_WINDOW_RECT.top + actor_genome.index(gene) * constants.TILE_HEIGHT + constants.TILE_HEIGHT * 2)
+        gene_rect = (constants.GENOSCRIBE_WINDOW_RECT.centerx + constants.FONT_SIZE * 0.6 // 4,
+                     constants.GENOSCRIBE_WINDOW_RECT.top +
+                     actor_genome.index(gene) * constants.TILE_HEIGHT + constants.TILE_HEIGHT * 2)
 
         constants.screen.blit(gene_surface, gene_rect)
