@@ -2,7 +2,8 @@ class Item:
     def __init__(self, name, position, rect,
                  glyph, glyph_color, glyph_size, glyph_size_modifier, glyph_rotation,
                  direction, speed, mass,
-                 inventory_slot, inventory):
+                 inventory,
+                 is_selected):
         self.name = name
         self.position = position
         self.rect = rect
@@ -14,5 +15,5 @@ class Item:
         self.direction = direction
         self.speed = speed
         self.mass = mass
-        self.inventory_slot = inventory_slot
         self.inventory = inventory
+        self.is_selected = is_selected
