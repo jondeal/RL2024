@@ -1,11 +1,14 @@
 import pygame
 import bools
 
-keybinds = {'quit': pygame.K_q,
-            'mod key': pygame.KMOD_LSHIFT,
-            'pickup': pygame.K_g,
-            'drop': pygame.K_d,
-            'apply': pygame.K_a}
+keybinds = {
+    'apply': pygame.K_a,
+    'confirm': pygame.K_SPACE,
+    'drop': pygame.K_d,
+    'mod key': pygame.KMOD_LSHIFT,
+    'pickup': pygame.K_g,
+    'quit': pygame.K_q
+}
 
 if bools.has_keypad:
     direction_keys = {
