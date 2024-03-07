@@ -91,7 +91,8 @@ class Level:
         for template in gene_templates.gene_templates:
             if template['name'] == gene_to_give:
                 new_gene = Gene.Gene(template['name'],
-                                     template['ability'])
+                                     template['ability'],
+                                     False)
                 actor.genome.append(new_gene)
 
     def spawn_terrain(self, terrain_name, limit):
