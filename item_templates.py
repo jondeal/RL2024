@@ -10,7 +10,7 @@ item_templates = [
      'inventory': []
      },
     {'name': 'YeetStick',
-     'glyph': 'î',
+     'glyph': '⇞',
      'glyph_color': [255, 255, 0, 255],
      'glyph_size_modifier': 1,
      'glyph_rotation': random.randrange(8) * 45,
