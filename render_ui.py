@@ -229,14 +229,14 @@ def render_genes(actor, actor_genome):
     constants.screen.blit(genome_actor_surface, genome_actor_surface_rect)
 
     for gene in actor_genome:
-        gene_surface, gene_rect = constants.FONT.render('§' + gene.name,
+        gene_surface, gene_rect = constants.FONT.render('§ ' + gene.name,
                                                         [255, 255, 255, 255],
                                                         None,
-                                                        size=constants.FONT_SIZE * 0.6,
+                                                        size=constants.FONT_SIZE * 0.5,
                                                         rotation=0)
 
-        gene_rect = (constants.GENOSCRIBE_WINDOW_RECT.centerx + constants.FONT_SIZE * 0.6 // 4,
+        gene_rect = (constants.GENOSCRIBE_WINDOW_RECT.centerx + constants.FONT_SIZE * 0.5,
                      constants.GENOSCRIBE_WINDOW_RECT.top +
-                     actor_genome.index(gene) * constants.TILE_HEIGHT + constants.TILE_HEIGHT * 2)
+                     actor_genome.index(gene) * constants.TILE_HEIGHT // 2 + constants.TILE_HEIGHT * 2)
 
         constants.screen.blit(gene_surface, gene_rect)
