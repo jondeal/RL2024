@@ -59,4 +59,6 @@ class Actor:
                     if actor.genome:
                         render_ui.prompt_to_render = None
                         render_ui.genome_to_render = (actor, actor.genome)
+                game.previous_state = game.current_state
+                game.current_state = 'using GenoScribe'
 
