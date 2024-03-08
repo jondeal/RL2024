@@ -3,11 +3,10 @@ import Level
 
 class Game:
 
-    def __init__(self, levels, current_level, previous_state, current_state):
+    def __init__(self, levels, current_level, state_manager):
         self.levels = levels
         self.current_level = current_level
-        self.previous_state = previous_state
-        self.current_state = current_state
+        self.state_manager = state_manager
 
     def generate_new_level(self):
         new_level = Level.Level([], [], [])
