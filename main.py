@@ -1,15 +1,14 @@
 import pygame
 import Game
-import constants
 import controls
 import render_level
 import render_ui
 import physics
-import Message
+from StateManager import StateManager
 
 pygame.init()
 
-game = Game.Game([], None, None, 'choosing action')
+game = Game.Game([], None, None)
 
 game.generate_new_level()
 
@@ -30,6 +29,10 @@ game.current_level.give_gene(game.current_level.actors[1], 'photosynthesis')
 
 player = game.current_level.actors[0]
 
+state_manager = StateManager(game, player)
+
+game.state_manager = state_manager
+
 
 running = True
 clock = pygame.time.Clock()
@@ -37,111 +40,12 @@ FPS = 10
 
 while running:
     clock.tick(FPS)
-    for event in pygame.event.get():
+    events = pygame.event.get()
+    for event in events:
         if event.type == pygame.KEYUP:
             if event.key == controls.keybinds['quit'] and event.mod == controls.keybinds['mod key']:
                 running = False
-            if game.current_state == 'choosing action':
-                if event.key in controls.direction_keys:
-                    render_ui.prompt_to_render = None
-                    player.direction = controls.direction_keys[event.key][1]
-                    player.move()
-                    if event.mod == controls.keybinds['mod key']:
-                        player.shove()
-                if event.key == controls.keybinds['pickup']:
-                    render_ui.prompt_to_render = None
-                    player.pickup(game, game.current_level)
-                if event.key == controls.keybinds['drop']:
-                    if player.inventory:
-                        render_ui.prompt_to_render = Message.Message(constants.PROMPT_RECT,
-                                                                     'Select an item to drop.', [255, 255, 255, 255])
-                        player.inventory[0].is_selected = True
-                        game.previous_state = game.current_state
-                        game.current_state = 'dropping item'
-                    else:
-                        render_ui.prompt_to_render = Message.Message(constants.PROMPT_RECT,
-                                                                     'You have nothing to drop.', [255, 255, 255, 255])
-                if event.key == controls.keybinds['apply']:
-                    if player.inventory:
-                        render_ui.prompt_to_render = Message.Message(constants.PROMPT_RECT,
-                                                                     'Select an item to apply.', [255, 255, 255, 255])
-                        player.inventory[0].is_selected = True
-                        game.previous_state = game.current_state
-                        game.current_state = 'applying item'
-                    else:
-                        render_ui.prompt_to_render = Message.Message(constants.PROMPT_RECT,
-                                                                     'You have nothing to apply.', [255, 255, 255, 255])
-            elif game.current_state == 'dropping item':
-                direction_keys_list = list(controls.direction_keys.keys())
-                selected_item_index = 0
-                for item in player.inventory:
-                    if item.is_selected is True:
-                        selected_item_index = player.inventory.index(item)
-                if event.key == direction_keys_list[1]:  # up
-                    if selected_item_index == 0:
-                        selected_item_index = player.inventory.index(player.inventory[-1])
-                    else:
-                        selected_item_index -= 1
-                elif event.key == direction_keys_list[7]:  # down
-                    if selected_item_index == player.inventory.index(player.inventory[-1]):
-                        selected_item_index = player.inventory.index(player.inventory[0])
-                    else:
-                        selected_item_index += 1
-                elif event.key == controls.keybinds['confirm']:
-                    for item in player.inventory:
-                        item.is_selected = False
-                    player.drop(game, game.current_level, player.inventory[selected_item_index])
-                    selected_item_index = None
-                    render_ui.prompt_to_render = None
-                for item in player.inventory:
-                    if player.inventory.index(item) == selected_item_index:
-                        item.is_selected = True
-                    else:
-                        item.is_selected = False
-            elif game.current_state == 'applying item':
-                direction_keys_list = list(controls.direction_keys.keys())
-                selected_item_index = 0
-                for item in player.inventory:
-                    if item.is_selected is True:
-                        selected_item_index = player.inventory.index(item)
-                if event.key == direction_keys_list[1]:  # up
-                    if selected_item_index == 0:
-                        selected_item_index = player.inventory.index(player.inventory[-1])
-                    else:
-                        selected_item_index -= 1
-                elif event.key == direction_keys_list[7]:  # down
-                    if selected_item_index == player.inventory.index(player.inventory[-1]):
-                        selected_item_index = player.inventory.index(player.inventory[0])
-                    else:
-                        selected_item_index += 1
-                elif event.key == controls.keybinds['confirm']:
-                    for item in player.inventory:
-                        if item.is_selected:
-                            player.action_item = item
-                        item.is_selected = False
-                    selected_item_index = None
-                    render_ui.prompt_to_render = Message.Message(constants.PROMPT_RECT,
-                                                                 'Apply the ' + player.action_item.glyph +
-                                                                 player.action_item.name +
-                                                                 ' in which direction?',
-                                                                 [255, 255, 255, 255])
-                    game.previous_state = game.current_state
-                    game.current_state = 'choosing direction'
-                for item in player.inventory:
-                    if player.inventory.index(item) == selected_item_index:
-                        item.is_selected = True
-                    else:
-                        item.is_selected = False
-            elif game.current_state == 'choosing direction':
-                if event.key in controls.direction_keys:
-                    player.direction = controls.direction_keys[event.key][1]
-                    if game.previous_state == 'applying item':
-                        player.apply(game, player.action_item, player.direction)
-            elif game.current_state == 'using GenoScribe':
-                render_ui.prompt_to_render = Message.Message(constants.PROMPT_RECT,
-                                                             'Select a gene to transfer.',
-                                                             [255, 255, 255, 255])
-
+    state_manager.update(events)
     physics.resolve_physics(game.current_level)
     render_ui.render_ui(player)
     render_level.render_level(game.current_level)
