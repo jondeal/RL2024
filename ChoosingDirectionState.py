@@ -3,7 +3,6 @@ import controls
 import constants
 import render_ui
 import Message
-import ApplyingItemState
 from State import State
 
 
@@ -12,7 +11,9 @@ class ChoosingDirectionState(State):
         super().__init__(game, player)
 
     def enter(self):
-        if self.game.state_manager.previous_state == ApplyingItemState:
+        from ApplyingItemState import ApplyingItemState
+
+        if isinstance(self.game.state_manager.previous_state, ApplyingItemState):
             render_ui.prompt_to_render = Message.Message(constants.PROMPT_RECT,
                                                          'Apply the ' + self.player.action_item.glyph +
                                                          self.player.action_item.name +
@@ -23,9 +24,10 @@ class ChoosingDirectionState(State):
         pass
 
     def update(self, events):
+        from ApplyingItemState import ApplyingItemState
         for event in events:
             if event.type == pygame.KEYUP:
                 if event.key in controls.direction_keys:
                     self.player.direction = controls.direction_keys[event.key][1]
-                    if self.game.state_manager.previous_state == ApplyingItemState:
+                    if isinstance(self.game.state_manager.previous_state, ApplyingItemState):
                         self.player.apply(self.game, self.player.action_item, self.player.direction)
