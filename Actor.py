@@ -1,4 +1,6 @@
 import render_ui
+from ChoosingActionState import ChoosingActionState
+from UsingGenoScribeState import UsingGenoScribeState
 
 
 class Actor:
@@ -49,16 +51,13 @@ class Actor:
         self.inventory.remove(item_to_drop)
         current_level.items.append(item_to_drop)
         if self.name == 'player':
-            game.previous_state = game.current_state
-            game.current_state = 'choosing action'
+            game.state_manager.change_state(ChoosingActionState(game, self))
 
     def apply(self, game, item_to_apply, direction_to_apply):
         for actor in game.current_level.actors:
             if actor.position == (self.position[0] + direction_to_apply[0], self.position[1] + direction_to_apply[1]):
                 if item_to_apply.name == 'GenoScribe':
                     if actor.genome:
-                        render_ui.prompt_to_render = None
                         render_ui.genome_to_render = (actor, actor.genome)
-                game.previous_state = game.current_state
-                game.current_state = 'using GenoScribe'
+                    game.state_manager.change_state(UsingGenoScribeState(game, self))
 
