@@ -4,6 +4,7 @@ import Message
 import constants
 import controls
 from State import State
+from ChoosingDirectionState import ChoosingDirectionState
 
 
 class ApplyingItemState(State):
@@ -43,9 +44,13 @@ class ApplyingItemState(State):
                         selected_item_index += 1
                 elif event.key == controls.keybinds['confirm']:
                     for item in self.player.inventory:
+                        if self.player.inventory.index(item) == selected_item_index:
+                            self.player.action_item = item
+                    for item in self.player.inventory:
                         item.is_selected = False
                     selected_item_index = None
                     render_ui.prompt_to_render = None
+                    self.game.state_manager.change_state(ChoosingDirectionState(self.game, self.player))
                 for item in self.player.inventory:
                     if self.player.inventory.index(item) == selected_item_index:
                         item.is_selected = True
