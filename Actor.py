@@ -10,8 +10,7 @@ class Actor:
                  glo_count,
                  inventory,
                  genome,
-                 action_item,
-                 can_pickup):
+                 action, action_item):
         self.name = name
         self.position = position
         self.rect = rect
@@ -26,8 +25,8 @@ class Actor:
         self.glo_count = glo_count
         self.inventory = inventory
         self.genome = genome
-        self.action = action_item
-        self.can_pickup = can_pickup
+        self.action = action
+        self.action_item = action_item
 
     def move(self):
         self.speed = 1
@@ -57,7 +56,6 @@ class Actor:
         for actor in game.current_level.actors:
             if actor.position == (self.position[0] + direction_to_apply[0], self.position[1] + direction_to_apply[1]):
                 if item_to_apply.name == 'GenoScribe':
-                    if actor.genome:
-                        render_ui.genome_to_render = (actor, actor.genome)
-                    game.state_manager.change_state(UsingGenoScribeState(game, self))
+                    self.action_item = item_to_apply
+                    game.state_manager.change_state(UsingGenoScribeState(game, self, actor))
 
