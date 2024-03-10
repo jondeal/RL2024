@@ -3,3 +3,6 @@ class Gene:
         self.name = name
         self.ability = ability
         self.is_selected = is_selected
+
+    def __lt__(self, other):
+        return self.name < other.name
