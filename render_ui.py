@@ -244,7 +244,7 @@ def render_genes(actor, actor_genome, player):
 
         constants.screen.blit(gene_surface, gene_rect)
 
-    if player.action_item.name == 'GenoScribe':
+    if player.action_item and player.action_item.name == 'GenoScribe':
         if player.action_item.inventory:
             for gene in player.action_item.inventory:
                 if gene.is_selected is True:
