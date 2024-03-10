@@ -1,5 +1,4 @@
 import pygame
-
 import constants
 
 prompt_to_render = None
@@ -13,10 +12,10 @@ def render_ui(player):
     constants.screen.fill(constants.SCREEN_COLOR)
 
     glo_surface, glo_surface_rect = constants.FONT.render('﹝GLO﹞',
-                                                  [255, 255, 255, 255],
-                                                  None,
-                                                  size=constants.FONT_SIZE,
-                                                  rotation=0)
+                                                          [255, 255, 255, 255],
+                                                          None,
+                                                          size=constants.FONT_SIZE,
+                                                          rotation=0)
     glo_surface_rect.topleft = constants.UI_RECT.topleft
 
     glo_count_surface, glo_count_surface_rect = constants.FONT.render('✻' + str(player.glo_count),
@@ -198,10 +197,10 @@ def render_ui(player):
         constants.screen.blit(ui_element[0], ui_element[1])
 
     if genome_to_render is not None:
-        render_genes(genome_to_render[0], genome_to_render[1])
+        render_genes(genome_to_render[0], genome_to_render[1], player)
 
 
-def render_genes(actor, actor_genome):
+def render_genes(actor, actor_genome, player):
     genoscribe_glyph_surface, genoscribe_glyph_rect = constants.FONT.render('⚨',
                                                                             [255, 255, 0, 255],
                                                                             None,
@@ -229,9 +228,13 @@ def render_genes(actor, actor_genome):
     constants.screen.blit(genome_actor_surface, genome_actor_surface_rect)
 
     for gene in actor_genome:
+        if gene.is_selected is True:
+            bg_color = [100, 100, 100, 255]
+        else:
+            bg_color = None
         gene_surface, gene_rect = constants.FONT.render('§ ' + gene.name,
                                                         [255, 255, 255, 255],
-                                                        None,
+                                                        bg_color,
                                                         size=constants.FONT_SIZE * 0.5,
                                                         rotation=0)
 
@@ -240,3 +243,23 @@ def render_genes(actor, actor_genome):
                      actor_genome.index(gene) * constants.TILE_HEIGHT // 2 + constants.TILE_HEIGHT * 2)
 
         constants.screen.blit(gene_surface, gene_rect)
+
+    if player.action_item.name == 'GenoScribe':
+        if player.action_item.inventory:
+            for gene in player.action_item.inventory:
+                if gene.is_selected is True:
+                    bg_color = [100, 100, 100, 255]
+                else:
+                    bg_color = None
+                gene_surface, gene_rect = constants.FONT.render('§ ' + gene.name,
+                                                                [255, 255, 255, 255],
+                                                                bg_color,
+                                                                size=constants.FONT_SIZE * 0.5,
+                                                                rotation=0)
+
+                gene_rect = (constants.GENOSCRIBE_WINDOW_RECT.left + constants.FONT_SIZE * 0.5,
+                             constants.GENOSCRIBE_WINDOW_RECT.top +
+                             player.action_item.inventory.index(gene) * constants.TILE_HEIGHT // 2 +
+                             constants.TILE_HEIGHT * 2)
+
+                constants.screen.blit(gene_surface, gene_rect)
