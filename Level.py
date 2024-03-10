@@ -83,8 +83,8 @@ class Level:
                                         template['glo_count'],
                                         [],
                                         [],
-                                        None,
-                                        template['can_pickup'])
+                                        None, None)
+
                 self.actors.append(new_actor)
 
     def give_gene(self, actor, gene_to_give):
