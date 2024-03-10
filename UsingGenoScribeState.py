@@ -4,6 +4,7 @@ import Message
 import constants
 import controls
 from State import State
+from ChoosingActionState import ChoosingActionState
 
 
 class UsingGenoScribeState(State):
@@ -12,15 +13,25 @@ class UsingGenoScribeState(State):
         self.actor = actor
 
     def enter(self):
-        if self.actor.genome:
-            self.actor.genome[0].is_selected = True
+        if self.actor.genome or self.player.action_item.inventory:
             render_ui.genome_to_render = (self.actor, self.actor.genome)
             render_ui.prompt_to_render = Message.Message(constants.PROMPT_RECT,
                                                          'Select a gene to transfer.',
                                                          [255, 255, 255, 255])
+            if self.actor.genome:
+                self.actor.genome[0].is_selected = True
+            else:
+                self.player.action_item.inventory[0].is_selected = True
 
     def exit(self):
+        all_genes = self.actor.genome + self.player.action_item.inventory
+        for gene in all_genes:
+            gene.is_selected = False
+        self.actor.genome.sort()
+        self.player.action_item.inventory.sort()
         self.player.action_item = None
+        render_ui.genome_to_render = None
+        render_ui.prompt_to_render = None
 
     def update(self, events):
         for event in events:
@@ -37,6 +48,8 @@ class UsingGenoScribeState(State):
                         elif gene in self.player.action_item.inventory:
                             active_list = self.player.action_item.inventory
                             selected_gene_index = self.player.action_item.inventory.index(gene)
+                    else:
+                        pass
                 if event.key == direction_keys_list[1]:  # up
                     if len(active_list) > 1:
                         if selected_gene_index == 0:
@@ -84,11 +97,15 @@ class UsingGenoScribeState(State):
                                 self.actor.genome.append(gene)
                                 self.player.action_item.inventory.remove(gene)
                                 selected_gene_index = active_list.index(gene)
+                elif event.key == controls.keybinds['escape']:
+                    active_list = None
+                    self.game.state_manager.change_state(ChoosingActionState(self.game, self.player))
                 for gene in all_genes:
-                    if gene in active_list:
-                        if active_list.index(gene) == selected_gene_index:
-                            gene.is_selected = True
+                    if active_list is not None:
+                        if gene in active_list:
+                            if active_list.index(gene) == selected_gene_index:
+                                gene.is_selected = True
+                            else:
+                                gene.is_selected = False
                         else:
                             gene.is_selected = False
-                    else:
-                        gene.is_selected = False
