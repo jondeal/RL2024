@@ -31,3 +31,5 @@ class ChoosingDirectionState(State):
                     self.player.direction = controls.direction_keys[event.key][1]
                     if isinstance(self.game.state_manager.previous_state, ApplyingItemState):
                         self.player.apply(self.game, self.player.action_item, self.player.direction)
+                elif event.key == controls.keybinds['escape']:
+                    self.game.state_manager.change_state(self.game.state_manager.previous_state)
