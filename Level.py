@@ -79,6 +79,7 @@ class Level:
                                         destination.position, destination.rect,
                                         template['glyph'], template['glyph_color'],
                                         constants.FONT_SIZE, template['glyph_size_modifier'], 0,
+                                        template['dormant_glyph'], template['dormant_glyph_color'], False,
                                         (0, 0), 0, template['mass'],
                                         template['glo_count'],
                                         [],
