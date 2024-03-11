@@ -39,7 +39,7 @@ class Actor:
         self.speed = 1
         self.action = 'shove'
 
-    def pickup(self, game, current_level):
+    def pickup(self, current_level):
         for item in current_level.items:
             if item.position == self.position:
                 if item.name != 'GenoQuery':
