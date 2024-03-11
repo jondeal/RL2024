@@ -21,7 +21,7 @@ class DroppingItemState(State):
             self.game.state_manager.change_state(self.game.state_manager.previous_state)
 
     def exit(self):
-        pass
+        render_ui.prompt_to_render = None
 
     def update(self, events):
         for event in events:
@@ -47,8 +47,13 @@ class DroppingItemState(State):
                     self.player.drop(self.game, self.game.current_level, self.player.inventory[selected_item_index])
                     selected_item_index = None
                     render_ui.prompt_to_render = None
+                elif event.key == controls.keybinds['escape']:
+                    selected_item_index = None
+                    self.game.state_manager.change_state(self.game.state_manager.previous_state)
                 for item in self.player.inventory:
                     if self.player.inventory.index(item) == selected_item_index:
                         item.is_selected = True
                     else:
                         item.is_selected = False
+
+
