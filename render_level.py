@@ -25,8 +25,16 @@ def render_level(level):
                 size = entity.glyph_size
             else:
                 size = constants.FONT_SIZE * entity.glyph_size_modifier
+            glyph = None
+            glyph_color = None
+            if entity in level.actors and entity.is_dormant:
+                glyph = entity.dormant_glyph
+                glyph_color = entity.dormant_glyph_color
+            else:
+                glyph = entity.glyph
+                glyph_color = entity.glyph_color
 
-            glyph_image, glyph_rect = constants.FONT.render(entity.glyph, entity.glyph_color, None, size=size,
+            glyph_image, glyph_rect = constants.FONT.render(glyph, glyph_color, None, size=size,
                                                             rotation=entity.glyph_rotation)
 
             glyph_rect.center = entity.rect.center
