@@ -1,4 +1,3 @@
-import render_ui
 from ChoosingActionState import ChoosingActionState
 from UsingGenoScribeState import UsingGenoScribeState
 
@@ -6,6 +5,7 @@ from UsingGenoScribeState import UsingGenoScribeState
 class Actor:
     def __init__(self, name, position, rect,
                  glyph, glyph_color, glyph_size, glyph_size_modifier, glyph_rotation,
+                 dormant_glyph, dormant_glyph_color, is_dormant,
                  direction, speed, mass,
                  glo_count,
                  inventory,
@@ -19,6 +19,9 @@ class Actor:
         self.glyph_size = glyph_size
         self.glyph_size_modifier = glyph_size_modifier
         self.glyph_rotation = glyph_rotation
+        self.dormant_glyph = dormant_glyph
+        self.dormant_glyph_color = dormant_glyph_color
+        self.is_dormant = is_dormant
         self.direction = direction
         self.speed = speed
         self.mass = mass
