@@ -25,6 +25,7 @@ class ApplyingItemState(State):
         pass
 
     def update(self, events):
+        from ChoosingActionState import ChoosingActionState
         for event in events:
             if event.type == pygame.KEYUP:
                 direction_keys_list = list(controls.direction_keys.keys())
@@ -51,6 +52,10 @@ class ApplyingItemState(State):
                     selected_item_index = None
                     render_ui.prompt_to_render = None
                     self.game.state_manager.change_state(ChoosingDirectionState(self.game, self.player))
+                elif event.key == controls.keybinds['escape']:
+                    render_ui.prompt_to_render = None
+                    selected_item_index = None
+                    self.game.state_manager.change_state(ChoosingActionState(self.game, self.player))
                 for item in self.player.inventory:
                     if self.player.inventory.index(item) == selected_item_index:
                         item.is_selected = True
