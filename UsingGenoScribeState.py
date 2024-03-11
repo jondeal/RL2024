@@ -32,6 +32,10 @@ class UsingGenoScribeState(State):
         self.player.action_item = None
         render_ui.genome_to_render = None
         render_ui.prompt_to_render = None
+        if not self.actor.genome:
+            self.actor.is_dormant = True
+        else:
+            self.actor.is_dormant = False
 
     def update(self, events):
         for event in events:
