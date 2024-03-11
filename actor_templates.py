@@ -3,6 +3,8 @@ actor_templates = [
      'glyph': '@',
      'glyph_size_modifier': 1,
      'glyph_color': [255, 255, 255, 255],
+     'dormant_glyph': '@',
+     'dormant_glyph_color': [200, 200, 200, 255],
      'mass': 2,
      'glo_count': 10,
      'can_pickup': True
@@ -11,6 +13,8 @@ actor_templates = [
      'glyph': 'ꙩ',
      'glyph_size_modifier': 1,
      'glyph_color': [0, 255, 0, 255],
+     'dormant_glyph': 'ŏ',
+     'dormant_glyph_color': [200, 200, 200, 255],
      'mass': 1,
      'glo_count': 3,
      'can_pickup': False
@@ -19,6 +23,8 @@ actor_templates = [
      'glyph': 'Ꙩ',
      'glyph_size_modifier': 1.5,
      'glyph_color': [0, 255, 0, 255],
+     'dormant_glyph': 'Ŏ',
+     'dormant_glyph_color': [200, 200, 200, 255],
      'mass': 2,
      'glo_count': 6,
      'can_pickup': True
@@ -27,6 +33,8 @@ actor_templates = [
      'glyph': 'Ꙫ',
      'glyph_size_modifier': 1.5,
      'glyph_color': [0, 255, 0, 255],
+     'dormant_glyph': 'Ŏ',
+     'dormant_glyph_color': [200, 200, 200, 255],
      'mass': 3,
      'glo_count': 9,
      'can_pickup': True}
