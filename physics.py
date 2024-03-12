@@ -35,12 +35,12 @@ def resolve_physics(level):
 
         for tile in level.tiles:
             if tile.position == positions_to_check[0]:
-                if tile.is_blocked:
+                if tile.name == 'wall':
                     x_tile_blocked = True
                 else:
                     x_tile_blocked = False
             elif tile.position == positions_to_check[1]:
-                if tile.is_blocked:
+                if tile.name == 'wall':
                     y_tile_blocked = True
                 else:
                     y_tile_blocked = False
@@ -68,12 +68,12 @@ def resolve_physics(level):
             y_tile_blocked = None
             for tile in level.tiles:
                 if tile.position == positions_to_check[0]:
-                    if tile.is_blocked:
+                    if tile.name == 'wall':
                         x_tile_blocked = True
                     else:
                         x_tile_blocked = False
                 elif tile.position == positions_to_check[1]:
-                    if tile.is_blocked:
+                    if tile.name == 'wall':
                         y_tile_blocked = True
                     else:
                         y_tile_blocked = False
@@ -119,7 +119,7 @@ def resolve_physics(level):
                 return had_collision, initiating_entity, receiving_entity
         for tile in level.tiles:
             if tile.position == position_to_check:
-                if tile.is_blocked:
+                if tile.name == 'wall':
                     had_collision = True
                     receiving_entity = tile
                     return had_collision, initiating_entity, receiving_entity
