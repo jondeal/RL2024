@@ -11,6 +11,7 @@ class UsingGenoScribeState(State):
     def __init__(self, game, player, actor):
         super().__init__(game, player)
         self.actor = actor
+        self.initial_state = None
 
     def enter(self):
         if self.actor.genome or self.player.action_item.inventory:
@@ -23,15 +24,26 @@ class UsingGenoScribeState(State):
             else:
                 self.player.action_item.inventory[0].is_selected = True
 
+        self.initial_state = [self.player.action_item.inventory.copy(), self.actor.genome.copy()]
+
     def exit(self):
         all_genes = self.actor.genome + self.player.action_item.inventory
         for gene in all_genes:
             gene.is_selected = False
+
+        if [self.player.action_item.inventory.copy(), self.actor.genome.copy()] == self.initial_state:
+            pass
+        else:
+            self.player.turn_complete = True
+
         self.actor.genome.sort()
         self.player.action_item.inventory.sort()
+
         self.player.action_item = None
+
         render_ui.genome_to_render = None
         render_ui.prompt_to_render = None
+
         if not self.actor.genome:
             self.actor.is_dormant = True
         else:
@@ -95,10 +107,12 @@ class UsingGenoScribeState(State):
                                 active_list = self.player.action_item.inventory
                                 self.player.action_item.inventory.append(gene)
                                 self.actor.genome.remove(gene)
+                                self.actor.abilities.remove(gene.ability)
                                 selected_gene_index = active_list.index(gene)
                             elif gene in self.player.action_item.inventory:
                                 active_list = self.actor.genome
                                 self.actor.genome.append(gene)
+                                self.actor.abilities.append(gene.ability)
                                 self.player.action_item.inventory.remove(gene)
                                 selected_gene_index = active_list.index(gene)
                 elif event.key == controls.keybinds['escape']:
