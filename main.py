@@ -1,3 +1,5 @@
+import random
+
 import pygame
 import Game
 import controls
@@ -45,7 +47,20 @@ while running:
         if event.type == pygame.KEYUP:
             if event.key == controls.keybinds['quit'] and event.mod == controls.keybinds['mod key']:
                 running = False
-    state_manager.update(events)
+    if player.turn_complete is False:
+        for actor in game.current_level.actors[1:]:
+            actor.turn_complete = False
+        state_manager.update(events)
+    else:
+        for actor in game.current_level.actors[1:]:
+            if actor.turn_complete is False:
+                if 'can_move' in actor.abilities:
+                    direction_list = [direction[1] for direction in controls.direction_keys.values()]
+                    actor.direction = random.choice(direction_list)
+                    actor.move()
+                else:
+                    pass
+        player.turn_complete = False
     physics.resolve_physics(game.current_level)
     render_ui.render_ui(player)
     render_level.render_level(game.current_level)
