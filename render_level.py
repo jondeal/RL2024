@@ -7,7 +7,11 @@ bg_surface = pygame.Surface((constants.TILE_WIDTH, constants.TILE_HEIGHT))
 def render_level(level):
 
     for tile in level.tiles:
-        bg_surface.fill(tile.bg_color)
+        if tile.is_highlighted:
+            tile.current_bg_color = [100, 100, 0, 255]
+        else:
+            tile.current_bg_color = tile.default_bg_color
+        bg_surface.fill(tile.current_bg_color)
         constants.screen.blit(bg_surface, tile.rect)
         tile.glyph_color[3] = 255
         for actor in level.actors:
