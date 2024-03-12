@@ -26,7 +26,7 @@ class ChoosingActionState(State):
                     if event.mod == controls.keybinds['mod key']:
                         self.player.shove()
                 elif event.key == controls.keybinds['pickup']:
-                    self.player.pickup(self.game, self.game.current_level)
+                    self.player.pickup(self.game.current_level)
                 elif event.key == controls.keybinds['drop']:
                     self.game.state_manager.change_state(DroppingItemState(self.game, self.player))
                 elif event.key == controls.keybinds['apply']:
