@@ -68,6 +68,4 @@ class Actor:
             for actor in game.current_level.actors:
                 if actor.position == (self.position[0] + direction_to_apply[0],
                                       self.position[1] + direction_to_apply[1]):
-                    self.action_item = item_to_apply
                     game.state_manager.change_state(UsingGenoScribeState(game, self, actor))
-                    
