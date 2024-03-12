@@ -84,7 +84,9 @@ class Level:
                                         template['glo_count'],
                                         [],
                                         [],
-                                        None, None)
+                                        None, None,
+                                        [],
+                                        False)
 
                 self.actors.append(new_actor)
 
@@ -95,6 +97,7 @@ class Level:
                                      template['ability'],
                                      False)
                 actor.genome.append(new_gene)
+                actor.abilities.append(template['ability'])
 
     def spawn_terrain(self, terrain_name, limit):
         terrain_count = 0
