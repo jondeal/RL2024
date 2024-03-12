@@ -20,6 +20,24 @@ class Level:
         self.actors = actors
         self.items = items
 
+    def get_points(self, start_point, end_point):
+        points = []
+        if end_point is not None:
+            n = max(abs(end_point[0] - start_point[0]), abs(end_point[1] - start_point[1]))
+            step = 0
+            while step <= n:
+                if n == 0:
+                    t = 0
+                else:
+                    t = step / n
+
+                point = (round(start_point[0] + t * (end_point[0] - start_point[0])),
+                         round(start_point[1] + t * (end_point[1] - start_point[1])))
+                points.append(point)
+                step += 1
+
+        return points
+
     def get_random_open_tile(self):
         open_tiles = []
         for tile in self.tiles:
@@ -48,7 +66,7 @@ class Level:
 
                 new_tile = Tile.Tile('floor', (x, y), tile_rect,
                                      None, None, constants.FONT_SIZE, None, 0,
-                                     None, None)
+                                     None)
 
                 self.tiles.append(new_tile)
         # this makes border walls
