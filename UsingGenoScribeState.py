@@ -24,20 +24,23 @@ class UsingGenoScribeState(State):
             else:
                 self.player.action_item.inventory[0].is_selected = True
 
-        self.initial_state = [self.player.action_item.inventory.copy(), self.actor.genome.copy()]
+            self.initial_state = [sorted(self.player.action_item.inventory.copy()), sorted(self.actor.genome.copy())]
+
+        else:
+            self.game.state_manager.change_state(ChoosingActionState(self.game, self.player))
 
     def exit(self):
         all_genes = self.actor.genome + self.player.action_item.inventory
         for gene in all_genes:
             gene.is_selected = False
 
+        self.actor.genome.sort()
+        self.player.action_item.inventory.sort()
+
         if [self.player.action_item.inventory.copy(), self.actor.genome.copy()] == self.initial_state:
             pass
         else:
             self.player.turn_complete = True
-
-        self.actor.genome.sort()
-        self.player.action_item.inventory.sort()
 
         self.player.action_item = None
 
