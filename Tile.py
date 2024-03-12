@@ -1,7 +1,6 @@
 class Tile:
     def __init__(self, name, position, rect,
-                 glyph, glyph_color, glyph_size, glyph_size_modifier, glyph_rotation, bg_color,
-                 is_blocked):
+                 glyph, glyph_color, glyph_size, glyph_size_modifier, glyph_rotation, bg_color):
         self.name = name
         self.position = position
         self.rect = rect
@@ -11,4 +10,3 @@ class Tile:
         self.glyph_size_modifier = glyph_size_modifier
         self.glyph_rotation = glyph_rotation
         self.bg_color = bg_color
-        self.is_blocked = is_blocked
