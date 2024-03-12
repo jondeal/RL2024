@@ -79,7 +79,7 @@ class Level:
                                         destination.position, destination.rect,
                                         template['glyph'], template['glyph_color'],
                                         constants.FONT_SIZE, template['glyph_size_modifier'], 0,
-                                        template['dormant_glyph'], template['dormant_glyph_color'], False,
+                                        template['dormant_glyph'], template['dormant_glyph_color'], True,
                                         (0, 0), 0, template['mass'],
                                         template['glo_count'],
                                         [],
@@ -98,6 +98,8 @@ class Level:
                                      False)
                 actor.genome.append(new_gene)
                 actor.abilities.append(template['ability'])
+        if actor.is_dormant:
+            actor.is_dormant = False
 
     def spawn_terrain(self, terrain_name, limit):
         terrain_count = 0
