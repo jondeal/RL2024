@@ -66,7 +66,7 @@ class Level:
 
                 new_tile = Tile.Tile('floor', (x, y), tile_rect,
                                      None, None, constants.FONT_SIZE, None, 0,
-                                     None)
+                                     None, None, False)
 
                 self.tiles.append(new_tile)
         # this makes border walls
@@ -82,13 +82,12 @@ class Level:
                     tile.glyph = template['glyph']
                     tile.glyph_color = template['glyph_color']
                     tile.glyph_size_modifier = template['glyph_size_modifier']
-                    tile.bg_color = (
+                    tile.default_bg_color = (
                         template['bg_base_rgba'][0] + random.randrange(template['bg_rgb_range'][0][0], template['bg_rgb_range'][0][1]),
                         template['bg_base_rgba'][1] + random.randrange(template['bg_rgb_range'][1][0], template['bg_rgb_range'][1][1]),
                         template['bg_base_rgba'][2] + random.randrange(template['bg_rgb_range'][2][0], template['bg_rgb_range'][2][1]),
                         template['bg_base_rgba'][3]
                     )
-                    tile.is_blocked = template['is_blocked']
 
     def spawn_actor(self, actor_type, destination):
         for template in actor_templates.actor_templates:
