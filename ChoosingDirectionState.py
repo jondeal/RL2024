@@ -30,6 +30,18 @@ class ChoosingDirectionState(State):
                 if event.key in controls.direction_keys:
                     self.player.direction = controls.direction_keys[event.key][1]
                     if isinstance(self.game.state_manager.previous_state, ApplyingItemState):
-                        self.player.apply(self.game, self.player.action_item, self.player.direction)
+                        if self.player.action_item.name == 'GenoScribe':
+                            self.player.apply(self.game, self.player.action_item, self.player.direction)
+                        elif self.player.action_item.name == 'YeetStick':
+                            points = self.game.current_level.get_points(self.player.position,
+                                                                        (self.player.position[0] +
+                                                                         self.player.direction[0] * 5,
+                                                                         self.player.position[1] +
+                                                                         self.player.direction[1] * 5))
+                            for tile in self.game.current_level.tiles:
+                                if tile.position in points:
+                                    tile.is_highlighted = True
+                                else:
+                                    tile.is_highlighted = False
                 elif event.key == controls.keybinds['escape']:
                     self.game.state_manager.change_state(self.game.state_manager.previous_state)
