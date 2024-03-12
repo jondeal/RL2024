@@ -10,7 +10,9 @@ class Actor:
                  glo_count,
                  inventory,
                  genome,
-                 action, action_item):
+                 action, action_item,
+                 abilities,
+                 turn_complete):
         self.name = name
         self.position = position
         self.rect = rect
@@ -30,14 +32,18 @@ class Actor:
         self.genome = genome
         self.action = action
         self.action_item = action_item
+        self.abilities = abilities
+        self.turn_complete = turn_complete
 
     def move(self):
         self.speed = 1
         self.action = 'push'
+        self.turn_complete = True
 
     def shove(self):
         self.speed = 1
         self.action = 'shove'
+        self.turn_complete = True
 
     def pickup(self, current_level):
         for item in current_level.items:
@@ -46,6 +52,7 @@ class Actor:
                     self.inventory.append(item)
                     item.position = None
                     current_level.items.remove(item)
+        self.turn_complete = True
 
     def drop(self, game, current_level, item_to_drop):
         item_to_drop.position = self.position
@@ -54,6 +61,7 @@ class Actor:
         current_level.items.append(item_to_drop)
         if self.name == 'player':
             game.state_manager.change_state(ChoosingActionState(game, self))
+        self.turn_complete = True
 
     def apply(self, game, item_to_apply, direction_to_apply):
         for actor in game.current_level.actors:
@@ -61,4 +69,3 @@ class Actor:
                 if item_to_apply.name == 'GenoScribe':
                     self.action_item = item_to_apply
                     game.state_manager.change_state(UsingGenoScribeState(game, self, actor))
-
