@@ -214,8 +214,18 @@ def render_genes(actor, actor_genome, player):
 
     constants.screen.blit(genoscribe_glyph_surface, genoscribe_glyph_rect)
 
-    genome_actor_surface, genome_actor_surface_rect = constants.FONT.render(actor.glyph,
-                                                                            actor.glyph_color,
+    glyph = None
+    glyph_color = None
+
+    if actor.is_dormant:
+        glyph = actor.dormant_glyph
+        glyph_color = actor.dormant_glyph_color
+    else:
+        glyph = actor.glyph
+        glyph_color = actor.glyph_color
+
+    genome_actor_surface, genome_actor_surface_rect = constants.FONT.render(glyph,
+                                                                            glyph_color,
                                                                             None,
                                                                             size=constants.FONT_SIZE * 2,
                                                                             rotation=0)

@@ -39,6 +39,8 @@ class UsingGenoScribeState(State):
 
         if [self.player.action_item.inventory.copy(), self.actor.genome.copy()] == self.initial_state:
             pass
+        elif not self.player.action_item.inventory and not self.actor.genome:
+            pass
         else:
             self.player.turn_complete = True
 
