@@ -64,8 +64,10 @@ class Actor:
         self.turn_complete = True
 
     def apply(self, game, item_to_apply, direction_to_apply):
-        for actor in game.current_level.actors:
-            if actor.position == (self.position[0] + direction_to_apply[0], self.position[1] + direction_to_apply[1]):
-                if item_to_apply.name == 'GenoScribe':
+        if item_to_apply.name == 'GenoScribe':
+            for actor in game.current_level.actors:
+                if actor.position == (self.position[0] + direction_to_apply[0],
+                                      self.position[1] + direction_to_apply[1]):
                     self.action_item = item_to_apply
                     game.state_manager.change_state(UsingGenoScribeState(game, self, actor))
+                    
