@@ -19,9 +19,12 @@ class ChoosingDirectionState(State):
                                                          self.player.action_item.name +
                                                          ' in which direction?',
                                                          [255, 255, 255, 255])
+        self.player.direction = None
 
     def exit(self):
-        pass
+        for tile in self.game.current_level.tiles:
+            if tile.is_highlighted:
+                tile.is_highlighted = False
 
     def update(self, events):
         from ApplyingItemState import ApplyingItemState
@@ -39,9 +42,17 @@ class ChoosingDirectionState(State):
                                                                          self.player.position[1] +
                                                                          self.player.direction[1] * 5))
                             for tile in self.game.current_level.tiles:
-                                if tile.position in points:
+                                if tile.position in points[1:]:
                                     tile.is_highlighted = True
                                 else:
                                     tile.is_highlighted = False
+                elif event.key == controls.keybinds['confirm']:
+                    if self.player.action_item.name == 'YeetStick':
+                        if self.player.direction is not None:
+                            self.player.apply(self.game, self.player.action_item, self.player.direction)
+                        else:
+                            render_ui.prompt_to_render = Message.Message(constants.PROMPT_RECT,
+                                                                         'You must choose a direction first.',
+                                                                         [255, 255, 255, 255])
                 elif event.key == controls.keybinds['escape']:
                     self.game.state_manager.change_state(self.game.state_manager.previous_state)
