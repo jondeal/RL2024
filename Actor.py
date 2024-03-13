@@ -69,3 +69,12 @@ class Actor:
                 if actor.position == (self.position[0] + direction_to_apply[0],
                                       self.position[1] + direction_to_apply[1]):
                     game.state_manager.change_state(UsingGenoScribeState(game, self, actor))
+        if item_to_apply.name == 'YeetStick':
+            for tile in game.current_level.tiles:
+                if tile.position == self.position:
+                    game.current_level.spawn_item('force blast', tile)
+                    game.current_level.items[-1].direction = self.direction
+                    game.current_level.items[-1].speed = 5
+            if self.name == 'player':
+                game.state_manager.change_state(ChoosingActionState(game, self))
+            self.turn_complete = True
