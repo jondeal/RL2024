@@ -37,6 +37,11 @@ def render_level(level):
             else:
                 glyph = entity.glyph
                 glyph_color = entity.glyph_color
+            if entity in level.items and entity.name == 'force blast':
+                directions = [(-1, 0), (-1, 1), (0, 1), (1, 1), (1, 0), (1, -1), (0, -1), (-1, -1)]
+                for direction in directions:
+                    if entity.direction == direction:
+                        entity.glyph_rotation = 45 * directions.index(direction)
 
             glyph_image, glyph_rect = constants.FONT.render(glyph, glyph_color, None, size=size,
                                                             rotation=entity.glyph_rotation)
