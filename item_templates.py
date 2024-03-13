@@ -24,5 +24,13 @@ item_templates = [
      'glyph_rotation': 0,
      'mass': 3,
      'inventory': None
+     },
+    {'name': 'force blast',
+     'glyph': 'ᛵ',
+     'glyph_color': [255, 255, 255, 255],
+     'glyph_size_modifier': 1,
+     'glyph_rotation': 0,
+     'mass': 1,
+     'inventory': None
      }
 ]
