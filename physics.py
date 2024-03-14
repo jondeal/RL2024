@@ -18,7 +18,7 @@ def resolve_physics(level):
 
         make_still(initiating_entity)
 
-        if receiving_entity.speed > 0:
+        while receiving_entity.speed > 0:
             collision = collision_check(receiving_entity)
             handle_collision(collision)
         else:  # prevents receiving entity from moving if entity.speed == 0 after initial collision
@@ -212,12 +212,12 @@ def resolve_physics(level):
                         apply_force(initiating_entity, receiving_entity)
                     elif isinstance(receiving_entity, Item.Item):
                         move_to_position(initiating_entity, receiving_entity)
-            elif isinstance(initiating_entity, Item.Item):
+            elif isinstance(initiating_entity, Item.Item):  # if had_collision is True
                 if receiving_entity.name == 'wall':
                     initiating_entity.direction = wall_rebound_direction(initiating_entity)
-                else:  # elif isinstance(receiving_entity, Item.Item):
+                else:
                     apply_force(initiating_entity, receiving_entity)
-        else:
+        else:  # if had_collision is False
             if isinstance(initiating_entity, Actor.Actor):
                 if initiating_entity.action == 'shove':
                     make_still(initiating_entity)
@@ -244,7 +244,7 @@ def resolve_physics(level):
                     move_to_position(initiating_entity, receiving_entity)
 
     for entity in level.actors + level.items:
-        if entity.speed > 0:
+        while entity.speed > 0:
             collision_result = collision_check(entity)
             handle_collision(collision_result)
         else:
