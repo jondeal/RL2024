@@ -172,7 +172,6 @@ def resolve_physics(level):
                                     elif isinstance(collision_check_result[2], Item.Item):
                                         entities_in_row.append(initiating_entity)
                                         for row_entity in entities_in_row:
-                                            row_entity.speed += 1
                                             row_entity.position = (
                                                 row_entity.position[0] + row_entity.direction[0],
                                                 row_entity.position[1] + row_entity.direction[1]
@@ -246,6 +245,6 @@ def resolve_physics(level):
         while entity.speed > 0:
             collision_result = collision_check(entity)
             handle_collision(collision_result)
-        else:
-            if entity.name == 'force blast':
-                level.items.remove(entity)
+        # else:
+        #     if entity.name == 'force blast':
+        #         level.items.remove(entity)
