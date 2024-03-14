@@ -1,6 +1,5 @@
 import Actor
 import Item
-import constants
 
 
 def resolve_physics(level):
