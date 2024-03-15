@@ -154,62 +154,70 @@ def resolve_physics(level):
                     if receiving_entity.name == 'wall':
                         make_still(initiating_entity)  # move/push against adjacent wall fails
                     elif isinstance(receiving_entity, Item.Item):
-                        move_to_position(initiating_entity, receiving_entity)
-                    elif isinstance(receiving_entity, Actor.Actor):
-                        if receiving_entity.mass > initiating_entity.mass:
-                            make_still(initiating_entity)  # move/push against more massive entity fails
+                        gap_check = diagonal_wall_gap_check(initiating_entity)
+                        if gap_check:
+                            make_still(initiating_entity)
                         else:
-                            open_tile_reached = False
-                            total_mass = receiving_entity.mass
-                            entities_in_row = []
-                            current_entity = receiving_entity
-                            current_entity.direction = initiating_entity.direction
-                            gap_check = diagonal_wall_gap_check(current_entity)
-                            if gap_check:
-                                make_still(current_entity)
-                                make_still(initiating_entity)
+                            move_to_position(initiating_entity, receiving_entity)
+                    elif isinstance(receiving_entity, Actor.Actor):
+                        gap_check = diagonal_wall_gap_check(initiating_entity)
+                        if gap_check:
+                            make_still(initiating_entity)
+                        else:
+                            if receiving_entity.mass > initiating_entity.mass:
+                                make_still(initiating_entity)  # move/push against more massive entity fails
                             else:
-                                while total_mass <= initiating_entity.mass and open_tile_reached is False:
-                                    entities_in_row.append(current_entity)
-                                    collision_check_result = collision_check(current_entity)
-                                    if collision_check_result[2].name == 'wall':
-                                        for row_entity in entities_in_row:
-                                            make_still(row_entity)
-                                        make_still(initiating_entity)  # push against wall fails, row of entities doesn't move
-                                    elif isinstance(collision_check_result[2], Item.Item):
-                                        entities_in_row.append(initiating_entity)
-                                        for row_entity in entities_in_row:
-                                            row_entity.position = (
-                                                row_entity.position[0] + row_entity.direction[0],
-                                                row_entity.position[1] + row_entity.direction[1]
-                                            )
-                                            for tile in level.tiles:
-                                                if tile.position == row_entity.position:
-                                                    row_entity.rect = tile.rect
-                                            make_still(row_entity)
-
-                                        open_tile_reached = True
-                                    elif isinstance(collision_check_result[2], Actor.Actor):
-                                        total_mass += collision_check_result[2].mass
-                                        entities_in_row.append(collision_check_result[2])
-                                        current_entity = collision_check_result[2]
-                                        current_entity.direction = initiating_entity.direction
-                                        collision_check(current_entity)
-                                    elif collision_check_result[0] is False:
-                                        entities_in_row.append(initiating_entity)
-                                        for row_entity in entities_in_row:
-                                            row_entity.position = (
-                                                row_entity.position[0] + row_entity.direction[0],
-                                                row_entity.position[1] + row_entity.direction[1]
-                                            )
-                                            for tile in level.tiles:
-                                                if tile.position == row_entity.position:
-                                                    row_entity.rect = tile.rect
-                                            make_still(row_entity)
-
-                                        open_tile_reached = True
-                                else:  # total_mass > initiating_entity.mass
+                                open_tile_reached = False
+                                total_mass = receiving_entity.mass
+                                entities_in_row = []
+                                current_entity = receiving_entity
+                                current_entity.direction = initiating_entity.direction
+                                gap_check = diagonal_wall_gap_check(current_entity)
+                                if gap_check:
+                                    make_still(current_entity)
                                     make_still(initiating_entity)
+                                else:
+                                    while total_mass <= initiating_entity.mass and open_tile_reached is False:
+                                        entities_in_row.append(current_entity)
+                                        collision_check_result = collision_check(current_entity)
+                                        if collision_check_result[2].name == 'wall':
+                                            for row_entity in entities_in_row:
+                                                make_still(row_entity)
+                                            make_still(initiating_entity)  # push against wall fails, row of entities doesn't move
+                                        elif isinstance(collision_check_result[2], Item.Item):
+                                            entities_in_row.append(initiating_entity)
+                                            for row_entity in entities_in_row:
+                                                row_entity.position = (
+                                                    row_entity.position[0] + row_entity.direction[0],
+                                                    row_entity.position[1] + row_entity.direction[1]
+                                                )
+                                                for tile in level.tiles:
+                                                    if tile.position == row_entity.position:
+                                                        row_entity.rect = tile.rect
+                                                make_still(row_entity)
+
+                                            open_tile_reached = True
+                                        elif isinstance(collision_check_result[2], Actor.Actor):
+                                            total_mass += collision_check_result[2].mass
+                                            entities_in_row.append(collision_check_result[2])
+                                            current_entity = collision_check_result[2]
+                                            current_entity.direction = initiating_entity.direction
+                                            collision_check(current_entity)
+                                        elif collision_check_result[0] is False:
+                                            entities_in_row.append(initiating_entity)
+                                            for row_entity in entities_in_row:
+                                                row_entity.position = (
+                                                    row_entity.position[0] + row_entity.direction[0],
+                                                    row_entity.position[1] + row_entity.direction[1]
+                                                )
+                                                for tile in level.tiles:
+                                                    if tile.position == row_entity.position:
+                                                        row_entity.rect = tile.rect
+                                                make_still(row_entity)
+
+                                            open_tile_reached = True
+                                    else:  # total_mass > initiating_entity.mass
+                                        make_still(initiating_entity)
                 else:  # if actor.action != 'shove' and != 'push', i.e. passive movement from collision
                     if receiving_entity.name == 'wall':
                         initiating_entity.direction = wall_rebound_direction(initiating_entity)
