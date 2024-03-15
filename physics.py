@@ -22,13 +22,11 @@ def resolve_physics(level):
         receiving_entity.speed = initiating_entity_initial_momentum // receiving_entity.mass
         receiving_entity.direction = initiating_entity.direction
 
-        make_still(initiating_entity)
-
         if receiving_entity.speed > 0:
             collision = collision_check(receiving_entity)
             handle_collision(collision)
-        else:  # prevents receiving entity from moving if entity.speed == 0 after initial collision
-            make_still(receiving_entity)
+        else:
+            pass
 
     def diagonal_wall_gap_check(entity_to_check):
         positions_to_check = [
@@ -150,6 +148,7 @@ def resolve_physics(level):
                             make_still(initiating_entity)
                         else:
                             apply_force(initiating_entity, receiving_entity)
+                            make_still(initiating_entity)
                 elif initiating_entity.action == 'push':
                     if receiving_entity.name == 'wall':
                         make_still(initiating_entity)  # move/push against adjacent wall fails
@@ -223,6 +222,7 @@ def resolve_physics(level):
                         initiating_entity.direction = wall_rebound_direction(initiating_entity)
                     elif isinstance(receiving_entity, Actor.Actor):
                         apply_force(initiating_entity, receiving_entity)
+                        make_still(initiating_entity)
                     elif isinstance(receiving_entity, Item.Item):
                         move_to_position(initiating_entity, receiving_entity)
             elif isinstance(initiating_entity, Item.Item):  # if had_collision is True
@@ -230,6 +230,7 @@ def resolve_physics(level):
                     initiating_entity.direction = wall_rebound_direction(initiating_entity)
                 else:
                     apply_force(initiating_entity, receiving_entity)
+                    make_still(initiating_entity)
         else:  # if had_collision is False
             if isinstance(initiating_entity, Actor.Actor):
                 if initiating_entity.action == 'shove':
@@ -249,10 +250,14 @@ def resolve_physics(level):
                             move_to_position(initiating_entity, receiving_entity)
                     else:
                         move_to_position(initiating_entity, receiving_entity)
-            elif isinstance(initiating_entity, Item.Item):
-                gap_check = diagonal_wall_gap_check(initiating_entity)
-                if gap_check:
-                    make_still(initiating_entity)
+            elif isinstance(initiating_entity, Item.Item):  # passive movement
+                if abs(initiating_entity.direction[0]) + abs(
+                        initiating_entity.direction[1]) > 1:  # direction is diagonal
+                    is_gap = diagonal_wall_gap_check(initiating_entity)
+                    if is_gap:
+                        initiating_entity.direction = (-initiating_entity.direction[0], -initiating_entity.direction[1])
+                    else:
+                        move_to_position(initiating_entity, receiving_entity)
                 else:
                     move_to_position(initiating_entity, receiving_entity)
 
