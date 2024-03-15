@@ -1,13 +1,20 @@
 import Actor
 import Item
+import animation
 
 
 def resolve_physics(level):
 
     def move_to_position(initiating_entity, receiving_entity):
-        initiating_entity.position = receiving_entity.position
+        initiating_entity.position = (initiating_entity.position[0] + initiating_entity.direction[0],
+                                      initiating_entity.position[1] + initiating_entity.direction[1])
         initiating_entity.rect = receiving_entity.rect
+        initiating_entity.rects_traversed.append(receiving_entity.rect)
         initiating_entity.speed -= 1
+        if initiating_entity.speed == 0:
+            animation.entities_to_animate.append((initiating_entity, initiating_entity.rects_traversed))
+        else:
+            pass
 
     def apply_force(initiating_entity, receiving_entity):
         initiating_entity_initial_momentum = initiating_entity.mass * initiating_entity.speed
@@ -245,6 +252,3 @@ def resolve_physics(level):
         while entity.speed > 0:
             collision_result = collision_check(entity)
             handle_collision(collision_result)
-        # else:
-        #     if entity.name == 'force blast':
-        #         level.items.remove(entity)
