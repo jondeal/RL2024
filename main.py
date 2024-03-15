@@ -2,6 +2,7 @@ import random
 
 import pygame
 import Game
+import animation
 import controls
 import render_level
 import render_ui
@@ -28,7 +29,7 @@ game.current_level.spawn_item('YeetStick', game.current_level.get_random_open_ti
 # game.current_level.spawn_item('GenoQuery', game.current_level.get_random_open_tile())
 
 for actor in game.current_level.actors:
-    game.current_level.give_gene(actor, 'mobility')
+    game.current_level.give_gene(actor, 'photosynthesis')
 
 player = game.current_level.actors[0]
 
@@ -63,6 +64,7 @@ while running:
                     pass
         player.turn_complete = False
     physics.resolve_physics(game.current_level)
+    animation.update()
     render_ui.render_ui(player)
     render_level.render_level(game.current_level)
     pygame.display.flip()
