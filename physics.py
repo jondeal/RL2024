@@ -24,7 +24,7 @@ def resolve_physics(level):
 
         make_still(initiating_entity)
 
-        while receiving_entity.speed > 0:
+        if receiving_entity.speed > 0:
             collision = collision_check(receiving_entity)
             handle_collision(collision)
         else:  # prevents receiving entity from moving if entity.speed == 0 after initial collision
@@ -249,6 +249,6 @@ def resolve_physics(level):
                     move_to_position(initiating_entity, receiving_entity)
 
     for entity in level.actors + level.items:
-        while entity.speed > 0:
+        if entity.speed > 0:
             collision_result = collision_check(entity)
             handle_collision(collision_result)
