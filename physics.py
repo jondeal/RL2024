@@ -1,9 +1,21 @@
 import Actor
 import Item
-import animation
 
 
 def resolve_physics(level):
+
+    def check_physics_resolved():
+        total_speed = 0
+        for entity_to_check in level.actors + level.items:
+            if entity_to_check.speed > 0:
+                total_speed += entity_to_check.speed
+            else:
+                pass
+
+        if total_speed > 0:
+            return False
+        else:
+            return True
 
     def move_to_position(initiating_entity, receiving_entity):
         initiating_entity.position = (initiating_entity.position[0] + initiating_entity.direction[0],
@@ -11,10 +23,7 @@ def resolve_physics(level):
         initiating_entity.rect = receiving_entity.rect
         initiating_entity.rects_traversed.append(receiving_entity.rect)
         initiating_entity.speed -= 1
-        if initiating_entity.speed == 0:
-            animation.entities_to_animate.append((initiating_entity, initiating_entity.rects_traversed))
-        else:
-            pass
+        check_physics_resolved()
 
     def apply_force(initiating_entity, receiving_entity):
         initiating_entity_initial_momentum = initiating_entity.mass * initiating_entity.speed
@@ -22,11 +31,11 @@ def resolve_physics(level):
         receiving_entity.speed = initiating_entity_initial_momentum // receiving_entity.mass
         receiving_entity.direction = initiating_entity.direction
 
-        if receiving_entity.speed > 0:
+        while receiving_entity.speed > 0:
             collision = collision_check(receiving_entity)
             handle_collision(collision)
         else:
-            pass
+            check_physics_resolved()
 
     def diagonal_wall_gap_check(entity_to_check):
         positions_to_check = [
@@ -261,7 +270,10 @@ def resolve_physics(level):
                 else:
                     move_to_position(initiating_entity, receiving_entity)
 
-    for entity in level.actors + level.items:
-        if entity.speed > 0:
-            collision_result = collision_check(entity)
-            handle_collision(collision_result)
+    while check_physics_resolved() is False:
+        for entity in level.actors + level.items:
+            while entity.speed > 0:
+                collision_result = collision_check(entity)
+                handle_collision(collision_result)
+    else:
+        return True
