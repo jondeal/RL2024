@@ -26,13 +26,14 @@ def resolve_physics(level):
         if initiating_entity.speed == 0:
             animation.entities_to_animate.append((initiating_entity, initiating_entity.rects_traversed.copy()))
             initiating_entity.rects_traversed.clear()
-        check_physics_resolved()
+            check_physics_resolved()
 
     def apply_force(initiating_entity, receiving_entity):
         initiating_entity_initial_momentum = initiating_entity.mass * initiating_entity.speed
 
         receiving_entity.speed = initiating_entity_initial_momentum // receiving_entity.mass
         receiving_entity.direction = initiating_entity.direction
+        receiving_entity.action = None
 
         while receiving_entity.speed > 0:
             collision = collision_check(receiving_entity)
