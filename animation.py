@@ -8,7 +8,7 @@ import random
 #             tile.glyph = random.choice(randos)
 
 
-def animate():
+def animate(level):
     if entities_to_animate:
         entity = entities_to_animate[0][0]
         rects_traversed = entities_to_animate[0][1]
@@ -17,6 +17,8 @@ def animate():
             rects_traversed.remove(rects_traversed[0])
         else:
             entities_to_animate.remove(entities_to_animate[0])
+            if entity.name == 'force blast':
+                level.items.remove(entity)
     else:
         pass
 
