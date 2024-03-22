@@ -15,13 +15,11 @@ def render_level(level):
         constants.screen.blit(bg_surface, tile.rect)
         tile.glyph_color[3] = 255
         for actor in level.actors:
-            if tile.position == actor.position:
-                if actor.rect == tile.rect:
-                    tile.glyph_color = [tile.glyph_color[0], tile.glyph_color[1], tile.glyph_color[2], 0]
+            if actor.rect == tile.rect:
+                tile.glyph_color = [tile.glyph_color[0], tile.glyph_color[1], tile.glyph_color[2], 0]
         for item in level.items:
-            if tile.position == item.position:
-                if item.rect == tile.rect:
-                    tile.glyph_color = [tile.glyph_color[0], tile.glyph_color[1], tile.glyph_color[2], 0]
+            if item.rect == tile.rect:
+                tile.glyph_color = [tile.glyph_color[0], tile.glyph_color[1], tile.glyph_color[2], 0]
 
     to_render = [level.tiles, level.actors, level.items]
 
