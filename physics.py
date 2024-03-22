@@ -39,7 +39,7 @@ def resolve_physics(level):
             collision = collision_check(receiving_entity)
             handle_collision(collision)
         else:
-            animation.entities_to_animate.append((initiating_entity, initiating_entity.rects_traversed.copy()))
+            animation.entities_to_animate.insert(0, (initiating_entity, initiating_entity.rects_traversed.copy()))
             initiating_entity.rects_traversed.clear()
             check_physics_resolved()
 
