@@ -21,11 +21,12 @@ def resolve_physics(level):
     def move_to_position(initiating_entity, receiving_entity):
         initiating_entity.position = (initiating_entity.position[0] + initiating_entity.direction[0],
                                       initiating_entity.position[1] + initiating_entity.direction[1])
-        initiating_entity.rects_traversed.append(receiving_entity.rect)
+        for tile in level.tiles:
+            if tile.position == initiating_entity.position:
+                initiating_entity.rects_traversed.append(tile.rect)
         initiating_entity.speed -= 1
         if initiating_entity.speed == 0:
             animation.entities_to_animate.append((initiating_entity, initiating_entity.rects_traversed.copy()))
-            print(f'{initiating_entity.name} move_to_position complete, moved to animation queue')
             initiating_entity.rects_traversed.clear()
             check_physics_resolved()
 
@@ -41,7 +42,6 @@ def resolve_physics(level):
             handle_collision(collision)
         else:
             animation.entities_to_animate.insert(0, (initiating_entity, initiating_entity.rects_traversed.copy()))
-            print(f'{initiating_entity.name} applies force to {receiving_entity.name}, moved to animation queue')
             initiating_entity.rects_traversed.clear()
             check_physics_resolved()
 
