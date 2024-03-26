@@ -18,7 +18,10 @@ def animate(level):
         else:
             entities_to_animate.remove(entities_to_animate[0])
             if entity.name == 'force blast':
-                level.items.remove(entity)
+                if entity in level.items:
+                    level.items.remove(entity)
+                else:
+                    pass
     else:
         pass
 
