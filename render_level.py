@@ -37,7 +37,7 @@ def render_level(level):
             else:
                 glyph = entity.glyph
                 glyph_color = entity.glyph_color
-            if entity in level.items and entity.name == 'force blast':
+            if entity in level.items and entity.name == 'force bolt':
                 directions = [(-1, 0), (-1, 1), (0, 1), (1, 1), (1, 0), (1, -1), (0, -1), (-1, -1)]
                 for direction in directions:
                     if entity.direction == direction:
