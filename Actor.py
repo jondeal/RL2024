@@ -74,7 +74,7 @@ class Actor:
         if item_to_apply.name == 'YeetStick':
             for tile in game.current_level.tiles:
                 if tile.position == self.position:
-                    game.current_level.spawn_item('force blast', tile)
+                    game.current_level.spawn_item('force bolt', tile)
                     game.current_level.items[-1].direction = self.direction
                     game.current_level.items[-1].speed = 5
             if self.name == 'player':
