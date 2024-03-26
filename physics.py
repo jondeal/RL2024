@@ -245,7 +245,7 @@ def resolve_physics(level):
             elif isinstance(initiating_entity, Item.Item):  # if had_collision is True
                 if receiving_entity.name == 'wall':
                     initiating_entity.direction = wall_rebound_direction(initiating_entity)
-                    if initiating_entity.name == 'force blast':
+                    if initiating_entity.name == 'force bolt':
                         for actor in level.actors:
                             if actor.position == initiating_entity.position:
                                 apply_force(initiating_entity, actor)
