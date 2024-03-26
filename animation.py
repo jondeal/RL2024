@@ -17,7 +17,7 @@ def animate(level):
             rects_traversed.remove(rects_traversed[0])
         else:
             entities_to_animate.remove(entities_to_animate[0])
-            if entity.name == 'force blast':
+            if entity.name == 'force bolt':
                 if entity in level.items:
                     level.items.remove(entity)
                 else:
