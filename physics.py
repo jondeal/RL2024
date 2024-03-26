@@ -25,6 +25,7 @@ def resolve_physics(level):
         initiating_entity.speed -= 1
         if initiating_entity.speed == 0:
             animation.entities_to_animate.append((initiating_entity, initiating_entity.rects_traversed.copy()))
+            print(f'{initiating_entity.name} move_to_position complete, moved to animation queue')
             initiating_entity.rects_traversed.clear()
             check_physics_resolved()
 
@@ -40,6 +41,7 @@ def resolve_physics(level):
             handle_collision(collision)
         else:
             animation.entities_to_animate.insert(0, (initiating_entity, initiating_entity.rects_traversed.copy()))
+            print(f'{initiating_entity.name} applies force to {receiving_entity.name}, moved to animation queue')
             initiating_entity.rects_traversed.clear()
             check_physics_resolved()
 
@@ -243,6 +245,13 @@ def resolve_physics(level):
             elif isinstance(initiating_entity, Item.Item):  # if had_collision is True
                 if receiving_entity.name == 'wall':
                     initiating_entity.direction = wall_rebound_direction(initiating_entity)
+                    if initiating_entity.name == 'force blast':
+                        for actor in level.actors:
+                            if actor.position == initiating_entity.position:
+                                apply_force(initiating_entity, actor)
+                        for item in level.items:
+                            if item.position == initiating_entity.position and item is not initiating_entity:
+                                apply_force(initiating_entity, item)
                 else:
                     apply_force(initiating_entity, receiving_entity)
                     make_still(initiating_entity)
