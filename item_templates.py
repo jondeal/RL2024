@@ -25,7 +25,7 @@ item_templates = [
      'mass': 3,
      'inventory': None
      },
-    {'name': 'force blast',
+    {'name': 'force bolt',
      'glyph': 'ᛵ',
      'glyph_color': [255, 255, 255, 255],
      'glyph_size_modifier': 1,
