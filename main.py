@@ -21,8 +21,8 @@ game.current_level.spawn_actor('player', game.current_level.get_random_open_tile
 game.current_level.spawn_actor('small moebus', game.current_level.get_random_open_tile())
 game.current_level.spawn_actor('small moebus', game.current_level.get_random_open_tile())
 game.current_level.spawn_actor('small moebus', game.current_level.get_random_open_tile())
-game.current_level.spawn_actor('large moebus', game.current_level.get_random_open_tile())
-game.current_level.spawn_actor('massive moebus', game.current_level.get_random_open_tile())
+# game.current_level.spawn_actor('large moebus', game.current_level.get_random_open_tile())
+# game.current_level.spawn_actor('massive moebus', game.current_level.get_random_open_tile())
 
 game.current_level.spawn_item('GenoScribe', game.current_level.get_random_open_tile())
 game.current_level.spawn_item('YeetStick', game.current_level.get_random_open_tile())
@@ -37,10 +37,12 @@ state_manager = StateManager(game, player)
 
 game.state_manager = state_manager
 
+GAME_STATE = 'waiting for input'
+
 
 running = True
 clock = pygame.time.Clock()
-FPS = 10
+FPS = 20
 
 while running:
     clock.tick(FPS)
@@ -49,19 +51,36 @@ while running:
         if event.type == pygame.KEYUP:
             if event.key == controls.keybinds['quit'] and event.mod == controls.keybinds['mod key']:
                 running = False
-    if player.turn_complete is False:
-        state_manager.update(events)
-    else:
-        for actor in game.current_level.actors[1:]:
-            if 'can_move' in actor.abilities:
-                direction_list = [direction[1] for direction in controls.direction_keys.values()]
-                actor.direction = random.choice(direction_list)
-                actor.move()
+            elif event.key == pygame.K_F1:
+                if FPS == 20:
+                    FPS = 1
+                else:
+                    FPS = 20
+    if GAME_STATE == 'waiting for input':
+        if player.turn_complete is False:
+            state_manager.update(events)
+        else:
+            for actor in game.current_level.actors[1:]:
+                if 'can_move' in actor.abilities and actor.speed == 0:
+                    direction_list = [direction[1] for direction in controls.direction_keys.values()]
+                    actor.direction = random.choice(direction_list)
+                    actor.move()
+                else:
+                    pass
+            player.turn_complete = False
+            GAME_STATE = 'resolving physics'
+    elif GAME_STATE == 'resolving physics':
+        physics_resolved = False
+        while physics_resolved is False:
+            if physics.resolve_physics(game.current_level) is True:
+                physics_resolved = True
+                GAME_STATE = 'waiting for input'
             else:
-                pass
-        player.turn_complete = False
-    physics.resolve_physics(game.current_level)
-    animation.update()
+                continue
+        else:
+            pass
     render_ui.render_ui(player)
+    # animation.update(game.current_level)
+    animation.animate(game.current_level)
     render_level.render_level(game.current_level)
     pygame.display.flip()
