@@ -18,7 +18,7 @@ def resolve_physics(level):
         else:
             return True
 
-    def move_to_position(initiating_entity, receiving_entity):
+    def move_to_position(initiating_entity):
         initiating_entity.position = (initiating_entity.position[0] + initiating_entity.direction[0],
                                       initiating_entity.position[1] + initiating_entity.direction[1])
         for tile in level.tiles:
@@ -174,7 +174,7 @@ def resolve_physics(level):
                         if gap_check:
                             make_still(initiating_entity)
                         else:
-                            move_to_position(initiating_entity, receiving_entity)
+                            move_to_position(initiating_entity)
                     elif isinstance(receiving_entity, Actor.Actor):
                         gap_check = diagonal_wall_gap_check(initiating_entity)
                         if gap_check:
@@ -241,7 +241,7 @@ def resolve_physics(level):
                         apply_force(initiating_entity, receiving_entity)
                         make_still(initiating_entity)
                     elif isinstance(receiving_entity, Item.Item):
-                        move_to_position(initiating_entity, receiving_entity)
+                        move_to_position(initiating_entity)
             elif isinstance(initiating_entity, Item.Item):  # if had_collision is True
                 if receiving_entity.name == 'wall':
                     initiating_entity.direction = wall_rebound_direction(initiating_entity)
@@ -264,16 +264,16 @@ def resolve_physics(level):
                     if is_gap:
                         make_still(initiating_entity)
                     else:
-                        move_to_position(initiating_entity, receiving_entity)
+                        move_to_position(initiating_entity)
                 else:  # passive movement
                     if abs(initiating_entity.direction[0]) + abs(initiating_entity.direction[1]) > 1:  # direction is diagonal
                         is_gap = diagonal_wall_gap_check(initiating_entity)
                         if is_gap:
                             initiating_entity.direction = (-initiating_entity.direction[0], -initiating_entity.direction[1])
                         else:
-                            move_to_position(initiating_entity, receiving_entity)
+                            move_to_position(initiating_entity)
                     else:
-                        move_to_position(initiating_entity, receiving_entity)
+                        move_to_position(initiating_entity)
             elif isinstance(initiating_entity, Item.Item):  # passive movement
                 if abs(initiating_entity.direction[0]) + abs(
                         initiating_entity.direction[1]) > 1:  # direction is diagonal
@@ -281,9 +281,9 @@ def resolve_physics(level):
                     if is_gap:
                         initiating_entity.direction = (-initiating_entity.direction[0], -initiating_entity.direction[1])
                     else:
-                        move_to_position(initiating_entity, receiving_entity)
+                        move_to_position(initiating_entity)
                 else:
-                    move_to_position(initiating_entity, receiving_entity)
+                    move_to_position(initiating_entity)
 
     while check_physics_resolved() is False:
         for entity in level.actors + level.items:
