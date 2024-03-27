@@ -285,7 +285,12 @@ def resolve_physics(level):
                     move_to_position(initiating_entity)
 
     while check_physics_resolved() is False:
+        entities_to_resolve = []
         for entity in level.actors + level.items:
+            if entity.speed > 0:
+                entities_to_resolve.append(entity)
+        entities_to_resolve_sorted = sorted(entities_to_resolve, key=lambda x: x.speed, reverse=True)
+        for entity in entities_to_resolve_sorted:
             while entity.speed > 0:
                 handle_collision(collision_check(entity))
     else:
