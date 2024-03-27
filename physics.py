@@ -35,10 +35,6 @@ def resolve_physics(level):
 
         receiving_entity.speed = initiating_entity_initial_momentum // receiving_entity.mass
         receiving_entity.direction = initiating_entity.direction
-        if hasattr(receiving_entity, 'action'):
-            receiving_entity.action = None
-        else:
-            pass
 
         animation.entities_to_animate.append((initiating_entity, initiating_entity.rects_traversed.copy()))
         initiating_entity.rects_traversed.clear()
