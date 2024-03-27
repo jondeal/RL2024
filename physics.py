@@ -35,14 +35,20 @@ def resolve_physics(level):
 
         receiving_entity.speed = initiating_entity_initial_momentum // receiving_entity.mass
         receiving_entity.direction = initiating_entity.direction
-        receiving_entity.action = None
+        if hasattr(receiving_entity, 'action'):
+            receiving_entity.action = None
+        else:
+            pass
+
+        animation.entities_to_animate.append((initiating_entity, initiating_entity.rects_traversed.copy()))
+        initiating_entity.rects_traversed.clear()
 
         while receiving_entity.speed > 0:
             collision = collision_check(receiving_entity)
             handle_collision(collision)
         else:
-            animation.entities_to_animate.insert(0, (initiating_entity, initiating_entity.rects_traversed.copy()))
-            initiating_entity.rects_traversed.clear()
+            animation.entities_to_animate.insert(0, (receiving_entity, receiving_entity.rects_traversed.copy()))
+            receiving_entity.rects_traversed.clear()
             check_physics_resolved()
 
     def diagonal_wall_gap_check(entity_to_check):
