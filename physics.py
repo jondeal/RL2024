@@ -39,8 +39,7 @@ def resolve_physics(level):
         initiating_entity.rects_traversed.clear()
 
         while receiving_entity.speed > 0:
-            collision = collision_check(receiving_entity)
-            handle_collision(collision)
+            handle_collision(collision_check(receiving_entity))
         else:
             animation.entities_to_animate.insert(0, (receiving_entity, receiving_entity.rects_traversed.copy()))
             receiving_entity.rects_traversed.clear()
@@ -288,7 +287,6 @@ def resolve_physics(level):
     while check_physics_resolved() is False:
         for entity in level.actors + level.items:
             while entity.speed > 0:
-                collision_result = collision_check(entity)
-                handle_collision(collision_result)
+                handle_collision(collision_check(entity))
     else:
         return True
