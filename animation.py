@@ -13,7 +13,8 @@ def animate(level):
         entity = entities_to_animate[0][0]
         rects_traversed = entities_to_animate[0][1]
         if rects_traversed:
-            entity.rect = rects_traversed[0]
+            entity.rect = rects_traversed[0][0]
+            entity.glyph_rotation = rects_traversed[0][1]
             rects_traversed.remove(rects_traversed[0])
         else:
             entities_to_animate.remove(entities_to_animate[0])
