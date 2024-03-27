@@ -77,6 +77,10 @@ class Actor:
                     game.current_level.spawn_item('force bolt', tile)
                     game.current_level.items[-1].direction = self.direction
                     game.current_level.items[-1].speed = 5
+                    directions = [(-1, 0), (-1, 1), (0, 1), (1, 1), (1, 0), (1, -1), (0, -1), (-1, -1)]
+                    for direction in directions:
+                        if game.current_level.items[-1].direction == direction:
+                            game.current_level.items[-1].glyph_rotation = 45 * directions.index(direction)
             if self.name == 'player':
                 game.state_manager.change_state(ChoosingActionState(game, self))
             self.turn_complete = True
