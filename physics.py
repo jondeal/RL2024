@@ -21,9 +21,14 @@ def resolve_physics(level):
     def move_to_position(initiating_entity):
         initiating_entity.position = (initiating_entity.position[0] + initiating_entity.direction[0],
                                       initiating_entity.position[1] + initiating_entity.direction[1])
+        if initiating_entity.name == 'force bolt':
+            directions = [(-1, 0), (-1, 1), (0, 1), (1, 1), (1, 0), (1, -1), (0, -1), (-1, -1)]
+            for direction in directions:
+                if entity.direction == direction:
+                    entity.glyph_rotation = 45 * directions.index(direction)
         for tile in level.tiles:
             if tile.position == initiating_entity.position:
-                initiating_entity.rects_traversed.append(tile.rect)
+                initiating_entity.rects_traversed.append((tile.rect, initiating_entity.glyph_rotation))
         initiating_entity.speed -= 1
         if initiating_entity.speed == 0:
             animation.entities_to_animate.append((initiating_entity, initiating_entity.rects_traversed.copy()))
