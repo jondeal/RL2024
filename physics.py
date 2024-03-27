@@ -6,17 +6,10 @@ import animation
 def resolve_physics(level):
 
     def check_physics_resolved():
-        total_speed = 0
         for entity_to_check in level.actors + level.items:
             if entity_to_check.speed > 0:
-                total_speed += entity_to_check.speed
-            else:
-                pass
-
-        if total_speed > 0:
-            return False
-        else:
-            return True
+                return False
+        return True
 
     def move_to_position(initiating_entity):
         initiating_entity.position = (initiating_entity.position[0] + initiating_entity.direction[0],
@@ -36,9 +29,10 @@ def resolve_physics(level):
             check_physics_resolved()
 
     def apply_force(initiating_entity, receiving_entity):
-        initiating_entity_initial_momentum = initiating_entity.mass * initiating_entity.speed
-
-        receiving_entity.speed = initiating_entity_initial_momentum // receiving_entity.mass
+        # initiating_entity_initial_momentum = initiating_entity.mass * initiating_entity.speed
+        #
+        # receiving_entity.speed = initiating_entity_initial_momentum // receiving_entity.mass
+        receiving_entity.speed = initiating_entity.speed
         receiving_entity.direction = initiating_entity.direction
 
         animation.entities_to_animate.append((initiating_entity, initiating_entity.rects_traversed.copy()))
@@ -282,8 +276,7 @@ def resolve_physics(level):
                     else:
                         move_to_position(initiating_entity)
             elif isinstance(initiating_entity, Item.Item):  # passive movement
-                if abs(initiating_entity.direction[0]) + abs(
-                        initiating_entity.direction[1]) > 1:  # direction is diagonal
+                if abs(initiating_entity.direction[0]) + abs(initiating_entity.direction[1]) > 1:  # direction is diagonal
                     is_gap = diagonal_wall_gap_check(initiating_entity)
                     if is_gap:
                         initiating_entity.direction = (-initiating_entity.direction[0], -initiating_entity.direction[1])
