@@ -65,7 +65,8 @@ class Level:
                                         constants.TILE_HEIGHT)
 
                 new_tile = Tile.Tile('floor', (x, y), tile_rect,
-                                     None, None, constants.FONT_SIZE, None, 0,
+                                     None, None, None,
+                                     constants.FONT_SIZE, None, 0,
                                      None, None, False)
 
                 self.tiles.append(new_tile)
@@ -80,7 +81,8 @@ class Level:
             for template in tile_templates.tile_templates:
                 if template['name'] == tile.name:
                     tile.glyph = template['glyph']
-                    tile.glyph_color = template['glyph_color']
+                    tile.default_glyph_color = template['default_glyph_color']
+                    tile.current_glyph_color = template['default_glyph_color']
                     tile.glyph_size_modifier = template['glyph_size_modifier']
                     tile.default_bg_color = (
                         template['bg_base_rgba'][0] + random.randrange(template['bg_rgb_range'][0][0], template['bg_rgb_range'][0][1]),
@@ -94,7 +96,8 @@ class Level:
             if template['name'] == actor_type:
                 new_actor = Actor.Actor(template['name'],
                                         destination.position, destination.rect,
-                                        template['glyph'], template['glyph_color'],
+                                        template['glyph'],
+                                        template['default_glyph_color'], template['default_glyph_color'],
                                         constants.FONT_SIZE, template['glyph_size_modifier'], 0,
                                         template['dormant_glyph'], template['dormant_glyph_color'], True,
                                         (0, 0), 0, template['mass'],
@@ -135,7 +138,8 @@ class Level:
             if template['name'] == item_name:
                 new_item = Item.Item(template['name'],
                                      destination.position, destination.rect,
-                                     template['glyph'], template['glyph_color'],
+                                     template['glyph'],
+                                     template['default_glyph_color'], template['default_glyph_color'],
                                      constants.FONT_SIZE, template['glyph_size_modifier'], template['glyph_rotation'],
                                      (0, 0), 0, template['mass'],
                                      template['inventory'],

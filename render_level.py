@@ -13,13 +13,13 @@ def render_level(level):
             tile.current_bg_color = tile.default_bg_color
         bg_surface.fill(tile.current_bg_color)
         constants.screen.blit(bg_surface, tile.rect)
-        tile.glyph_color[3] = 255
+        tile.current_glyph_color[3] = 255
         for actor in level.actors:
             if actor.rect == tile.rect:
-                tile.glyph_color = [tile.glyph_color[0], tile.glyph_color[1], tile.glyph_color[2], 0]
+                tile.current_glyph_color = [tile.current_glyph_color[0], tile.current_glyph_color[1], tile.current_glyph_color[2], 0]
         for item in level.items:
             if item.rect == tile.rect:
-                tile.glyph_color = [tile.glyph_color[0], tile.glyph_color[1], tile.glyph_color[2], 0]
+                tile.current_glyph_color = [tile.current_glyph_color[0], tile.current_glyph_color[1], tile.current_glyph_color[2], 0]
 
     to_render = [level.tiles, level.actors, level.items]
 
@@ -36,7 +36,7 @@ def render_level(level):
                 glyph_color = entity.dormant_glyph_color
             else:
                 glyph = entity.glyph
-                glyph_color = entity.glyph_color
+                glyph_color = entity.current_glyph_color
 
             glyph_image, glyph_rect = constants.FONT.render(glyph, glyph_color, None, size=size,
                                                             rotation=entity.glyph_rotation)
