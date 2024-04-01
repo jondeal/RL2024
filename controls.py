@@ -6,7 +6,7 @@ keybinds = {
     'confirm': pygame.K_SPACE,
     'drop': pygame.K_d,
     'escape': pygame.K_ESCAPE,
-    'mod key': pygame.KMOD_LSHIFT,
+    'mod key': pygame.K_LSHIFT,
     'pickup': pygame.K_g,
     'quit': pygame.K_q
 }
