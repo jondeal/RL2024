@@ -29,7 +29,7 @@ game.current_level.spawn_item('YeetStick', game.current_level.get_random_open_ti
 # game.current_level.spawn_item('GenoQuery', game.current_level.get_random_open_tile())
 
 for actor in game.current_level.actors:
-    game.current_level.give_gene(actor, 'photosynthesis')
+    game.current_level.give_gene(actor, 'mobility')
 
 player = game.current_level.actors[0]
 
@@ -49,13 +49,18 @@ while running:
     events = pygame.event.get()
     for event in events:
         if event.type == pygame.KEYUP:
-            if event.key == controls.keybinds['quit'] and event.mod == controls.keybinds['mod key']:
-                running = False
-            elif event.key == pygame.K_F1:
+            keys = pygame.key.get_pressed()
+            if keys[controls.keybinds['mod key']]:
+                if event.key == controls.keybinds['quit']:
+                    running = False
+            elif event.key == pygame.K_F1:  # DEBUG
                 if FPS == 20:
                     FPS = 1
                 else:
                     FPS = 20
+            elif event.key == pygame.K_F2:  # DEBUG
+                for entity in game.current_level.actors + game.current_level.items:
+                    print(entity.name, entity.direction)
     if GAME_STATE == 'waiting for input':
         if player.turn_complete is False:
             state_manager.update(events)
@@ -64,7 +69,11 @@ while running:
                 if 'can_move' in actor.abilities and actor.speed == 0:
                     direction_list = [direction[1] for direction in controls.direction_keys.values()]
                     actor.direction = random.choice(direction_list)
-                    actor.move()
+                    if actor.direction == (0, 0):  # DEBUG
+                        actor.current_glyph_color = [0, 0, 255, 255]
+                    else:
+                        actor.current_glyph_color = actor.default_glyph_color
+                    actor.move(game.current_level)
                 else:
                     pass
             player.turn_complete = False
