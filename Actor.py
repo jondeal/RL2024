@@ -1,3 +1,6 @@
+import constants
+import render_ui
+import Message
 from ChoosingActionState import ChoosingActionState
 from UsingGenoScribeState import UsingGenoScribeState
 
@@ -39,15 +42,39 @@ class Actor:
         self.turn_complete = turn_complete
         self.rects_traversed = rects_traversed
 
-    def move(self):
-        self.speed = 1
-        self.action = 'push'
-        self.turn_complete = True
+    def move(self, current_level):
+        if self.name == 'player':
+            for tile in current_level.tiles:
+                if tile.position == (self.position[0] + self.direction[0], self.position[1] + self.direction[1]):
+                    if tile.name == 'wall':
+                        render_ui.prompt_to_render = Message.Message(constants.PROMPT_RECT,
+                                                                     'The wall is unyielding.',
+                                                                     [255, 255, 255, 255])
+                    else:
+                        self.speed = 1
+                        self.action = 'push'
+                        self.turn_complete = True
+        else:
+            self.speed = 1
+            self.action = 'push'
+            self.turn_complete = True
 
-    def shove(self):
-        self.speed = 1
-        self.action = 'shove'
-        self.turn_complete = True
+    def shove(self, current_level):
+        if self.name == 'player':
+            for tile in current_level.tiles:
+                if tile.position == (self.position[0] + self.direction[0], self.position[1] + self.direction[1]):
+                    if tile.name == 'wall':
+                        render_ui.prompt_to_render = Message.Message(constants.PROMPT_RECT,
+                                                                     'The wall is unyielding.',
+                                                                     [255, 255, 255, 255])
+                    else:
+                        self.speed = 1
+                        self.action = 'shove'
+                        self.turn_complete = True
+        else:
+            self.speed = 1
+            self.action = 'shove'
+            self.turn_complete = True
 
     def pickup(self, current_level):
         for item in current_level.items:
