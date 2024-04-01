@@ -19,12 +19,15 @@ class ChoosingActionState(State):
     def update(self, events):
         for event in events:
             if event.type == pygame.KEYUP:
-                render_ui.prompt_to_render = None
+                if event.key == pygame.K_LSHIFT:
+                    pass
+                else:
+                    render_ui.prompt_to_render = None
                 if event.key in controls.direction_keys:
                     self.player.direction = controls.direction_keys[event.key][1]
-                    self.player.move()
+                    self.player.move(self.game.current_level)
                     if event.mod == controls.keybinds['mod key']:
-                        self.player.shove()
+                        self.player.shove(self.game.current_level)
                 elif event.key == controls.keybinds['pickup']:
                     self.player.pickup(self.game.current_level)
                 elif event.key == controls.keybinds['drop']:
