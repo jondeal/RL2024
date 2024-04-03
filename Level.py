@@ -2,6 +2,7 @@ import random
 import pygame
 
 import constants
+import controls
 
 import Tile
 import Actor
@@ -51,6 +52,22 @@ class Level:
                     open_tiles.remove(tile)
         random_open_tile = random.choice(open_tiles)
         return random_open_tile
+
+    def get_random_open_neighboring_tile(self, entity):
+        direction_list = [direction[1] for direction in controls.direction_keys.values()]
+        tiles_dict = {tile.position: tile for tile in self.tiles}
+        neighboring_tiles = []
+        open_neighboring_tiles = []
+        for direction in direction_list:
+            desired_position = (entity.position[0] + direction[0], entity.position[1] + direction[1])
+            if desired_position in tiles_dict:
+                neighboring_tiles.append(tiles_dict[desired_position])
+        for tile in neighboring_tiles:
+            if tile.name != 'wall':
+                open_neighboring_tiles.append(tile)
+            else:
+                pass
+        return random.choice(open_neighboring_tiles)
 
     def generate_terrain(self):
         # generates a grid of floor tiles
