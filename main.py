@@ -67,8 +67,9 @@ while running:
         else:
             for actor in game.current_level.actors[1:]:
                 if 'can_move' in actor.abilities:
-                    direction_list = [direction[1] for direction in controls.direction_keys.values()]
-                    actor.direction = random.choice(direction_list)
+                    neighboring_tile = game.current_level.get_random_open_neighboring_tile(actor)
+                    actor.direction = (neighboring_tile.position[0] - actor.position[0],
+                                       neighboring_tile.position[1] - actor.position[1])
                     if actor.direction == (0, 0):  # DEBUG
                         actor.current_glyph_color = [0, 0, 255, 255]
                     else:
