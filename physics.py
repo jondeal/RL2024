@@ -284,7 +284,7 @@ def resolve_physics(level):
                 else:
                     move_to_position(initiating_entity)
 
-    while check_physics_resolved() is False:
+    if check_physics_resolved() is False:
         entities_to_resolve = []
         for entity in level.actors + level.items:
             if entity.speed > 0:
