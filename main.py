@@ -66,7 +66,7 @@ while running:
             state_manager.update(events)
         else:
             for actor in game.current_level.actors[1:]:
-                if 'can_move' in actor.abilities and actor.speed == 0:
+                if 'can_move' in actor.abilities:
                     direction_list = [direction[1] for direction in controls.direction_keys.values()]
                     actor.direction = random.choice(direction_list)
                     if actor.direction == (0, 0):  # DEBUG
