@@ -1,7 +1,6 @@
 import pygame
 import render_ui
-import Message
-import constants
+import ui_prompts
 import controls
 from State import State
 from ChoosingDirectionState import ChoosingDirectionState
@@ -13,12 +12,10 @@ class ApplyingItemState(State):
 
     def enter(self):
         if self.player.inventory:
-            render_ui.prompt_to_render = Message.Message(constants.PROMPT_RECT,
-                                                         'Select an item to apply.', [255, 255, 255, 255])
+            render_ui.prompt_to_render = ui_prompts.apply_item_choose_prompt
             self.player.inventory[0].is_selected = True
         else:
-            render_ui.prompt_to_render = Message.Message(constants.PROMPT_RECT,
-                                                         'You have nothing to apply.', [255, 255, 255, 255])
+            render_ui.prompt_to_render = ui_prompts.apply_item_fail_prompt
             self.game.state_manager.change_state(self.game.state_manager.previous_state)
 
     def exit(self):
@@ -52,7 +49,7 @@ class ApplyingItemState(State):
                     selected_item_index = None
                     render_ui.prompt_to_render = None
                     self.game.state_manager.change_state(ChoosingDirectionState(self.game, self.player))
-                elif event.key == controls.keybinds['escape']:
+                elif event.key == controls.keybinds['cancel']:
                     render_ui.prompt_to_render = None
                     selected_item_index = None
                     self.game.state_manager.change_state(ChoosingActionState(self.game, self.player))
