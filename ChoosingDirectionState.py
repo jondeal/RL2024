@@ -54,5 +54,5 @@ class ChoosingDirectionState(State):
                             render_ui.prompt_to_render = Message.Message(constants.PROMPT_RECT,
                                                                          'You must choose a direction first.',
                                                                          [255, 255, 255, 255])
-                elif event.key == controls.keybinds['escape']:
+                elif event.key == controls.keybinds['cancel']:
                     self.game.state_manager.change_state(self.game.state_manager.previous_state)
