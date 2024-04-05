@@ -222,7 +222,7 @@ def render_genes(actor, actor_genome, player):
         glyph_color = actor.dormant_glyph_color
     else:
         glyph = actor.glyph
-        glyph_color = actor.glyph_color
+        glyph_color = actor.current_glyph_color
 
     genome_actor_surface, genome_actor_surface_rect = constants.FONT.render(glyph,
                                                                             glyph_color,
