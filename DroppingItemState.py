@@ -1,7 +1,6 @@
 import pygame
 import render_ui
-import Message
-import constants
+import ui_prompts
 import controls
 from State import State
 
@@ -12,12 +11,10 @@ class DroppingItemState(State):
 
     def enter(self):
         if self.player.inventory:
-            render_ui.prompt_to_render = Message.Message(constants.PROMPT_RECT,
-                                                         'Select an item to drop.', [255, 255, 255, 255])
+            render_ui.prompt_to_render = ui_prompts.drop_item_choose_prompt
             self.player.inventory[0].is_selected = True
         else:
-            render_ui.prompt_to_render = Message.Message(constants.PROMPT_RECT,
-                                                         'You have nothing to drop.', [255, 255, 255, 255])
+            render_ui.prompt_to_render = ui_prompts.drop_item_fail_prompt
             self.game.state_manager.change_state(self.game.state_manager.previous_state)
 
     def exit(self):
@@ -47,7 +44,7 @@ class DroppingItemState(State):
                     self.player.drop(self.game, self.game.current_level, self.player.inventory[selected_item_index])
                     selected_item_index = None
                     render_ui.prompt_to_render = None
-                elif event.key == controls.keybinds['escape']:
+                elif event.key == controls.keybinds['cancel']:
                     selected_item_index = None
                     self.game.state_manager.change_state(self.game.state_manager.previous_state)
                 for item in self.player.inventory:
