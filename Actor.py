@@ -1,6 +1,5 @@
-import constants
 import render_ui
-import Message
+import ui_prompts
 from ChoosingActionState import ChoosingActionState
 from UsingGenoScribeState import UsingGenoScribeState
 
@@ -47,9 +46,7 @@ class Actor:
             for tile in current_level.tiles:
                 if tile.position == (self.position[0] + self.direction[0], self.position[1] + self.direction[1]):
                     if tile.name == 'wall':
-                        render_ui.prompt_to_render = Message.Message(constants.PROMPT_RECT,
-                                                                     'The wall is unyielding.',
-                                                                     [255, 255, 255, 255])
+                        render_ui.prompt_to_render = ui_prompts.wall_prompt
                     else:
                         self.speed = 1
                         self.action = 'push'
@@ -64,9 +61,7 @@ class Actor:
             for tile in current_level.tiles:
                 if tile.position == (self.position[0] + self.direction[0], self.position[1] + self.direction[1]):
                     if tile.name == 'wall':
-                        render_ui.prompt_to_render = Message.Message(constants.PROMPT_RECT,
-                                                                     'The wall is unyielding.',
-                                                                     [255, 255, 255, 255])
+                        render_ui.prompt_to_render = ui_prompts.wall_prompt
                     else:
                         self.speed = 1
                         self.action = 'shove'
