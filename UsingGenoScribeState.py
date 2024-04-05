@@ -1,7 +1,6 @@
 import pygame
 import render_ui
-import Message
-import constants
+import ui_prompts
 import controls
 from State import State
 from ChoosingActionState import ChoosingActionState
@@ -16,9 +15,7 @@ class UsingGenoScribeState(State):
     def enter(self):
         if self.actor.genome or self.player.action_item.inventory:
             render_ui.genome_to_render = (self.actor, self.actor.genome)
-            render_ui.prompt_to_render = Message.Message(constants.PROMPT_RECT,
-                                                         'Select a gene to transfer.',
-                                                         [255, 255, 255, 255])
+            render_ui.prompt_to_render = ui_prompts.genoscribe_gene_choose_prompt
             if self.actor.genome:
                 self.actor.genome[0].is_selected = True
             else:
@@ -120,7 +117,7 @@ class UsingGenoScribeState(State):
                                 self.actor.abilities.append(gene.ability)
                                 self.player.action_item.inventory.remove(gene)
                                 selected_gene_index = active_list.index(gene)
-                elif event.key == controls.keybinds['escape']:
+                elif event.key == controls.keybinds['cancel']:
                     active_list = None
                     self.game.state_manager.change_state(ChoosingActionState(self.game, self.player))
                 for gene in all_genes:
