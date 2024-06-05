@@ -20,10 +20,9 @@ choose_direction_fail_prompt = Message.Message(constants.PROMPT_RECT,
                                                'You must choose a direction first.',
                                                [255, 255, 255, 255])
 
-
 drop_item_choose_prompt = Message.Message(constants.PROMPT_RECT,
                                           'Choose an item to drop.',
-                                          [255, 255, 255, 255]),
+                                          [255, 255, 255, 255])
 
 drop_item_fail_prompt = Message.Message(constants.PROMPT_RECT,
                                         'You have nothing to drop.',

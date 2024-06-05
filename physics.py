@@ -1,6 +1,5 @@
 import Actor
 import Item
-import animation
 
 
 def resolve_physics(level):
@@ -11,38 +10,29 @@ def resolve_physics(level):
                 return False
         return True
 
-    def move_to_position(initiating_entity):
+    def move_to_position(initiating_entity, receiving_entity):
         initiating_entity.position = (initiating_entity.position[0] + initiating_entity.direction[0],
                                       initiating_entity.position[1] + initiating_entity.direction[1])
+        initiating_entity.rect = receiving_entity.rect
         if initiating_entity.name == 'force bolt':
             directions = [(-1, 0), (-1, 1), (0, 1), (1, 1), (1, 0), (1, -1), (0, -1), (-1, -1)]
             for direction in directions:
                 if entity.direction == direction:
                     entity.glyph_rotation = 45 * directions.index(direction)
-        for tile in level.tiles:
-            if tile.position == initiating_entity.position:
-                initiating_entity.rects_traversed.append((tile.rect, initiating_entity.glyph_rotation))
         initiating_entity.speed -= 1
         if initiating_entity.speed == 0:
-            animation.entities_to_animate.append((initiating_entity, initiating_entity.rects_traversed.copy()))
-            initiating_entity.rects_traversed.clear()
             check_physics_resolved()
 
     def apply_force(initiating_entity, receiving_entity):
-        # initiating_entity_initial_momentum = initiating_entity.mass * initiating_entity.speed
-        #
-        # receiving_entity.speed = initiating_entity_initial_momentum // receiving_entity.mass
-        receiving_entity.speed = initiating_entity.speed
-        receiving_entity.direction = initiating_entity.direction
+        initiating_entity_initial_momentum = initiating_entity.mass * initiating_entity.speed
 
-        animation.entities_to_animate.append((initiating_entity, initiating_entity.rects_traversed.copy()))
-        initiating_entity.rects_traversed.clear()
+        receiving_entity.speed = initiating_entity_initial_momentum // receiving_entity.mass
+        # receiving_entity.speed = initiating_entity.speed
+        receiving_entity.direction = initiating_entity.direction
 
         while receiving_entity.speed > 0:
             handle_collision(collision_check(receiving_entity))
         else:
-            animation.entities_to_animate.insert(0, (receiving_entity, receiving_entity.rects_traversed.copy()))
-            receiving_entity.rects_traversed.clear()
             check_physics_resolved()
 
     def diagonal_wall_gap_check(entity_to_check):
@@ -174,7 +164,7 @@ def resolve_physics(level):
                         if gap_check:
                             make_still(initiating_entity)
                         else:
-                            move_to_position(initiating_entity)
+                            move_to_position(initiating_entity, receiving_entity)
                     elif isinstance(receiving_entity, Actor.Actor):
                         gap_check = diagonal_wall_gap_check(initiating_entity)
                         if gap_check:
@@ -241,7 +231,7 @@ def resolve_physics(level):
                         apply_force(initiating_entity, receiving_entity)
                         make_still(initiating_entity)
                     elif isinstance(receiving_entity, Item.Item):
-                        move_to_position(initiating_entity)
+                        move_to_position(initiating_entity, receiving_entity)
             elif isinstance(initiating_entity, Item.Item):  # if had_collision is True
                 if receiving_entity.name == 'wall':
                     initiating_entity.direction = wall_rebound_direction(initiating_entity)
@@ -264,25 +254,25 @@ def resolve_physics(level):
                     if is_gap:
                         make_still(initiating_entity)
                     else:
-                        move_to_position(initiating_entity)
+                        move_to_position(initiating_entity, receiving_entity)
                 else:  # passive movement
                     if abs(initiating_entity.direction[0]) + abs(initiating_entity.direction[1]) > 1:  # direction is diagonal
                         is_gap = diagonal_wall_gap_check(initiating_entity)
                         if is_gap:
                             initiating_entity.direction = (-initiating_entity.direction[0], -initiating_entity.direction[1])
                         else:
-                            move_to_position(initiating_entity)
+                            move_to_position(initiating_entity, receiving_entity)
                     else:
-                        move_to_position(initiating_entity)
+                        move_to_position(initiating_entity, receiving_entity)
             elif isinstance(initiating_entity, Item.Item):  # passive movement
                 if abs(initiating_entity.direction[0]) + abs(initiating_entity.direction[1]) > 1:  # direction is diagonal
                     is_gap = diagonal_wall_gap_check(initiating_entity)
                     if is_gap:
                         initiating_entity.direction = (-initiating_entity.direction[0], -initiating_entity.direction[1])
                     else:
-                        move_to_position(initiating_entity)
+                        move_to_position(initiating_entity, receiving_entity)
                 else:
-                    move_to_position(initiating_entity)
+                    move_to_position(initiating_entity, receiving_entity)
 
     if check_physics_resolved() is False:
         entities_to_resolve = []

@@ -1,8 +1,5 @@
-import random
-
 import pygame
 import Game
-import animation
 import controls
 import render_level
 import render_ui
@@ -28,10 +25,12 @@ game.current_level.spawn_item('GenoScribe', game.current_level.get_random_open_t
 game.current_level.spawn_item('YeetStick', game.current_level.get_random_open_tile())
 # game.current_level.spawn_item('GenoQuery', game.current_level.get_random_open_tile())
 
-for actor in game.current_level.actors:
-    game.current_level.give_gene(actor, 'mobility')
+for actor in game.current_level.actors[1:]:
+    game.current_level.give_gene(actor, 'photosynthesis')
 
 player = game.current_level.actors[0]
+
+game.current_level.give_gene(player, 'mobility')
 
 state_manager = StateManager(game, player)
 
@@ -63,7 +62,7 @@ while running:
                     print(entity.name, entity.direction)
     if GAME_STATE == 'waiting for input':
         if player.turn_complete is False:
-            state_manager.update(events)
+            game.state_manager.update(events)
         else:
             for actor in game.current_level.actors[1:]:
                 if 'can_move' in actor.abilities:
@@ -90,7 +89,5 @@ while running:
         else:
             pass
     render_ui.render_ui(player)
-    # animation.update(game.current_level)
-    animation.animate(game.current_level)
     render_level.render_level(game.current_level)
     pygame.display.flip()

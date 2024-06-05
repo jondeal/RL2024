@@ -11,7 +11,7 @@ class ChoosingActionState(State):
         super().__init__(game, player)
 
     def enter(self):
-        render_ui.prompt_to_render = None
+        pass
 
     def exit(self):
         pass

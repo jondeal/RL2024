@@ -18,7 +18,7 @@ class DroppingItemState(State):
             self.game.state_manager.change_state(self.game.state_manager.previous_state)
 
     def exit(self):
-        render_ui.prompt_to_render = None
+        pass
 
     def update(self, events):
         for event in events:

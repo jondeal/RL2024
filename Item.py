@@ -4,8 +4,8 @@ class Item:
                  glyph_size, glyph_size_modifier, glyph_rotation,
                  direction, speed, mass,
                  inventory,
-                 is_selected,
-                 rects_traversed):
+                 is_selected
+                 ):
         self.name = name
         self.position = position
         self.rect = rect
@@ -20,4 +20,3 @@ class Item:
         self.mass = mass
         self.inventory = inventory
         self.is_selected = is_selected
-        self.rects_traversed = rects_traversed

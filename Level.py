@@ -123,8 +123,8 @@ class Level:
                                         [],
                                         None, None,
                                         [],
-                                        False,
-                                        [])
+                                        False
+                                        )
 
                 self.actors.append(new_actor)
 
@@ -160,6 +160,6 @@ class Level:
                                      constants.FONT_SIZE, template['glyph_size_modifier'], template['glyph_rotation'],
                                      (0, 0), 0, template['mass'],
                                      template['inventory'],
-                                     False,
-                                     [])
+                                     False
+                                     )
                 self.items.append(new_item)

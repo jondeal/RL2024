@@ -15,8 +15,8 @@ class Actor:
                  genome,
                  action, action_item,
                  abilities,
-                 turn_complete,
-                 rects_traversed):
+                 turn_complete
+                 ):
         self.name = name
         self.position = position
         self.rect = rect
@@ -39,7 +39,6 @@ class Actor:
         self.action_item = action_item
         self.abilities = abilities
         self.turn_complete = turn_complete
-        self.rects_traversed = rects_traversed
 
     def move(self, current_level):
         if self.name == 'player':
