@@ -11,8 +11,7 @@ def resolve_physics(level):
         return True
 
     def move_to_position(initiating_entity, receiving_entity):
-        initiating_entity.position = (initiating_entity.position[0] + initiating_entity.direction[0],
-                                      initiating_entity.position[1] + initiating_entity.direction[1])
+        initiating_entity.position = receiving_entity.position
         initiating_entity.rect = receiving_entity.rect
         if initiating_entity.name == 'force bolt':
             directions = [(-1, 0), (-1, 1), (0, 1), (1, 1), (1, 0), (1, -1), (0, -1), (-1, -1)]
@@ -25,7 +24,7 @@ def resolve_physics(level):
 
     def apply_force(initiating_entity, receiving_entity):
         initiating_entity_initial_momentum = initiating_entity.mass * initiating_entity.speed
-
+        initiating_entity.speed = 0
         receiving_entity.speed = int(initiating_entity_initial_momentum / receiving_entity.mass)
         # receiving_entity.speed = initiating_entity.speed # for use without momentum formula; check Actor shove speed
         receiving_entity.direction = initiating_entity.direction
