@@ -26,7 +26,7 @@ def resolve_physics(level):
     def apply_force(initiating_entity, receiving_entity):
         initiating_entity_initial_momentum = initiating_entity.mass * initiating_entity.speed
 
-        receiving_entity.speed = initiating_entity_initial_momentum // receiving_entity.mass
+        receiving_entity.speed = int(initiating_entity_initial_momentum / receiving_entity.mass)
         # receiving_entity.speed = initiating_entity.speed
         receiving_entity.direction = initiating_entity.direction
 
