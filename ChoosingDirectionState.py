@@ -25,6 +25,7 @@ class ChoosingDirectionState(State):
         for tile in self.game.current_level.tiles:
             if tile.is_highlighted:
                 tile.is_highlighted = False
+        render_ui.prompt_to_render = None
 
     def update(self, events):
         from ApplyingItemState import ApplyingItemState
