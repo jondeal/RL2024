@@ -27,7 +27,7 @@ def resolve_physics(level):
         initiating_entity_initial_momentum = initiating_entity.mass * initiating_entity.speed
 
         receiving_entity.speed = int(initiating_entity_initial_momentum / receiving_entity.mass)
-        # receiving_entity.speed = initiating_entity.speed
+        # receiving_entity.speed = initiating_entity.speed # for use without momentum formula; check Actor shove speed
         receiving_entity.direction = initiating_entity.direction
 
         while receiving_entity.speed > 0:
