@@ -20,6 +20,7 @@ def resolve_physics(level):
                     entity.glyph_rotation = 45 * directions.index(direction)
         initiating_entity.speed -= 1
         if initiating_entity.speed == 0:
+            make_still(initiating_entity)
             check_physics_resolved()
 
     def apply_force(initiating_entity, receiving_entity):
