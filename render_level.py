@@ -15,10 +15,10 @@ def render_level(level):
         constants.screen.blit(bg_surface, tile.rect)
         tile.current_glyph_color[3] = 255
         for actor in level.actors:
-            if actor.rect == tile.rect:
+            if actor.position == tile.position:
                 tile.current_glyph_color = [tile.current_glyph_color[0], tile.current_glyph_color[1], tile.current_glyph_color[2], 0]
         for item in level.items:
-            if item.rect == tile.rect:
+            if item.position == tile.position:
                 tile.current_glyph_color = [tile.current_glyph_color[0], tile.current_glyph_color[1], tile.current_glyph_color[2], 0]
 
     to_render = [level.tiles, level.actors, level.items]
@@ -29,8 +29,6 @@ def render_level(level):
                 size = entity.glyph_size
             else:
                 size = constants.FONT_SIZE * entity.glyph_size_modifier
-            glyph = None
-            glyph_color = None
             if entity in level.actors and entity.is_dormant:
                 glyph = entity.dormant_glyph
                 glyph_color = entity.dormant_glyph_color
