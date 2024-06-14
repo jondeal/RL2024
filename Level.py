@@ -112,7 +112,7 @@ class Level:
         for template in actor_templates.actor_templates:
             if template['name'] == actor_type:
                 new_actor = Actor.Actor(template['name'],
-                                        destination.position, destination.rect,
+                                        destination.position, destination.rect.copy(),
                                         template['glyph'],
                                         template['default_glyph_color'], template['default_glyph_color'],
                                         constants.FONT_SIZE, template['glyph_size_modifier'], 0,
@@ -154,7 +154,7 @@ class Level:
         for template in item_templates.item_templates:
             if template['name'] == item_name:
                 new_item = Item.Item(template['name'],
-                                     destination.position, destination.rect,
+                                     destination.position, destination.rect.copy(),
                                      template['glyph'],
                                      template['default_glyph_color'], template['default_glyph_color'],
                                      constants.FONT_SIZE, template['glyph_size_modifier'], template['glyph_rotation'],
