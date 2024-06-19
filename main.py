@@ -4,6 +4,7 @@ import controls
 import render_level
 import render_ui
 import physics
+import animation
 from StateManager import StateManager
 
 pygame.init()
@@ -89,5 +90,6 @@ while running:
         else:
             pass
     render_ui.render_ui(player)
+    animation.animate(game.current_level)
     render_level.render_level(game.current_level)
     pygame.display.flip()
