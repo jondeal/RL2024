@@ -1,3 +1,7 @@
+import Animation
+import animation
+
+
 def resolve_physics(level):
 
     def check_physics_resolved():
@@ -8,13 +12,15 @@ def resolve_physics(level):
 
     def move_to_position(initiating_entity, receiving_entity):
         initiating_entity.position = receiving_entity.position
-        initiating_entity.rect = receiving_entity.rect
         if initiating_entity.name == 'force bolt':
             directions = [(-1, 0), (-1, 1), (0, 1), (1, 1), (1, 0), (1, -1), (0, -1), (-1, -1)]
             for direction in directions:
                 if entity.direction == direction:
                     entity.glyph_rotation = 45 * directions.index(direction)
         initiating_entity.speed -= 1
+        new_animation = Animation.Animation(initiating_entity, initiating_entity.rect, receiving_entity.rect,
+                                            0, 2, "move", False)
+        animation.animation_events.append(new_animation)
         if initiating_entity.speed == 0:
             make_still(initiating_entity)
             check_physics_resolved()
@@ -194,7 +200,7 @@ def resolve_physics(level):
                                                 )
                                                 for tile in level.tiles:
                                                     if tile.position == row_entity.position:
-                                                        row_entity.rect = tile.rect
+                                                        row_entity.rect = tile.rect.copy()
                                                 make_still(row_entity)
 
                                             open_tile_reached = True
@@ -213,7 +219,7 @@ def resolve_physics(level):
                                                 )
                                                 for tile in level.tiles:
                                                     if tile.position == row_entity.position:
-                                                        row_entity.rect = tile.rect
+                                                        row_entity.rect = tile.rect.copy()
                                                 make_still(row_entity)
 
                                             open_tile_reached = True
