@@ -2,8 +2,8 @@ import pygame
 import render_ui
 import ui_prompts
 import controls
-from State import State
-from ChoosingActionState import ChoosingActionState
+from PlayerState import State
+from PlayerStateChoosingAction import ChoosingActionState
 
 
 class UsingGenoScribeState(State):
