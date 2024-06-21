@@ -3,13 +3,14 @@ import Game
 import controls
 import render_level
 import render_ui
-import physics
 import animation
-from StateManager import StateManager
+from GameStateManager import GameStateManager
+from PlayerStateManager import PlayerStateManager
+
 
 pygame.init()
 
-game = Game.Game([], None, None)
+game = Game.Game([], None, None, None)
 
 game.generate_new_level()
 
@@ -33,12 +34,11 @@ player = game.current_level.actors[0]
 
 game.current_level.give_gene(player, 'mobility')
 
-state_manager = StateManager(game, player)
+player_state_manager = PlayerStateManager(game, player)
+game_state_manager = GameStateManager(game, player)
 
-game.state_manager = state_manager
-
-GAME_STATE = 'waiting for input'
-
+game.game_state_manager = game_state_manager
+game.player_state_manager = player_state_manager
 
 running = True
 clock = pygame.time.Clock()
@@ -61,34 +61,9 @@ while running:
             elif event.key == pygame.K_F2:  # DEBUG
                 for entity in game.current_level.actors + game.current_level.items:
                     print(entity.name, entity.direction)
-    if GAME_STATE == 'waiting for input':
-        if player.turn_complete is False:
-            game.state_manager.update(events)
-        else:
-            for actor in game.current_level.actors[1:]:
-                if 'can_move' in actor.abilities:
-                    neighboring_tile = game.current_level.get_random_open_neighboring_tile(actor)
-                    actor.direction = (neighboring_tile.position[0] - actor.position[0],
-                                       neighboring_tile.position[1] - actor.position[1])
-                    if actor.direction == (0, 0):  # DEBUG
-                        actor.current_glyph_color = [0, 0, 255, 255]
-                    else:
-                        actor.current_glyph_color = actor.default_glyph_color
-                    actor.move(game.current_level)
-                else:
-                    pass
-            player.turn_complete = False
-            GAME_STATE = 'resolving physics'
-    elif GAME_STATE == 'resolving physics':
-        physics_resolved = False
-        while physics_resolved is False:
-            if physics.resolve_physics(game.current_level) is True:
-                physics_resolved = True
-                GAME_STATE = 'waiting for input'
-            else:
-                continue
-        else:
-            pass
+
+    game.game_state_manager.current_state.update(events)
+
     render_ui.render_ui(player)
     animation.animate(game.current_level)
     render_level.render_level(game.current_level)
