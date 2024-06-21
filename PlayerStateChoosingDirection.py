@@ -3,17 +3,17 @@ import controls
 import constants
 import render_ui
 import Message
-from State import State
+from PlayerState import PlayerState
 
 
-class ChoosingDirectionState(State):
+class PlayerStateChoosingDirection(PlayerState):
     def __init__(self, game, player):
         super().__init__(game, player)
 
     def enter(self):
-        from ApplyingItemState import ApplyingItemState
+        from PlayerStateApplyingItem import PlayerStateApplyingItem
 
-        if isinstance(self.game.state_manager.previous_state, ApplyingItemState):
+        if isinstance(self.game.player_state_manager.previous_state, PlayerStateApplyingItem):
             render_ui.prompt_to_render = Message.Message(constants.PROMPT_RECT,
                                                          'Apply the ' + self.player.action_item.glyph +
                                                          self.player.action_item.name +
@@ -28,12 +28,12 @@ class ChoosingDirectionState(State):
         render_ui.prompt_to_render = None
 
     def update(self, events):
-        from ApplyingItemState import ApplyingItemState
+        from PlayerStateApplyingItem import PlayerStateApplyingItem
         for event in events:
             if event.type == pygame.KEYUP:
                 if event.key in controls.direction_keys:
                     self.player.direction = controls.direction_keys[event.key][1]
-                    if isinstance(self.game.state_manager.previous_state, ApplyingItemState):
+                    if isinstance(self.game.player_state_manager.previous_state, PlayerStateApplyingItem):
                         if self.player.action_item.name == 'GenoScribe':
                             self.player.apply(self.game, self.player.action_item, self.player.direction)
                         elif self.player.action_item.name == 'YeetStick':
@@ -56,4 +56,4 @@ class ChoosingDirectionState(State):
                                                                          'You must choose a direction first.',
                                                                          [255, 255, 255, 255])
                 elif event.key == controls.keybinds['cancel']:
-                    self.game.state_manager.change_state(self.game.state_manager.previous_state)
+                    self.game.player_state_manager.change_state(self.game.player_state_manager.previous_state)

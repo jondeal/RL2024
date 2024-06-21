@@ -2,11 +2,11 @@ import pygame
 import render_ui
 import ui_prompts
 import controls
-from PlayerState import State
-from PlayerStateChoosingAction import ChoosingActionState
+from PlayerState import PlayerState
+from PlayerStateChoosingAction import PlayerStateChoosingAction
 
 
-class UsingGenoScribeState(State):
+class PlayerStateUsingGenoScribe(PlayerState):
     def __init__(self, game, player, actor):
         super().__init__(game, player)
         self.actor = actor
@@ -24,7 +24,7 @@ class UsingGenoScribeState(State):
             self.initial_state = [sorted(self.player.action_item.inventory.copy()), sorted(self.actor.genome.copy())]
 
         else:
-            self.game.state_manager.change_state(ChoosingActionState(self.game, self.player))
+            self.game.player_state_manager.change_state(PlayerStateChoosingAction(self.game, self.player))
 
     def exit(self):
         all_genes = self.actor.genome + self.player.action_item.inventory
@@ -119,7 +119,7 @@ class UsingGenoScribeState(State):
                                 selected_gene_index = active_list.index(gene)
                 elif event.key == controls.keybinds['cancel']:
                     active_list = None
-                    self.game.state_manager.change_state(ChoosingActionState(self.game, self.player))
+                    self.game.player_state_manager.change_state(PlayerStateChoosingAction(self.game, self.player))
                 for gene in all_genes:
                     if active_list is not None:
                         if gene in active_list:

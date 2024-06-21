@@ -2,11 +2,11 @@ import pygame
 import render_ui
 import ui_prompts
 import controls
-from State import State
-from ChoosingDirectionState import ChoosingDirectionState
+from PlayerState import PlayerState
+from PlayerStateChoosingDirection import PlayerStateChoosingDirection
 
 
-class ApplyingItemState(State):
+class PlayerStateApplyingItem(PlayerState):
     def __init__(self, game, player):
         super().__init__(game, player)
 
@@ -16,13 +16,13 @@ class ApplyingItemState(State):
             self.player.inventory[0].is_selected = True
         else:
             render_ui.prompt_to_render = ui_prompts.apply_item_fail_prompt
-            self.game.state_manager.change_state(self.game.state_manager.previous_state)
+            self.game.player_state_manager.change_state(self.game.player_state_manager.previous_state)
 
     def exit(self):
         pass
 
     def update(self, events):
-        from ChoosingActionState import ChoosingActionState
+        from PlayerStateChoosingAction import PlayerStateChoosingAction
         for event in events:
             if event.type == pygame.KEYUP:
                 direction_keys_list = list(controls.direction_keys.keys())
@@ -48,11 +48,11 @@ class ApplyingItemState(State):
                         item.is_selected = False
                     selected_item_index = None
                     render_ui.prompt_to_render = None
-                    self.game.state_manager.change_state(ChoosingDirectionState(self.game, self.player))
+                    self.game.player_state_manager.change_state(PlayerStateChoosingDirection(self.game, self.player))
                 elif event.key == controls.keybinds['cancel']:
                     render_ui.prompt_to_render = None
                     selected_item_index = None
-                    self.game.state_manager.change_state(ChoosingActionState(self.game, self.player))
+                    self.game.player_state_manager.change_state(PlayerStateChoosingAction(self.game, self.player))
                 for item in self.player.inventory:
                     if self.player.inventory.index(item) == selected_item_index:
                         item.is_selected = True

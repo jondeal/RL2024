@@ -1,12 +1,12 @@
-from ChoosingActionState import ChoosingActionState
+from PlayerStateChoosingAction import PlayerStateChoosingAction
 
 
-class StateManager:
+class PlayerStateManager:
     def __init__(self, game, player):
         self.game = game
         self.player = player
         self.previous_state = None
-        self.current_state = ChoosingActionState(game, player)
+        self.current_state = PlayerStateChoosingAction(game, player)
 
     def change_state(self, new_state):
         self.current_state.exit()

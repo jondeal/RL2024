@@ -2,10 +2,10 @@ import pygame
 import render_ui
 import ui_prompts
 import controls
-from State import State
+from PlayerState import PlayerState
 
 
-class DroppingItemState(State):
+class PlayerStateDroppingItem(PlayerState):
     def __init__(self, game, player):
         super().__init__(game, player)
 
@@ -15,7 +15,7 @@ class DroppingItemState(State):
             self.player.inventory[0].is_selected = True
         else:
             render_ui.prompt_to_render = ui_prompts.drop_item_fail_prompt
-            self.game.state_manager.change_state(self.game.state_manager.previous_state)
+            self.game.player_state_manager.change_state(self.game.player_state_manager.previous_state)
 
     def exit(self):
         pass
@@ -46,7 +46,7 @@ class DroppingItemState(State):
                     render_ui.prompt_to_render = None
                 elif event.key == controls.keybinds['cancel']:
                     selected_item_index = None
-                    self.game.state_manager.change_state(self.game.state_manager.previous_state)
+                    self.game.player_state_manager.change_state(self.game.player_state_manager.previous_state)
                 for item in self.player.inventory:
                     if self.player.inventory.index(item) == selected_item_index:
                         item.is_selected = True

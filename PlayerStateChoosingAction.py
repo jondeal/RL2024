@@ -1,12 +1,12 @@
 import pygame
 import controls
 import render_ui
-from State import State
-from DroppingItemState import DroppingItemState
-from ApplyingItemState import ApplyingItemState
+from PlayerState import PlayerState
+from PlayerStateApplyingItem import PlayerStateApplyingItem
+from PlayerStateDroppingItem import PlayerStateDroppingItem
 
 
-class ChoosingActionState(State):
+class PlayerStateChoosingAction(PlayerState):
     def __init__(self, game, player):
         super().__init__(game, player)
 
@@ -33,6 +33,6 @@ class ChoosingActionState(State):
                     elif event.key == controls.keybinds['pickup']:
                         self.player.pickup(self.game.current_level)
                     elif event.key == controls.keybinds['drop']:
-                        self.game.state_manager.change_state(DroppingItemState(self.game, self.player))
+                        self.game.player_state_manager.change_state(PlayerStateDroppingItem(self.game, self.player))
                     elif event.key == controls.keybinds['apply']:
-                        self.game.state_manager.change_state(ApplyingItemState(self.game, self.player))
+                        self.game.player_state_manager.change_state(PlayerStateApplyingItem(self.game, self.player))
