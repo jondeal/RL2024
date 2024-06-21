@@ -1,7 +1,7 @@
 import render_ui
 import ui_prompts
-from ChoosingActionState import ChoosingActionState
-from UsingGenoScribeState import UsingGenoScribeState
+from PlayerStateChoosingAction import PlayerStateChoosingAction
+from PlayerStateUsingGenoScribe import PlayerStateUsingGenoScribe
 
 
 class Actor:
@@ -85,7 +85,7 @@ class Actor:
         self.inventory.remove(item_to_drop)
         current_level.items.append(item_to_drop)
         if self.name == 'player':
-            game.state_manager.change_state(ChoosingActionState(game, self))
+            game.player_state_manager.change_state(PlayerStateChoosingAction(game, self))
         self.turn_complete = True
 
     def apply(self, game, item_to_apply, direction_to_apply):
@@ -93,7 +93,7 @@ class Actor:
             for actor in game.current_level.actors:
                 if actor.position == (self.position[0] + direction_to_apply[0],
                                       self.position[1] + direction_to_apply[1]):
-                    game.state_manager.change_state(UsingGenoScribeState(game, self, actor))
+                    game.player_state_manager.change_state(PlayerStateUsingGenoScribe(game, self, actor))
         if item_to_apply.name == 'YeetStick':
             for tile in game.current_level.tiles:
                 if tile.position == self.position:
@@ -105,5 +105,5 @@ class Actor:
                         if game.current_level.items[-1].direction == direction:
                             game.current_level.items[-1].glyph_rotation = 45 * directions.index(direction)
             if self.name == 'player':
-                game.state_manager.change_state(ChoosingActionState(game, self))
+                game.player_state_manager.change_state(PlayerStateChoosingAction(game, self))
             self.turn_complete = True
