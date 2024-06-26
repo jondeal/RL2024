@@ -1,5 +1,6 @@
 import Animation
-import animation
+
+animation_events = []
 
 
 def resolve_physics(level):
@@ -20,11 +21,11 @@ def resolve_physics(level):
         initiating_entity.speed -= 1
         new_animation = Animation.Animation(initiating_entity, initiating_entity.rect, receiving_entity.rect,
                                             0, 2, "move", False)
-        animation.animation_events.append(new_animation)
+        animation_events.append(new_animation)
         if initiating_entity.speed == 0:
             new_animation = Animation.Animation(initiating_entity, initiating_entity.rect, receiving_entity.rect,
                                                 0, 2, "move", False)
-            animation.animation_events.append(new_animation)
+            animation_events.append(new_animation)
             make_still(initiating_entity)
             check_physics_resolved()
 
