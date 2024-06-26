@@ -1,9 +1,9 @@
 import pygame
 import Game
 import controls
+import constants
 import render_level
 import render_ui
-import animation
 from GameStateManager import GameStateManager
 from PlayerStateManager import PlayerStateManager
 
@@ -28,7 +28,7 @@ game.current_level.spawn_item('YeetStick', game.current_level.get_random_open_ti
 # game.current_level.spawn_item('GenoQuery', game.current_level.get_random_open_tile())
 
 for actor in game.current_level.actors[1:]:
-    game.current_level.give_gene(actor, 'photosynthesis')
+    game.current_level.give_gene(actor, 'mobility')
 
 player = game.current_level.actors[0]
 
@@ -42,7 +42,7 @@ game.player_state_manager = player_state_manager
 
 running = True
 clock = pygame.time.Clock()
-FPS = 20
+FPS = constants.FPS
 
 while running:
     clock.tick(FPS)
@@ -54,10 +54,10 @@ while running:
                 if event.key == controls.keybinds['quit']:
                     running = False
             elif event.key == pygame.K_F1:  # DEBUG
-                if FPS == 20:
+                if FPS == constants.FPS:
                     FPS = 1
                 else:
-                    FPS = 20
+                    FPS = constants.FPS
             elif event.key == pygame.K_F2:  # DEBUG
                 for entity in game.current_level.actors + game.current_level.items:
                     print(entity.name, entity.direction)
@@ -65,6 +65,5 @@ while running:
     game.game_state_manager.current_state.update(events)
 
     render_ui.render_ui(player)
-    animation.animate(game.current_level)
     render_level.render_level(game.current_level)
     pygame.display.flip()
