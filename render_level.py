@@ -15,10 +15,10 @@ def render_level(level):
         constants.screen.blit(bg_surface, tile.rect)
         tile.current_glyph_color[3] = 255
         for actor in level.actors:
-            if actor.position == tile.position:
+            if actor.rect == tile.rect:
                 tile.current_glyph_color = [tile.current_glyph_color[0], tile.current_glyph_color[1], tile.current_glyph_color[2], 0]
         for item in level.items:
-            if item.position == tile.position:
+            if item.rect == tile.rect:
                 tile.current_glyph_color = [tile.current_glyph_color[0], tile.current_glyph_color[1], tile.current_glyph_color[2], 0]
 
     to_render = [level.tiles, level.actors, level.items]
@@ -42,3 +42,5 @@ def render_level(level):
             glyph_rect.center = entity.rect.center
 
             constants.screen.blit(glyph_image, glyph_rect)
+            if entity in level.actors:  # DEBUG
+                pygame.draw.rect(constants.screen, [255, 0, 0, 0], entity.rect, 1)
