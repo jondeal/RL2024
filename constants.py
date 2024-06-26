@@ -37,3 +37,5 @@ FONT_SIZE = TILE_WIDTH
 FONT = pygame.freetype.Font('/usr/share/fonts/truetype/julia/JuliaMono-Light.ttf', FONT_SIZE)
 
 SCREEN_COLOR = (0, 0, 35)
+
+FPS = 30
