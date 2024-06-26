@@ -14,13 +14,10 @@ class GameStateResolvingPhysics(GameState):
         pass
 
     def update(self, events):
-        from GameStateWaitingForInput import GameStateWaitingForInput
-        physics_resolved = False
-        while physics_resolved is False:
-            if physics.resolve_physics(self.game.current_level) is True:
-                physics_resolved = True
-                self.game.game_state_manager.change_state(GameStateWaitingForInput(self.game, self.player))
-            else:
-                continue
+        from GameStateAnimating import GameStateAnimating
+        if physics.resolve_physics(self.game.current_level) is True:
+            self.game.game_state_manager.change_state(GameStateAnimating(self.game,
+                                                                         self.player,
+                                                                         physics.animation_events))
         else:
             pass
