@@ -20,7 +20,6 @@ class Animation:
 
             x_move = x_diff / self.total_frames
             y_move = y_diff / self.total_frames
-            print(x_diff)  # DEBUG
 
             if self.current_frame <= self.total_frames:
                 self.entity_to_animate.rect.centerx = self.entity_to_animate.rect.centerx + x_move
@@ -29,10 +28,11 @@ class Animation:
         elif self.animation_to_apply == 'shake':
             if self.current_frame % 2 == 0:
                 self.entity_to_animate.rect.centerx += 5
-            elif self.current_frame % 2 != 0:
+            elif self.current_frame % 2 == 1:
                 self.entity_to_animate.rect.centerx -= 5
 
         if self.current_frame == self.total_frames:
             self.is_done = True
+            # self.entity_to_animate.rect.center = self.end_rect.center
         else:
             self.current_frame += 1

@@ -19,8 +19,13 @@ def resolve_physics(level):
                 if entity.direction == direction:
                     entity.glyph_rotation = 45 * directions.index(direction)
         initiating_entity.speed -= 1
+        total_frames = 2
+        if initiating_entity.name == 'force bolt':
+            total_frames = 1
+        else:
+            pass
         new_animation = Animation.Animation(initiating_entity, initiating_entity.rect, receiving_entity.rect,
-                                            0, 2, "move", False)
+                                            0, total_frames, "move", False)
         animation_events.append(new_animation)
         if initiating_entity.speed == 0:
             new_animation = Animation.Animation(initiating_entity, initiating_entity.rect, receiving_entity.rect,
