@@ -24,7 +24,7 @@ def resolve_physics(level):
         animation_events.append(new_animation)
         if initiating_entity.speed == 0:
             new_animation = Animation.Animation(initiating_entity, initiating_entity.rect, receiving_entity.rect,
-                                                0, 2, "move", False)
+                                                0, 1, "move", False)
             animation_events.append(new_animation)
             make_still(initiating_entity)
             check_physics_resolved()
@@ -34,6 +34,9 @@ def resolve_physics(level):
         receiving_entity.speed = int(initiating_entity_initial_momentum / receiving_entity.mass)
         # receiving_entity.speed = initiating_entity.speed # for use without momentum formula; check Actor shove speed
         receiving_entity.direction = initiating_entity.direction
+        new_animation = Animation.Animation(receiving_entity, receiving_entity.rect, receiving_entity.rect,
+                                            0, 2, "shake", False)
+        animation_events.append(new_animation)
 
         while receiving_entity.speed > 0:
             handle_collision(collision_check(receiving_entity))
