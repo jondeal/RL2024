@@ -19,6 +19,9 @@ class GameStateAnimating(GameState):
             if not self.animation_events[0].is_done:
                 self.animation_events[0].update()
             else:
+                if self.animation_events[0].entity_to_animate.name == 'force bolt':
+                    if self.animation_events[1].entity_to_animate is not self.animation_events[0].entity_to_animate:
+                        self.game.current_level.items.remove(self.animation_events[0].entity_to_animate)
                 self.animation_events.remove(self.animation_events[0])
         else:
             self.game.game_state_manager.change_state(GameStateWaitingForInput(self.game, self.player))
