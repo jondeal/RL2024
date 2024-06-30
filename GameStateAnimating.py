@@ -24,4 +24,7 @@ class GameStateAnimating(GameState):
                         self.game.current_level.items.remove(self.animation_events[0].entity_to_animate)
                 self.animation_events.remove(self.animation_events[0])
         else:
+            for item in self.game.current_level.items:  # removes force bolts that weren't animated (used point blank)
+                if item.name == 'force bolt':
+                    self.game.current_level.items.remove(item)
             self.game.game_state_manager.change_state(GameStateWaitingForInput(self.game, self.player))
