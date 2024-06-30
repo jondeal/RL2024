@@ -13,22 +13,21 @@ def resolve_physics(level):
 
     def move_to_position(initiating_entity, receiving_entity):
         initiating_entity.position = receiving_entity.position
-        if initiating_entity.name == 'force bolt':
-            directions = [(-1, 0), (-1, 1), (0, 1), (1, 1), (1, 0), (1, -1), (0, -1), (-1, -1)]
-            for direction in directions:
-                if entity.direction == direction:
-                    entity.glyph_rotation = 45 * directions.index(direction)
         initiating_entity.speed -= 1
         total_frames = 2
         if initiating_entity.name == 'force bolt':
             total_frames = 1
         else:
             pass
-        new_animation = Animation.Animation(initiating_entity, initiating_entity.rect, receiving_entity.rect,
+        new_animation = Animation.Animation(initiating_entity,
+                                            initiating_entity.direction,
+                                            initiating_entity.rect, receiving_entity.rect,
                                             0, total_frames, "move", False)
         animation_events.append(new_animation)
         if initiating_entity.speed == 0:
-            new_animation = Animation.Animation(initiating_entity, initiating_entity.rect, receiving_entity.rect,
+            new_animation = Animation.Animation(initiating_entity,
+                                                initiating_entity.direction,
+                                                initiating_entity.rect, receiving_entity.rect,
                                                 0, 1, "move", False)
             animation_events.append(new_animation)
             make_still(initiating_entity)
@@ -39,7 +38,9 @@ def resolve_physics(level):
         receiving_entity.speed = int(initiating_entity_initial_momentum / receiving_entity.mass)
         # receiving_entity.speed = initiating_entity.speed # for use without momentum formula; check Actor shove speed
         receiving_entity.direction = initiating_entity.direction
-        new_animation = Animation.Animation(receiving_entity, receiving_entity.rect, receiving_entity.rect,
+        new_animation = Animation.Animation(receiving_entity,
+                                            receiving_entity.direction,
+                                            receiving_entity.rect, receiving_entity.rect,
                                             0, 2, "shake", False)
         animation_events.append(new_animation)
 
