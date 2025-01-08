@@ -50,8 +50,12 @@ class Level:
             for item in self.items:
                 if item.position == tile.position:
                     open_tiles.remove(tile)
-        random_open_tile = random.choice(open_tiles)
-        return random_open_tile
+        if open_tiles:
+            random_open_tile = random.choice(open_tiles)
+            return random_open_tile
+        else:
+            print('Error: no open tiles')
+            pass
 
     def get_random_open_neighboring_tile(self, entity):
         direction_list = [direction[1] for direction in controls.direction_keys.values()]
@@ -67,7 +71,13 @@ class Level:
                 open_neighboring_tiles.append(tile)
             else:
                 pass
-        return random.choice(open_neighboring_tiles)
+        if open_neighboring_tiles:
+            return random.choice(open_neighboring_tiles)
+        else:
+            print(f'{entity.name}: no valid choice for open neighboring tile; defaulting to own position')
+            for tile in self.tiles:
+                if tile.position == entity.position:
+                    return tile
 
     def generate_terrain(self):
         # generates a grid of floor tiles
