@@ -136,6 +136,7 @@ def resolve_physics(level):
             if actor.position == position_to_check:
                 had_collision = True
                 receiving_entity = actor
+                make_still(receiving_entity)
                 return had_collision, initiating_entity, receiving_entity
         for item in level.items:
             if item.position == position_to_check:
