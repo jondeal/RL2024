@@ -36,10 +36,10 @@ class Animation:
             if self.current_frame % 2 == 0:
                 self.entity_to_animate.rect.centerx += 5
             elif self.current_frame % 2 == 1:
-                self.entity_to_animate.rect.centerx -= 5
+                self.entity_to_animate.rect.centerx -= 10
 
         if self.current_frame == self.total_frames:
             self.is_done = True
-            # self.entity_to_animate.rect.center = self.end_rect.center
+            self.entity_to_animate.rect.center = self.end_rect.center
         else:
             self.current_frame += 1
